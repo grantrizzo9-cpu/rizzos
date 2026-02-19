@@ -130,15 +130,6 @@ export default function Home() {
             </div>
             <div className="relative h-80 rounded-lg bg-card p-6">
               <div className="flex flex-col items-center justify-center h-full">
-                <p className="font-mono text-sm text-muted-foreground">
-                  [Domain Pipeline: ACTIVE]
-                </p>
-                <div className="font-mono text-green-400 text-lg my-4">
-                  CLIENT.COM &lt;--&gt; OpenSRS &lt;--&gt; Firebase Hosting
-                </div>
-                 <p className="font-mono text-sm text-muted-foreground">
-                  [Status: All systems operational]
-                </p>
               </div>
             </div>
           </div>
