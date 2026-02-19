@@ -6,9 +6,9 @@ export default function TermsPage() {
     <>
       <Header />
       <main className="flex-1">
-        <div className="container max-w-4xl py-12 md:py-24">
-          <h1 className="font-headline text-4xl font-bold mb-8">Terms & Conditions</h1>
-          <div className="prose prose-invert max-w-none space-y-4">
+        <div className="container max-w-3xl py-12 md:py-24">
+          <h1 className="font-headline text-4xl font-bold mb-8 text-accent">Terms & Conditions</h1>
+          <div className="prose prose-h2:text-accent space-y-4">
             <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the Affiliate AI Host website (the "Service") operated by Affiliate AI Host ("us", "we", or "our").</p>
             
             <h2 className="font-headline">Accounts</h2>
