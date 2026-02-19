@@ -1,3 +1,70 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "Abstract background of network connections",
+      "imageUrl": "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxuZXR3b3JrJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzcxNDQxMjI5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "network abstract"
+    },
+    {
+      "id": "nvme-speed",
+      "description": "An image representing high speed data transfer",
+      "imageUrl": "https://images.unsplash.com/photo-1651672047716-d91cac8d1e7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkYXRhJTIwc3BlZWR8ZW58MHx8fHwxNzcxNTI4NzM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "data speed"
+    },
+    {
+      "id": "ai-studio",
+      "description": "An image of a futuristic AI interface",
+      "imageUrl": "https://images.unsplash.com/photo-1746286720984-72f386e1872e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhaSUyMGludGVyZmFjZXxlbnwwfHx8fDE3NzE1Mjg3Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ai interface"
+    },
+    {
+      "id": "daily-payouts",
+      "description": "An image representing daily income or cash flow",
+      "imageUrl": "https://images.unsplash.com/photo-1698584200770-3838c3690a27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYXNoJTIwZmxvd3xlbnwwfHx8fDE3NzE1Mjg3Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cash flow"
+    },
+    {
+      "id": "strategy-1",
+      "description": "Abstract image for 'Infrastructure as Income'",
+      "imageUrl": "https://images.unsplash.com/photo-1678078475921-d9802c53d21d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8aW5mcmFzdHJ1Y3R1cmUlMjBpbmNvbWV8ZW58MHx8fHwxNzcxNTI4NzM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "infrastructure income"
+    },
+    {
+      "id": "strategy-2",
+      "description": "Abstract image for 'Roadmap to 10 Referrals'",
+      "imageUrl": "https://images.unsplash.com/photo-1601411380999-15e12a74b729?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyb2FkbWFwJTIwZ3Jvd3RofGVufDB8fHx8MTc3MTUyODczN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "roadmap growth"
+    },
+    {
+      "id": "strategy-3",
+      "description": "Abstract image for 'AI Content Velocity'",
+      "imageUrl": "https://images.unsplash.com/photo-1764664282125-f9bbeedd9479?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhaSUyMGNvbnRlbnR8ZW58MHx8fHwxNzcxNTI4NzM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ai content"
+    },
+    {
+      "id": "strategy-4",
+      "description": "Abstract image for 'NVMe Edge SEO Advantage'",
+      "imageUrl": "https://picsum.photos/seed/4/600/400",
+      "imageHint": "seo advantage"
+    },
+    {
+      "id": "strategy-5",
+      "description": "Abstract image for 'Daily PayPal Cashflow Management'",
+      "imageUrl": "https://picsum.photos/seed/5/600/400",
+      "imageHint": "paypal cashflow"
+    },
+    {
+      "id": "strategy-6",
+      "description": "Abstract image for '1-Click Niche Site Scaling'",
+      "imageUrl": "https://images.unsplash.com/photo-1694106582336-e01fb4b7d185?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuaWNoZSUyMHNjYWxpbmd8ZW58MHx8fHwxNzcxNTI4NzM3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "niche scaling"
+    },
+    {
+      "id": "ad-studio-placeholder",
+      "description": "Placeholder image for ad studio output",
+      "imageUrl": "https://images.unsplash.com/photo-1675119717007-ad04bd2a9d10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYXJrZXRpbmclMjBhZHxlbnwwfHx8fDE3NzE1Mjg3Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "marketing ad"
+    }
+  ]
 }
