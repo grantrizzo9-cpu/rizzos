@@ -19,6 +19,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,9 +27,18 @@ export function AuthForm({ mode }: AuthFormProps) {
 
     // Mocking auth flow
     setTimeout(() => {
-      // In a real app, you would call Firebase here
-      // For now, we'll just use the mock signIn and redirect
-      signIn();
+      if (mode === 'signup') {
+        signIn({
+          uid: `mock-user-${Date.now()}`,
+          email: email,
+          displayName: username,
+          username: username,
+        });
+      } else {
+        // For login, we use the signIn with a default user.
+        // This is a mock, in a real app you'd validate credentials
+        signIn();
+      }
       router.push('/dashboard');
       setIsLoading(false);
     }, 1000);
@@ -47,6 +57,20 @@ export function AuthForm({ mode }: AuthFormProps) {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            {mode === 'signup' && (
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="your-username"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input

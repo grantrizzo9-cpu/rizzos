@@ -7,25 +7,25 @@ interface User {
   uid: string;
   email: string | null;
   displayName: string | null;
-  // Add other user properties here
+  username: string | null;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  // Add mock sign-in/sign-out for demonstration
-  signIn: () => void;
+  signIn: (userToSignIn?: User) => void;
   signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock auth functions
-const mockSignIn = (): User => ({
+// Mock default user
+const defaultMockUser: User = {
   uid: 'mock-user-123',
   email: 'affiliate@ai-host.com',
   displayName: 'Pro Affiliate',
-});
+  username: 'proaffiliate',
+};
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -33,28 +33,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     // In a real app, you'd use Firebase's onAuthStateChanged here.
-    // For this mock, we'll just simulate a logged-in user after a delay.
     const authState = localStorage.getItem('authed');
     if (authState === 'true') {
-       setUser(mockSignIn());
+       const storedUser = localStorage.getItem('user');
+       setUser(storedUser ? JSON.parse(storedUser) : defaultMockUser);
     }
     setLoading(false);
   }, []);
 
-  const signIn = () => {
+  const signIn = (userToSignIn?: User) => {
     setLoading(true);
+    const userToSet = userToSignIn || defaultMockUser;
     localStorage.setItem('authed', 'true');
-    setUser(mockSignIn());
+    localStorage.setItem('user', JSON.stringify(userToSet));
+    setUser(userToSet);
     setLoading(false);
   };
 
   const signOut = () => {
     setLoading(true);
     localStorage.removeItem('authed');
+    localStorage.removeItem('user');
     setUser(null);
     setLoading(false);
   };
-
 
   const value = { user, loading, signIn, signOut };
 

@@ -1,12 +1,16 @@
 "use client";
 
-import { AreaChart, BarChart, DollarSign, Users, Percent } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AreaChart, BarChart, DollarSign, Users, Percent, Link as LinkIcon } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, Bar } from 'recharts';
 import { earningsData, referralsData, recentReferrals } from "@/lib/mock-data";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { useAuth } from "@/components/auth/auth-provider";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 const chartConfig = {
   earnings: {
@@ -20,12 +24,39 @@ const chartConfig = {
 };
 
 export default function DashboardOverviewPage() {
+  const { user } = useAuth();
+  const { toast } = useToast();
   const totalEarnings = earningsData.reduce((acc, item) => acc + item.earnings, 0);
   const activeReferrals = recentReferrals.filter(r => r.status === 'Active').length;
   const commissionRate = activeReferrals >= 10 ? 75 : 70;
 
+  const affiliateLink = user?.username ? `https://affiliateaihost.com/ref/${user.username}` : '';
+
+  const copyToClipboard = () => {
+    if (!affiliateLink) return;
+    navigator.clipboard.writeText(affiliateLink);
+    toast({
+      title: "Copied to clipboard!",
+      description: "Your affiliate link has been copied.",
+    });
+  };
+
   return (
     <div className="space-y-8">
+      {user?.username && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="font-headline flex items-center gap-2"><LinkIcon/> Your Affiliate Link</CardTitle>
+            <CardDescription>Share this link to start earning commissions.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-2">
+              <Input readOnly value={affiliateLink} />
+              <Button onClick={copyToClipboard}>Copy</Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
