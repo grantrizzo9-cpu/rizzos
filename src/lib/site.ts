@@ -171,3 +171,5 @@ export const pricingTiers: PricingTier[] = [
     features: ['Unlimited Hosted Sites', 'NVMe Edge Storage', 'Full AI Content Studio', '1-Click Niche Site Builder', '75% Commission Rate', 'Dedicated Account Manager', 'Whitelabel Solution'],
   },
 ];
+
+    

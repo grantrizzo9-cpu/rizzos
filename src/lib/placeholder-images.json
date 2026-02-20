@@ -51,13 +51,13 @@
     {
       "id": "strategy-5",
       "description": "Person making an online payment with a credit card on a laptop",
-      "imageUrl": "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxvbmxpbmUlMjBwYXltZW50fGVufDB8fHx8MTc3MTYyOTA0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxvbmxpbmUlMjBwYXltZW50fGVufDB8fHx8fDE3NzE2MjkwNDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "online payment"
     },
     {
       "id": "strategy-6",
       "description": "Group of people collaborating and networking, representing growth",
-      "imageUrl": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuZXR3b3JrJTIwZ3Jvd3RofGVufDB8fHx8MTc3MTYyOTA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuZXR3b3JrJTIwZ3Jvd3RofGVufDB8fHx8fDE3NzE2MjkwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "network growth"
     },
     {
