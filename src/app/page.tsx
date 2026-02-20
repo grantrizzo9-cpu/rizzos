@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, WalletCards, Users, Wand2, BookText, Server } from "lucide-react";
+import { DollarSign, WalletCards, Users, Wand2, BookText, Server, BookOpen, TrendingUp, Rocket } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -48,16 +48,36 @@ const incomePathSteps = [
     },
     {
         title: "Activate Your 3-Day Trial",
-        description: "A one-time activation fee is all it takes to get instant access to your dashboard and tools. The first three days of the platform are free.",
+        description: "Pay a one-time activation fee to get instant access to your dashboard and tools. This fee goes to the platform owner, not your referrer.",
     },
     {
         title: "Promote, Refer & Get Paid Daily",
-        description: "Earn 70-75% daily commission on recurring daily sales from your referrals after their trial ends. Payouts are sent automatically to your PayPal every day.",
+        description: "Earn 70-75% commission on recurring daily sales from your referrals after their trial ends. Payouts are sent automatically to your PayPal every day.",
     },
-]
+];
+
+const marketingGuides = [
+  {
+    icon: BookOpen,
+    title: "Starter Guides",
+    description: "Learn the fundamentals of affiliate marketing, SEO basics, and social media promotion.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Plus Guides",
+    description: "Dive into content creation, email marketing, and web analytics to grow your audience.",
+  },
+  {
+    icon: Rocket,
+    title: "Pro & Enterprise Guides",
+    description: "Master advanced SEO, PPC advertising, conversion optimization, and strategic partnerships to scale your income.",
+  },
+];
 
 export default function Home() {
   const incomePathImage = PlaceHolderImages.find(img => img.id === 'income-path');
+  const affiliateDashboardImage = PlaceHolderImages.find(img => img.id === 'affiliate-dashboard');
+  const aiStudioImage = PlaceHolderImages.find(img => img.id === 'ai-studio');
 
   return (
     <>
@@ -143,6 +163,77 @@ export default function Home() {
                     </div>
                  )}
             </div>
+        </section>
+
+        {/* New Feature Section 1: Affiliate Dashboard */}
+        <section id="affiliate-dashboard" className="w-full bg-secondary py-12 md:py-24">
+            <div className="container grid items-center gap-12 px-4 md:px-6 lg:grid-cols-2 lg:gap-24">
+                {affiliateDashboardImage && (
+                    <div className="relative order-last flex h-full min-h-[400px] items-center justify-center">
+                         <Image
+                            src={affiliateDashboardImage.imageUrl}
+                            alt={affiliateDashboardImage.description}
+                            width={600}
+                            height={600}
+                            className="object-cover rounded-lg"
+                            data-ai-hint={affiliateDashboardImage.imageHint}
+                        />
+                    </div>
+                 )}
+                 <div className="space-y-4">
+                    <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">Real-Time Affiliate Dashboard</h2>
+                    <p className="text-muted-foreground md:text-lg">Track your success with a powerful, intuitive dashboard. See your earnings, referrals, and growth metrics in real-time. Your unique affiliate link is always front and center, ready to be shared. Make data-driven decisions to optimize your campaigns and maximize your daily income.</p>
+                </div>
+            </div>
+        </section>
+
+        {/* New Feature Section 2: AI Tools */}
+        <section id="ai-tools" className="w-full bg-background py-12 md:py-24">
+            <div className="container grid items-center gap-12 px-4 md:px-6 lg:grid-cols-2 lg:gap-24">
+                 <div className="space-y-4">
+                    <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">Integrated AI Content Studio</h2>
+                    <p className="text-muted-foreground md:text-lg">Stop wrestling with content creation. Our built-in AI studio is your secret weapon. Generate high-quality blog posts, captivating ad copy, and even video scripts in minutes. Create entire niche websites with a few clicks. Our AI tools give you the content velocity you need to dominate any niche.</p>
+                </div>
+                 {aiStudioImage && (
+                    <div className="relative flex h-full min-h-[400px] items-center justify-center">
+                         <Image
+                            src={aiStudioImage.imageUrl}
+                            alt={aiStudioImage.description}
+                            width={600}
+                            height={600}
+                            className="object-cover rounded-lg"
+                            data-ai-hint={aiStudioImage.imageHint}
+                        />
+                    </div>
+                 )}
+            </div>
+        </section>
+
+        {/* New Section: Marketing Playbook */}
+        <section id="playbook" className="w-full bg-secondary py-12 md:py-24">
+          <div className="container px-4 sm:px-6">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">From Beginner to Pro: Your Marketing Playbook</h2>
+              <p className="mt-4 text-muted-foreground md:text-lg">Our subscription tiers come with a tiered library of marketing guides. The higher your plan, the more you learn, and the more you earn.</p>
+            </div>
+            <div className="grid gap-8 md:grid-cols-3">
+              {marketingGuides.map((guide) => (
+                <Card key={guide.title} className="flex flex-col text-center items-center bg-card shadow-sm border border-transparent transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1">
+                  <CardHeader>
+                     <div className="w-12 h-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <guide.icon className="h-6 w-6" />
+                     </div>
+                    <CardTitle className="font-headline text-xl">
+                      {guide.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-muted-foreground text-sm">{guide.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
         </section>
 
       </main>

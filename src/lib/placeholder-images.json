@@ -3,7 +3,7 @@
     {
       "id": "hero-background",
       "description": "Abstract background of network connections",
-      "imageUrl": "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxuZXR3b3JrJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzcxNDQxMjI5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1738082956220-a1f20a8632ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxuZXR3b3JrJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzcxNDQxMjI5fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "network abstract"
     },
     {
@@ -15,13 +15,13 @@
     {
       "id": "ai-studio",
       "description": "An image of a futuristic AI interface",
-      "imageUrl": "https://images.unsplash.com/photo-1746286720984-72f386e1872e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhaSUyMGludGVyZmFjZXxlbnwwfHx8fDE3NzE1Mjg3Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1712002641088-9d76f9080889?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhaSUyMGludGVyZmFjZXxlbnwwfHx8fDE3NzE1Mjg3Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "ai interface"
     },
     {
       "id": "daily-payouts",
       "description": "An image representing daily income or cash flow",
-      "imageUrl": "https://images.unsplash.com/photo-1698584200770-3838c3690a27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYXNoJTIwZmxvd3xlbnwwfHx8fDE3NzE1Mjg3Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1593672715438-d88a70629abe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjYXNoJTIwZmxvd3xlbnwwfHx8fDE3NzE1Mjg3Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "cash flow"
     },
     {
@@ -33,19 +33,19 @@
     {
       "id": "strategy-2",
       "description": "Team collaborating on a digital roadmap on a whiteboard",
-      "imageUrl": "https://images.unsplash.com/photo-1694208616674-4cd4b63744ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkaWdpdGFsJTIwcm9hZG1hcHxlbnwwfHx8fDE3NzE1NDg4ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1759411364702-d4aae445bf8d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkaWdpdGFsJTIwcm9hZG1hcHxlbnwwfHx8fDE3NzE1NDg4ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "digital roadmap"
     },
     {
       "id": "strategy-3",
       "description": "Abstract image representing artificial intelligence and data",
-      "imageUrl": "https://images.unsplash.com/photo-1717501219345-06ea2bf3eb80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhaSUyMGRhdGF8ZW58MHx8fHwxNzcxNDc4MzA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1569396116180-210c182bedb8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhaSUyMGRhdGF8ZW58MHx8fHwxNzcxNDc4MzA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "ai data"
     },
     {
       "id": "strategy-4",
       "description": "Laptop showing SEO analytics charts and graphs",
-      "imageUrl": "https://images.unsplash.com/photo-1686061594183-8c864f508b00?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzZW8lMjBhbmFseXRpY3N8ZW58MHx8fHwxNzcxNTIzMjAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1686061594225-3e92c0cd51b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzZW8lMjBhbmFseXRpY3N8ZW58MHx8fHwxNzcxNTIzMjAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "seo analytics"
     },
     {
@@ -57,20 +57,26 @@
     {
       "id": "strategy-6",
       "description": "Group of people collaborating and networking, representing growth",
-      "imageUrl": "https://images.unsplash.com/photo-1559016795-418d33ae24dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxuZXR3b3JrJTIwZ3Jvd3RofGVufDB8fHx8MTc3MTU0ODg4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1719782895011-0e2e4cda0e31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bmV0d29yayUyMGdyb3d0aHxlbnwwfHx8fDE3NzE1NDg4ODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "network growth"
     },
     {
       "id": "ad-studio-placeholder",
       "description": "Placeholder image for ad studio output",
-      "imageUrl": "https://images.unsplash.com/photo-1675119717007-ad04bd2a9d10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYXJrZXRpbmclMjBhZHxlbnwwfHx8fDE3NzE1Mjg3Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1675119713402-e4e295197e72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYXJrZXRpbmclMjBhZHxlbnwwfHx8fDE3NzE1Mjg3Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "marketing ad"
     },
     {
       "id": "income-path",
       "description": "Scaffolding structure representing building income",
-      "imageUrl": "https://images.unsplash.com/photo-1579226955532-a72a8cb080b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2FmZm9sZGluZ3xlbnwwfHx8fDE3NzE5OTk4ODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1763622553401-442fb43bef16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzY2FmZm9sZGluZyUyMHN0cnVjdHVyZXxlbnwwfHx8fDE3NzE1NjY1Mzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "scaffolding structure"
+    },
+    {
+      "id": "affiliate-dashboard",
+      "description": "A modern dashboard showing affiliate tracking analytics",
+      "imageUrl": "https://images.unsplash.com/photo-1759661966728-4a02e3c6ed91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkYXNoYm9hcmQlMjBhbmFseXRpY3N8ZW58MHx8fHwxNzcxNTQwMDExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dashboard analytics"
     }
   ]
 }
