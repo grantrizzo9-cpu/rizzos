@@ -3,7 +3,8 @@
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { createContext, useContext, type ReactNode } from "react";
 
-const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+// The app will first look for NEXT_PUBLIC_PAYPAL_CLIENT_ID, and fall back to NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID.
+const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || process.env.NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID;
 
 type PayPalContextType = {
   isPayPalConfigured: boolean;
@@ -12,7 +13,7 @@ type PayPalContextType = {
 const PayPalContext = createContext<PayPalContextType | undefined>(undefined);
 
 export function PayPalProvider({ children }: { children: ReactNode }) {
-  const isConfigured = !!(PAYPAL_CLIENT_ID && PAYPAL_CLIENT_ID !== 'YOUR_PAYPAL_CLIENT_ID_HERE');
+  const isConfigured = !!(PAYPAL_CLIENT_ID && PAYPAL_CLIENT_ID !== 'YOUR_PAYPAL_CLIENT_ID_HERE' && PAYPAL_CLIENT_ID.length > 0);
 
   if (!isConfigured) {
     if (process.env.NODE_ENV !== 'production') {
@@ -20,8 +21,8 @@ export function PayPalProvider({ children }: { children: ReactNode }) {
           *****************************************************************
           * PAYPAL PAYMENTS ARE NOT CONFIGURED.                           *
           *                                                               *
-          * To enable PayPal payments, you must set an environment        *
-          * variable named NEXT_PUBLIC_PAYPAL_CLIENT_ID in your .env file *
+          * To enable PayPal payments, set NEXT_PUBLIC_PAYPAL_CLIENT_ID   *
+          * or NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID in your .env file     *
           * and restart your Next.js development server.                  *
           *****************************************************************
         `);
