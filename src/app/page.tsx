@@ -47,12 +47,12 @@ export default function Home() {
               priority
             />
           )}
-          <div className="absolute inset-0 bg-background/80"></div>
-          <div className="container px-4 sm:px-6 relative z-10 mx-auto text-center">
+          <div className="absolute inset-0 bg-black/60"></div>
+          <div className="container px-4 sm:px-6 relative z-10 mx-auto text-center text-white">
             <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
               Infrastructure as Income
             </h1>
-            <p className="mx-auto mt-6 max-w-[700px] text-lg text-muted-foreground md:text-xl">
+            <p className="mx-auto mt-6 max-w-[700px] text-lg text-neutral-200 md:text-xl">
               A specialized SaaS platform for high-income affiliate marketers.
               We fused enterprise-grade hosting with AI creation tools and a 75% daily payout program.
             </p>
@@ -67,7 +67,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24">
+        <section className="w-full bg-background py-12 md:py-24">
             <div className="container px-4 text-center">
                 <h2 className="font-headline text-4xl font-bold tracking-tighter text-primary sm:text-5xl">The problem is, you're paying for infrastructure.</h2>
                 <p className="mx-auto mt-4 max-w-[600px] text-lg text-muted-foreground md:text-xl">With Host Pro Ai, you get paid by it.</p>
@@ -75,7 +75,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="w-full bg-card py-12 md:py-24">
+        <section id="features" className="w-full bg-secondary py-12 md:py-24">
           <div className="container px-4 sm:px-6">
             <div className="mx-auto mb-12 max-w-2xl text-center">
               <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">The High-Income Affiliate Stack</h2>
@@ -83,7 +83,7 @@ export default function Home() {
             </div>
             <div className="grid gap-8 md:grid-cols-3">
               {features.map((feature) => (
-                <Card key={feature.title} className="flex flex-col bg-background/50 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20">
+                <Card key={feature.title} className="flex flex-col bg-card shadow-md transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
                    {feature.image && (
                     <div className="relative h-48 w-full">
                       <Image
@@ -135,7 +135,7 @@ export default function Home() {
         </section>
 
         {/* OpenSRS & Transparency Section */}
-        <section className="w-full bg-card py-12 md:py-24">
+        <section className="w-full bg-secondary py-12 md:py-24">
           <div className="container px-4 sm:px-6 grid items-center gap-8 md:grid-cols-2">
             <div>
               <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">Transparent & Reliable Foundation</h2>
@@ -159,7 +159,7 @@ export default function Home() {
                 </li>
               </ul>
             </div>
-            <div className="relative flex h-80 items-center justify-center rounded-lg bg-background/50 p-6">
+            <div className="relative flex h-80 items-center justify-center rounded-lg bg-background p-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <p className="text-sm text-muted-foreground">Domain fulfillment powered by</p>
                     <p className="text-5xl font-bold font-headline tracking-widest text-foreground/80">OpenSRS</p>
