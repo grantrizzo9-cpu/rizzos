@@ -1,12 +1,20 @@
 'use client';
 
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { type ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from "react";
 
 const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
 
+type PayPalContextType = {
+  isPayPalConfigured: boolean;
+}
+
+const PayPalContext = createContext<PayPalContextType | undefined>(undefined);
+
 export function PayPalProvider({ children }: { children: ReactNode }) {
-  if (!PAYPAL_CLIENT_ID || PAYPAL_CLIENT_ID === 'YOUR_PAYPAL_CLIENT_ID_HERE') {
+  const isConfigured = !!(PAYPAL_CLIENT_ID && PAYPAL_CLIENT_ID !== 'YOUR_PAYPAL_CLIENT_ID_HERE');
+
+  if (!isConfigured) {
     if (process.env.NODE_ENV !== 'production') {
         console.warn(`
           *****************************************************************
@@ -18,13 +26,27 @@ export function PayPalProvider({ children }: { children: ReactNode }) {
           *****************************************************************
         `);
     }
-    // Return children without provider if ID is missing, so app doesn't crash
-    return <>{children}</>;
+    
+    return (
+      <PayPalContext.Provider value={{ isPayPalConfigured: false }}>
+        {children}
+      </PayPalContext.Provider>
+    );
   }
 
   return (
-    <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: 'AUD', intent: 'capture' }}>
-      {children}
-    </PayPalScriptProvider>
+    <PayPalContext.Provider value={{ isPayPalConfigured: true }}>
+      <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: 'AUD', intent: 'capture' }}>
+        {children}
+      </PayPalScriptProvider>
+    </PayPalContext.Provider>
   );
+}
+
+export function usePayPal() {
+  const context = useContext(PayPalContext);
+  if (context === undefined) {
+    throw new Error("usePayPal must be used within a PayPalProvider");
+  }
+  return context;
 }

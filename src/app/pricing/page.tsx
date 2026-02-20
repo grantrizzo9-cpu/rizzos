@@ -10,13 +10,12 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/auth/auth-provider";
 import { useRouter } from "next/navigation";
 import { PayPalCheckoutButton } from "@/components/paypal/paypal-checkout-button";
-
-const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+import { usePayPal } from "@/components/paypal/paypal-provider";
 
 export default function PricingPage() {
   const { user } = useAuth();
   const router = useRouter();
-  const isPayPalConfigured = PAYPAL_CLIENT_ID && PAYPAL_CLIENT_ID !== 'YOUR_PAYPAL_CLIENT_ID_HERE';
+  const { isPayPalConfigured } = usePayPal();
 
   return (
     <>
@@ -64,7 +63,7 @@ export default function PricingPage() {
                         isPayPalConfigured ? (
                           <PayPalCheckoutButton tier={tier} />
                         ) : (
-                           <Button className="w-full" disabled>Set NEXT_PUBLIC_PAYPAL_CLIENT_ID</Button>
+                           <Button className="w-full" disabled>PayPal Not Configured</Button>
                         )
                     ) : (
                       <Button
