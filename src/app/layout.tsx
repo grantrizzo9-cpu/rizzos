@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { AuthProvider } from '@/components/auth/auth-provider';
 import { Toaster } from '@/components/ui/toaster';
+import { PayPalProvider } from '@/components/paypal/paypal-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -22,12 +23,14 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body bg-background text-foreground antialiased">
-        <AuthProvider>
-            <div className="flex min-h-screen flex-col">
-              {children}
-            </div>
-            <Toaster />
-        </AuthProvider>
+        <PayPalProvider>
+          <AuthProvider>
+              <div className="flex min-h-screen flex-col">
+                {children}
+              </div>
+              <Toaster />
+          </AuthProvider>
+        </PayPalProvider>
       </body>
     </html>
   );
