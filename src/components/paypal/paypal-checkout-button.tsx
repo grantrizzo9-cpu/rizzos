@@ -7,7 +7,7 @@ import type { OnApproveData, CreateOrderData } from '@paypal/react-paypal-js';
 import { useAuth } from '@/components/auth/auth-provider';
 import { useToast } from '@/hooks/use-toast';
 import { type PricingTier } from '@/lib/site';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 
 export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
     const { activateAccount } = useAuth();
@@ -48,6 +48,7 @@ export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
 
     const onApprove = (data: OnApproveData, actions: any) => {
         setIsLoading(true);
+        setError(null);
         // IMPORTANT: In a production environment, you should capture the order on your server
         // to securely validate the payment. This ensures the correct amount was paid.
         return actions.order.capture().then((details: any) => {
@@ -55,31 +56,36 @@ export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
             handleSuccessfulPayment();
         }).catch((err: any) => {
             console.error('Error capturing payment:', err);
-            setError('There was an error processing your payment. Please try again.');
+            setError("There was an error processing your payment. This can sometimes happen with sandbox accounts. Please check your PayPal sandbox account's balance and notification settings, then try again.");
             setIsLoading(false);
         });
     };
 
     const onError = (err: any) => {
         console.error('PayPal Checkout onError', err);
-        setError('Something went wrong with the payment. Please try again or contact support.');
+        setError('A PayPal error occurred. This could be due to your sandbox account setup. Please check your browser console for more details and verify your sandbox seller account can receive payments.');
     };
 
     if (isLoading) {
         return <div className="flex justify-center items-center h-10"><Loader2 className="h-6 w-6 animate-spin" /></div>
     }
 
-    if (error) {
-        return <p className="text-sm text-destructive">{error}</p>
-    }
-
     return (
-        <PayPalButtons
-            style={{ layout: 'vertical', label: 'pay' }}
-            forceReRender={[tier]}
-            createOrder={createOrder}
-            onApprove={onApprove}
-            onError={onError}
-        />
+        <>
+            {error && (
+                <div className="flex items-start gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive mb-2">
+                    <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                    <p>{error}</p>
+                </div>
+            )}
+            <PayPalButtons
+                style={{ layout: 'vertical', label: 'pay' }}
+                forceReRender={[tier, error]}
+                createOrder={createOrder}
+                onApprove={onApprove}
+                onError={onError}
+                onClick={() => setError(null)}
+            />
+        </>
     );
 }
