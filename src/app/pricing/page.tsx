@@ -64,7 +64,7 @@ export default function PricingPage() {
                         isPayPalConfigured ? (
                           <PayPalCheckoutButton tier={tier} />
                         ) : (
-                           <Button className="w-full" disabled>PayPal Not Configured</Button>
+                           <Button className="w-full" disabled>Set NEXT_PUBLIC_PAYPAL_CLIENT_ID</Button>
                         )
                     ) : (
                       <Button
