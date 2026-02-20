@@ -8,12 +8,13 @@ interface User {
   email: string | null;
   displayName: string | null;
   username: string | null;
+  isPaid?: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signIn: (userToSignIn?: User) => void;
+  signIn: (userToSignIn?: User, isNewUser?: boolean) => void;
   signOut: () => void;
 }
 
@@ -25,6 +26,7 @@ const defaultMockUser: User = {
   email: 'renntapog@gmail.com',
   displayName: 'Host Pro Ai Admin',
   username: 'hostproai',
+  isPaid: true,
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -41,9 +43,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
   }, []);
 
-  const signIn = (userToSignIn?: User) => {
+  const signIn = (userToSignIn?: User, isNewUser = false) => {
     setLoading(true);
-    const userToSet = userToSignIn || defaultMockUser;
+    let userToSet: User;
+    if (userToSignIn) {
+      userToSet = { ...userToSignIn, isPaid: isNewUser ? false : userToSignIn.isPaid ?? true };
+    } else {
+      userToSet = defaultMockUser;
+    }
+    
     localStorage.setItem('authed', 'true');
     localStorage.setItem('user', JSON.stringify(userToSet));
     setUser(userToSet);

@@ -33,7 +33,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           email: email,
           displayName: username,
           username: username,
-        });
+        }, true);
       } else {
         // For login, we use the signIn with a default user.
         // This is a mock, in a real app you'd validate credentials

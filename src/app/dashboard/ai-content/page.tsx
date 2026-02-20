@@ -7,7 +7,7 @@ export default function AiStudioPage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/dashboard/ai-studio/blog');
+    router.replace('/dashboard/ai-content/blog');
   }, [router]);
 
   return null;

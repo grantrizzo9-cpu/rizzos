@@ -5,10 +5,10 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const studioNavLinks = [
-  { href: "/dashboard/ai-studio/blog", label: "Blog Generator" },
-  { href: "/dashboard/ai-studio/ads", label: "Ad Studio" },
-  { href: "/dashboard/ai-studio/video", label: "Video Studio" },
-  { href: "/dashboard/ai-studio/website", label: "Website Builder" },
+  { href: "/dashboard/ai-content/blog", label: "Blog Generator" },
+  { href: "/dashboard/ai-content/ads", label: "Ad Studio" },
+  { href: "/dashboard/ai-content/video", label: "Video Studio" },
+  { href: "/dashboard/ai-content/website", label: "Website Builder" },
 ];
 
 export default function AiStudioLayout({

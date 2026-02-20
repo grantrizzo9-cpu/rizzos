@@ -32,3 +32,11 @@ export const payoutHistory = [
     { id: 'pay_4', date: '2024-07-25', amount: 42.50, transactionId: 'TXN123456786', status: 'Completed' },
     { id: 'pay_5', date: '2024-07-24', amount: 42.50, transactionId: 'TXN123456785', status: 'Completed' },
 ];
+
+export const platformReferrals = [
+  { referredUser: 'fdwy', email: 'fdwy@gmail.com', affiliate: 'pbEPXXC42KYATeIrkIu8Uy16FaF3', plan: 'Pro', status: 'pending' },
+  { referredUser: 'dwe', email: 'dwe@gmail.com', affiliate: 'pbEPXXC42KYATeIrkIu8Uy16FaF3', plan: 'Business', status: 'activated' },
+  { referredUser: 'johndoe', email: 'johndoe@gmail.com', affiliate: 'aBCdEFgHiJkLmNoPqRsTuVwXyZ1', plan: 'Starter', status: 'activated' },
+  { referredUser: 'janedoe', email: 'janedoe@gmail.com', affiliate: 'aBCdEFgHiJkLmNoPqRsTuVwXyZ1', plan: 'Pro', status: 'pending' },
+  { referredUser: 'testuser', email: 'testuser@gmail.com', affiliate: 'aBCdEFgHiJkLmNoPqRsTuVwXyZ1', plan: 'Enterprise', status: 'activated' },
+];

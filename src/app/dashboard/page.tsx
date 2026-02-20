@@ -1,16 +1,18 @@
 "use client";
 
-import { AreaChart as AreaChartIcon, BarChart as BarChartIcon, DollarSign, Users, Percent, Link as LinkIcon } from "lucide-react";
+import { AreaChart as AreaChartIcon, BarChart as BarChartIcon, DollarSign, Users, Percent, Link as LinkIcon, Info, TrendingUp, AlertCircle, Package, ShieldAlert, LayoutDashboard, CreditCard } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { CartesianGrid, XAxis, YAxis, Tooltip, AreaChart, Area, BarChart, Bar } from 'recharts';
-import { earningsData, referralsData, recentReferrals } from "@/lib/mock-data";
+import { earningsData, referralsData, recentReferrals, platformReferrals } from "@/lib/mock-data";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { useAuth } from "@/components/auth/auth-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Link from "next/link";
 
 const chartConfig = {
   earnings: {
@@ -23,7 +25,133 @@ const chartConfig = {
   }
 };
 
-export default function DashboardOverviewPage() {
+function AdminDashboard() {
+  return (
+    <div className="space-y-8">
+        <h1 className="text-3xl font-bold font-headline">Admin Dashboard</h1>
+        <p className="text-muted-foreground">Platform-wide affiliate activity summary.</p>
+        
+        <Alert>
+            <Info className="h-4 w-4" />
+            <AlertTitle>You are the Platform Owner</AlertTitle>
+            <AlertDescription>
+                This Admin section shows platform-wide revenue. The first payment from every new user is a 100% platform fee. Commissions are earned on subsequent recurring payments.
+            </AlertDescription>
+        </Alert>
+
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Platform Revenue</CardTitle>
+                    <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">$1,019.40</div>
+                    <p className="text-xs text-muted-foreground">Platform profit after affiliate payouts.</p>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Total Gross Sales</CardTitle>
+                    <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">$1,019.40</div>
+                    <p className="text-xs text-muted-foreground">Total value of all sales before affiliate payouts.</p>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Total Affiliate Payouts</CardTitle>
+                    <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">$0.00</div>
+                    <p className="text-xs text-muted-foreground">Total commissions paid or due to all affiliates.</p>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Platform-Wide Referrals</CardTitle>
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">+22</div>
+                    <p className="text-xs text-muted-foreground">Total users referred across the entire platform.</p>
+                </CardContent>
+            </Card>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+             <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Pending Activations</CardTitle>
+                    <AlertCircle className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">4</div>
+                    <p className="text-xs text-muted-foreground">Users who signed up but have not yet paid.</p>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Total Platform Users</CardTitle>
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">47</div>
+                    <p className="text-xs text-muted-foreground">Total number of user accounts on the platform.</p>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Total Active Affiliates</CardTitle>
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">47</div>
+                    <p className="text-xs text-muted-foreground">Total users who are active affiliates.</p>
+                </CardContent>
+            </Card>
+        </div>
+
+        <Card>
+            <CardHeader>
+                <CardTitle className="font-headline">Recent Platform-Wide Referrals</CardTitle>
+                <CardDescription>The latest sign-ups from all affiliates.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Referred User</TableHead>
+                            <TableHead>Email</TableHead>
+                            <TableHead>Affiliate</TableHead>
+                            <TableHead>Plan</TableHead>
+                            <TableHead>Status</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {platformReferrals.map((referral, index) => (
+                            <TableRow key={index}>
+                                <TableCell className="font-medium">{referral.referredUser}</TableCell>
+                                <TableCell>{referral.email}</TableCell>
+                                <TableCell className="font-mono text-xs">{referral.affiliate}</TableCell>
+                                <TableCell>{referral.plan}</TableCell>
+                                <TableCell>
+                                    <Badge variant={referral.status === 'activated' ? 'default' : 'secondary'}>{referral.status}</Badge>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </CardContent>
+        </Card>
+    </div>
+  );
+}
+
+function UserDashboard() {
   const { user } = useAuth();
   const { toast } = useToast();
   const totalEarnings = earningsData.reduce((acc, item) => acc + item.earnings, 0);
@@ -40,6 +168,30 @@ export default function DashboardOverviewPage() {
       description: "Your affiliate link has been copied.",
     });
   };
+
+  if (!user?.isPaid) {
+    return (
+        <Card className="max-w-2xl mx-auto">
+            <CardHeader>
+                <CardTitle className="font-headline text-2xl flex items-center gap-2">
+                    <CreditCard />
+                    Activate Your Account
+                </CardTitle>
+                <CardDescription>
+                    Your account is not yet active. To start using the dashboard and earning commissions, you need to activate your plan.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <p>Click the button below to choose a plan and complete the activation. Your 3-day free trial will start immediately after the one-time activation fee is paid.</p>
+            </CardContent>
+            <CardFooter>
+                <Button asChild className="w-full">
+                    <Link href="/pricing">Activate Your Plan</Link>
+                </Button>
+            </CardFooter>
+        </Card>
+    )
+  }
 
   return (
     <div className="space-y-8">
@@ -156,4 +308,12 @@ export default function DashboardOverviewPage() {
       </Card>
     </div>
   );
+}
+
+
+export default function DashboardOverviewPage() {
+    const { user } = useAuth();
+    const isAdmin = user?.email === 'renntapog@gmail.com';
+
+    return isAdmin ? <AdminDashboard /> : <UserDashboard />;
 }
