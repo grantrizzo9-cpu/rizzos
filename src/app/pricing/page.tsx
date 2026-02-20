@@ -1,13 +1,69 @@
-import Link from "next/link";
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import { pricingTiers } from "@/lib/site";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/components/auth/auth-provider";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function PricingPage() {
+  const { user, activateAccount } = useAuth();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingTierId, setLoadingTierId] = useState<string | null>(null);
+
+  const handleActivation = (tierId: string, tierName: string) => {
+    // If user is not logged in, redirect to sign up
+    if (!user) {
+        router.push('/signup');
+        return;
+    }
+
+    // If user is already paid, do nothing
+    if (user.isPaid) {
+        router.push('/dashboard');
+        return;
+    }
+
+    setIsLoading(true);
+    setLoadingTierId(tierId);
+
+    // Simulate payment processing
+    setTimeout(() => {
+        activateAccount();
+        toast({
+            title: "Account Activated!",
+            description: `Your ${tierName} plan is now active. Welcome aboard!`,
+        });
+        router.push('/dashboard');
+        setIsLoading(false);
+        setLoadingTierId(null);
+    }, 1500);
+  }
+
+  const getButtonContent = (tierId: string) => {
+    if (isLoading && loadingTierId === tierId) {
+      return (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Processing...
+        </>
+      );
+    }
+    if (user) {
+      return user.isPaid ? 'Go to Dashboard' : 'Start 3-Day Trial';
+    }
+    return 'Sign Up to Start';
+  };
+
+
   return (
     <>
       <Header />
@@ -49,8 +105,12 @@ export default function PricingPage() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" asChild>
-                    <Link href="/signup">Start 3-Day Trial</Link>
+                  <Button
+                    className="w-full"
+                    onClick={() => handleActivation(tier.id, tier.name)}
+                    disabled={isLoading}
+                  >
+                    {getButtonContent(tier.id)}
                   </Button>
                 </CardFooter>
               </Card>

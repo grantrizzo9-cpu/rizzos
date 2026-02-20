@@ -16,6 +16,7 @@ interface AuthContextType {
   loading: boolean;
   signIn: (userToSignIn?: User, isNewUser?: boolean) => void;
   signOut: () => void;
+  activateAccount: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -65,8 +66,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
     setLoading(false);
   };
+  
+  const activateAccount = () => {
+    if (user) {
+      const updatedUser = { ...user, isPaid: true };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+    }
+  };
 
-  const value = { user, loading, signIn, signOut };
+  const value = { user, loading, signIn, signOut, activateAccount };
 
   return (
     <AuthContext.Provider value={value}>
