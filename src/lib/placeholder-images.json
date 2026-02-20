@@ -27,37 +27,37 @@
     {
       "id": "strategy-1",
       "description": "Image of a modern data center server rack",
-      "imageUrl": "https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkYXRhJTIwY2VudGVyfGVufDB8fHx8MTc3MTUwNjU5OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1520085601670-ee1425534502?q=80&w=2070&auto=format&fit=crop",
       "imageHint": "data center"
     },
     {
       "id": "strategy-2",
       "description": "Team collaborating on a digital roadmap on a whiteboard",
-      "imageUrl": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxrZGlnaXRhbCUyMHJvYWRtYXB8ZW58MHx8fHwxNzcxNjI4OTk2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1556740738-b6a63e2775df?q=80&w=2070&auto=format&fit=crop",
       "imageHint": "digital roadmap"
     },
     {
       "id": "strategy-3",
       "description": "Abstract image representing artificial intelligence and data",
-      "imageUrl": "https://images.unsplash.com/photo-1568952433726-3896e3881c65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhaSUyMGRhdGF8ZW58MHx8fHwxNzcxNDc4MzA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1620712943543-95f196239ba5?q=80&w=1972&auto=format&fit=crop",
       "imageHint": "ai data"
     },
     {
       "id": "strategy-4",
       "description": "Laptop showing SEO analytics charts and graphs",
-      "imageUrl": "https://images.unsplash.com/photo-1560472355-536de3962603?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzZW8lMjBhbmFseXRpY3N8ZW58MHx8fHwxNzcxNjI5MDI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
       "imageHint": "seo analytics"
     },
     {
       "id": "strategy-5",
       "description": "Person making an online payment with a credit card on a laptop",
-      "imageUrl": "https://images.unsplash.com/photo-1608286022625-bc07f7a21154?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8b25saW5lJTIwcGF5bWVudHxlbnwwfHx8fDE3NzE1NDcxNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2070&auto=format&fit=crop",
       "imageHint": "online payment"
     },
     {
       "id": "strategy-6",
       "description": "Group of people collaborating and networking, representing growth",
-      "imageUrl": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxuZXR3b3JrJTIwZ3Jvd3RofGVufDB8fHx8fDE3NzE2MjkwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop",
       "imageHint": "network growth"
     },
     {
