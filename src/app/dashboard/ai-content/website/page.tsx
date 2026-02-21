@@ -4,13 +4,15 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { generateNicheSiteContentIdeas, type GenerateNicheSiteContentIdeasOutput } from '@/ai/flows/generate-niche-site-content-ideas';
+import { generateAffiliateWebsite } from '@/ai/flows/generate-affiliate-website';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Sparkles, Wand2, Lightbulb, Network } from 'lucide-react';
+import { useAuth } from '@/components/auth/auth-provider';
+import { Loader2, Wand2, Clipboard, FileCode, BookUser, Palette } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const formSchema = z.object({
   niche: z.string().min(5, 'Please describe your niche in at least 5 characters.'),
@@ -20,9 +22,10 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function WebsiteBuilderPage() {
-  const [generatedIdeas, setGeneratedIdeas] = useState<GenerateNicheSiteContentIdeasOutput | null>(null);
+  const [generatedCode, setGeneratedCode] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -33,19 +36,28 @@ export default function WebsiteBuilderPage() {
   });
 
   async function onSubmit(values: FormValues) {
+    if (!user?.username) {
+        toast({
+            title: 'Error',
+            description: 'Could not find your affiliate username. Please ensure you are logged in.',
+            variant: 'destructive',
+        });
+        return;
+    }
     setIsLoading(true);
-    setGeneratedIdeas(null);
+    setGeneratedCode(null);
     try {
-      const result = await generateNicheSiteContentIdeas({ 
+      const result = await generateAffiliateWebsite({ 
         niche: values.niche,
-        targetDemographic: values.targetDemographic
+        targetDemographic: values.targetDemographic,
+        affiliateUsername: user.username,
       });
-      setGeneratedIdeas(result);
+      setGeneratedCode(result.pageComponent);
     } catch (error) {
-      console.error('Error generating website ideas:', error);
+      console.error('Error generating website:', error);
       toast({
         title: 'Error',
-        description: 'Failed to generate website ideas. Please try again.',
+        description: 'Failed to generate the website code. Please try again.',
         variant: 'destructive',
       });
     } finally {
@@ -53,13 +65,22 @@ export default function WebsiteBuilderPage() {
     }
   }
 
+  const copyToClipboard = () => {
+    if (!generatedCode) return;
+    navigator.clipboard.writeText(generatedCode);
+    toast({
+      title: "Code Copied!",
+      description: "The website component code has been copied to your clipboard.",
+    });
+  };
+
   return (
     <div className="grid gap-8 md:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle>Niche Site Idea Generator</CardTitle>
+          <CardTitle>AI Website Builder</CardTitle>
           <CardDescription>
-            Get content ideas and a structural outline for your next niche affiliate website.
+            Generate a complete, single-page affiliate site with your referral link built-in.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -73,7 +94,7 @@ export default function WebsiteBuilderPage() {
                     <FormLabel>Niche Topic</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="e.g., 'Eco-friendly dog toys'"
+                        placeholder="e.g., 'Cold brew coffee makers'"
                         {...field}
                       />
                     </FormControl>
@@ -89,7 +110,7 @@ export default function WebsiteBuilderPage() {
                     <FormLabel>Target Demographic</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="e.g., 'Millennial pet owners in urban areas'"
+                        placeholder="e.g., 'Tech-savvy young professionals'"
                         {...field}
                       />
                     </FormControl>
@@ -103,7 +124,7 @@ export default function WebsiteBuilderPage() {
                 ) : (
                   <Wand2 className="mr-2 h-4 w-4" />
                 )}
-                Generate Ideas
+                Generate Website
               </Button>
             </form>
           </Form>
@@ -112,8 +133,8 @@ export default function WebsiteBuilderPage() {
 
       <Card className="min-h-[400px]">
         <CardHeader>
-          <CardTitle>Generated Content Plan</CardTitle>
-          <CardDescription>Your AI-generated site plan will appear here.</CardDescription>
+          <CardTitle>Generated Website</CardTitle>
+          <CardDescription>Your AI-generated website code and instructions will appear here.</CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading && (
@@ -121,29 +142,52 @@ export default function WebsiteBuilderPage() {
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           )}
-          {generatedIdeas && (
-            <div className="space-y-6">
+          {generatedCode && (
+            <Tabs defaultValue="code" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="code"><FileCode className="mr-2"/>Code</TabsTrigger>
+                <TabsTrigger value="instructions"><BookUser className="mr-2"/>Instructions</TabsTrigger>
+                <TabsTrigger value="customization"><Palette className="mr-2"/>Customize</TabsTrigger>
+              </TabsList>
+              <TabsContent value="code" className="relative mt-4">
+                <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-7 w-7" onClick={copyToClipboard}>
+                    <Clipboard className="h-4 w-4"/>
+                </Button>
+                <pre className="bg-muted text-muted-foreground rounded-lg p-4 text-xs overflow-x-auto max-h-[500px]">
+                  <code>
+                    {generatedCode}
+                  </code>
+                </pre>
+              </TabsContent>
+              <TabsContent value="instructions" className="text-sm text-muted-foreground p-2 space-y-4">
                 <div>
-                    <h3 className="font-semibold font-headline flex items-center gap-2 mb-3">
-                        <Lightbulb className="h-5 w-5 text-primary"/>
-                        Key Content Ideas
-                    </h3>
-                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                        {generatedIdeas.contentIdeas.map((idea, index) => (
-                            <li key={index}>{idea}</li>
-                        ))}
+                    <h4 className="font-semibold text-foreground mb-2">How to Use This Code</h4>
+                    <p>This generated code is a complete Next.js page. Here’s how to launch it:</p>
+                    <ol className="list-decimal list-inside space-y-2 mt-2 bg-muted p-4 rounded-lg">
+                        <li>Open your terminal and run `npx create-next-app@latest my-affiliate-site` to start a new project.</li>
+                        <li>Follow the prompts to create your Next.js app (using TypeScript and Tailwind CSS is recommended).</li>
+                        <li>Navigate into your new project: `cd my-affiliate-site`.</li>
+                        <li>Open `src/app/page.tsx` and replace its entire content with the code you copied from the "Code" tab.</li>
+                        <li>Run `npm run dev` to start the development server. Your new affiliate site will be live at `http://localhost:3000`.</li>
+                    </ol>
+                </div>
+                <div>
+                    <h4 className="font-semibold text-foreground mb-2">Deploying Your Site</h4>
+                    <p>Once you are ready, you can deploy your site to services like Vercel or Netlify for free to make it available to the world.</p>
+                </div>
+              </TabsContent>
+               <TabsContent value="customization" className="text-sm text-muted-foreground p-2 space-y-4">
+                 <div>
+                    <h4 className="font-semibold text-foreground mb-2">Easy Customization</h4>
+                    <p>The generated code includes comments to help you make changes:</p>
+                    <ul className="list-disc list-inside space-y-2 mt-2 bg-muted p-4 rounded-lg">
+                        <li><strong>Text:</strong> Find the text you want to change directly in the JSX and edit it. For example, look for `<h1>...</h1>` for headlines.</li>
+                        <li><strong>Images:</strong> Look for the `next/image` component and change the `src` URL. You can use a free service like Unsplash or upload your own images.</li>
+                        <li><strong>Colors:</strong> The code uses Tailwind CSS utility classes. To change the main color, you can search for classes like `bg-primary` or `text-primary` and replace them with other Tailwind color classes (e.g., `bg-blue-600`).</li>
                     </ul>
                 </div>
-                 <div>
-                    <h3 className="font-semibold font-headline flex items-center gap-2 mb-3">
-                        <Network className="h-5 w-5 text-primary"/>
-                        Site Outline
-                    </h3>
-                    <div className="text-sm text-muted-foreground whitespace-pre-wrap bg-muted p-4 rounded-lg font-mono text-xs">
-                        {generatedIdeas.siteOutline}
-                    </div>
-                </div>
-            </div>
+              </TabsContent>
+            </Tabs>
           )}
         </CardContent>
       </Card>
