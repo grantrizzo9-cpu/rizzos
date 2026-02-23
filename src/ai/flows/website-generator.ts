@@ -14,7 +14,7 @@ const GenerateWebsiteJsonInputSchema = z.object({
   username: z.string().describe("The affiliate's username."),
   niche: z.string().describe('The niche topic for the affiliate website.'),
 });
-type GenerateWebsiteJsonInput = z.infer<
+export type GenerateWebsiteJsonInput = z.infer<
   typeof GenerateWebsiteJsonInputSchema
 >;
 
@@ -72,7 +72,7 @@ const GenerateWebsiteJsonOutputSchema = z.object({
   }),
 });
 
-type GenerateWebsiteJsonOutput = z.infer<
+export type GenerateWebsiteJsonOutput = z.infer<
   typeof GenerateWebsiteJsonOutputSchema
 >;
 
