@@ -16,16 +16,20 @@ import {
   Package,
   ShieldAlert
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Logo } from "@/components/icons/logo";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useAuth } from "../auth/auth-provider";
-import { Separator } from "../ui/separator";
+import {
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarGroup,
+  SidebarGroupLabel
+} from "@/components/ui/sidebar";
+
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -49,77 +53,70 @@ export function DashboardSidebar() {
   const { user } = useAuth();
   const isAdmin = user?.email === 'renntapog@gmail.com';
 
+  const isActive = (href: string) => {
+    return pathname === href || (href !== '/dashboard' && pathname.startsWith(href));
+  }
+
   return (
-    <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-      <TooltipProvider>
-        <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-          <Link
-            href="/dashboard"
-            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
-          >
-            <Logo className="h-5 w-5 transition-all group-hover:scale-110" />
-            <span className="sr-only">Host Pro Ai</span>
-          </Link>
-          {navLinks.map((link) => (
-            <Tooltip key={link.href}>
-              <TooltipTrigger asChild>
-                <Link
-                  href={link.href}
-                  target={link.target}
-                  className={cn(
-                    "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
-                    (pathname === link.href || (link.href !== '/dashboard' && pathname.startsWith(link.href))) && "bg-accent text-accent-foreground"
-                  )}
-                >
-                  <link.icon className="h-5 w-5" />
-                  <span className="sr-only">{link.label}</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">{link.label}</TooltipContent>
-            </Tooltip>
-          ))}
-        </nav>
-        <div className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          {isAdmin && (
-            <>
-                <Separator />
-                <span className="text-xs text-muted-foreground">Admin</span>
-                {adminLinks.map((link) => (
-                    <Tooltip key={link.href}>
-                        <TooltipTrigger asChild>
-                            <Link
-                            href={link.href}
-                            className={cn(
-                                "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
-                                pathname.startsWith(link.href) && "bg-accent text-accent-foreground"
-                            )}
-                            >
-                            <link.icon className="h-5 w-5" />
-                            <span className="sr-only">{link.label}</span>
+    <Sidebar collapsible="icon">
+        <SidebarHeader>
+             <Link
+                href="/dashboard"
+                className="group flex w-full items-center justify-center gap-2"
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-primary text-sidebar-primary-foreground">
+                    <Logo className="h-5 w-5 transition-all group-hover:scale-110" />
+                </div>
+                <span className="text-lg font-semibold tracking-tight text-foreground group-data-[collapsible=icon]:-ml-8 group-data-[collapsible=icon]:opacity-0">Host Pro Ai</span>
+            </Link>
+        </SidebarHeader>
+
+        <SidebarContent>
+            <SidebarMenu>
+                {navLinks.map(link => (
+                    <SidebarMenuItem key={link.href}>
+                        <SidebarMenuButton asChild isActive={isActive(link.href)} tooltip={link.label}>
+                            <Link href={link.href} target={link.target}>
+                                <link.icon/>
+                                <span>{link.label}</span>
                             </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">{link.label}</TooltipContent>
-                    </Tooltip>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
                 ))}
-            </>
-          )}
-          <Tooltip>
-              <TooltipTrigger asChild>
-                  <Link
-                  href="/dashboard/settings"
-                  className={cn(
-                      "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
-                      pathname.startsWith("/dashboard/settings") && "bg-accent text-accent-foreground"
-                  )}
-                  >
-                  <Settings className="h-5 w-5" />
-                  <span className="sr-only">Settings</span>
-                  </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Settings</TooltipContent>
-          </Tooltip>
-        </div>
-      </TooltipProvider>
-    </aside>
+            </SidebarMenu>
+            
+            {isAdmin && (
+                <SidebarGroup>
+                    <SidebarGroupLabel>Admin</SidebarGroupLabel>
+                    <SidebarMenu>
+                        {adminLinks.map(link => (
+                            <SidebarMenuItem key={link.href}>
+                               <SidebarMenuButton asChild isActive={isActive(link.href)} tooltip={link.label}>
+                                    <Link href={link.href}>
+                                        <link.icon/>
+                                        <span>{link.label}</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
+                </SidebarGroup>
+            )}
+
+        </SidebarContent>
+
+        <SidebarFooter>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton asChild isActive={isActive('/dashboard/settings')} tooltip="Settings">
+                        <Link href="/dashboard/settings">
+                             <Settings/>
+                             <span>Settings</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarFooter>
+    </Sidebar>
   );
 }
