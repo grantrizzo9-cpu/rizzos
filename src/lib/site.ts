@@ -15,7 +15,7 @@ export const strategyArticles: Article[] = [
     image: 'strategy-2',
     content: `
       <h2 class="font-headline text-2xl font-bold mb-4 text-accent">Introduction: Your Professional Online Address</h2>
-      <p class="mb-4">Once you've activated your Host Pro Ai account, the next crucial step is to give your website a professional address with a custom domain name (e.g., <code>www.yourbusiness.com</code>). This guide will walk you through the entire process, from purchasing a domain to configuring it to work with your high-speed hosting. Following these steps will make your site live to the world on your own branded domain.</p>
+      <p class="mb-4">Once you've activated your Host Pro Ai account, the next crucial step is to give your website a professional address with a custom domain name (e.g., <code>www.yourbusiness.com</code>). This guide will walk you through the entire process, from purchasing a domain to configuring it to work with our system. Following these steps will make your site live to the world on your own branded domain.</p>
       
       <h2 class="font-headline text-2xl font-bold mt-8 mb-4 text-accent">Your Domain vs. Your Affiliate Link: Why It Matters</h2>
       <p class="mb-4">Before we dive in, it's important to know that you don't <strong>have</strong> to buy a custom domain to start earning. You can always give your affiliate link directly to anyone. However, there's a reason why top affiliates always use their own domain.</p>
@@ -43,8 +43,8 @@ export const strategyArticles: Article[] = [
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">How to Copy and Paste</h3>
       <p class="mb-4">To avoid typos, it's best to copy and paste the record values. Here’s how:</p>
       <ul class="list-disc list-inside mb-4 space-y-2">
-        <li><strong>On PC (Windows):</strong> Highlight the text with your mouse, then press <strong>Ctrl + C</strong> to copy. To paste, click where you want the text to go and press <strong>Ctrl + V</strong>.</li>
-        <li><strong>On Mac:</strong> Highlight the text with your mouse, then press <strong>Command + C</strong> to copy. To paste, click where you want the text to go and press <strong>Command + V</strong>.</li>
+        <li><strong>Method 1 (Keyboard):</strong> Highlight the text with your mouse, then press <strong>Ctrl + C</strong> (on Windows/PC) or <strong>Command + C</strong> (on Mac) to copy. To paste, click where you want the text to go and press <strong>Ctrl + V</strong> or <strong>Command + V</strong>.</li>
+        <li><strong>Method 2 (Mouse):</strong> Use your mouse to click and drag over the text to highlight it. Then, <strong>right-click</strong> on the highlighted text and select <strong>Copy</strong> from the menu. Go to where you need to paste it, <strong>right-click</strong> again, and select <strong>Paste</strong>.</li>
         <li><strong>On Mobile (iPhone/Android):</strong> Tap and hold on the text until it's highlighted. Drag the handles to select all the text you need, then tap the 'Copy' option that appears. To paste, tap and hold in the text field where you want to paste, and then tap 'Paste'.</li>
       </ul>
 
@@ -193,6 +193,191 @@ export const strategyArticles: Article[] = [
         <li><strong>Intelligent Site Assembly & Deployment:</strong> The AI then selects a clean, fast-loading, mobile-friendly theme. It assembles the generated articles into a complete website, creates a logical navigation menu, sets up the homepage, and adds essential pages like 'About' and 'Contact'. Finally, it deploys the entire website package directly to your Affiliate AI Host account, fully live and ready to be indexed by Google.</li>
       </ol>
       <p class="mb-4">This paradigm shift enables a portfolio strategy. Instead of betting everything on one or two ideas, you can now deploy a dozen niche sites in a single afternoon. Let them sit for a few weeks, watch your analytics, and see which ones start to gain organic traction. You can then use the AI Studio to double down on the winners, adding more content and promoting them, while simply abandoning the losers with minimal time or capital lost. This is how you de-risk affiliate marketing and scale your operations exponentially. It's not just about saving time; it's about fundamentally changing the economics of the game in your favor.</p>
+    `,
+  },
+  {
+    slug: 'facebook-ads-playbook',
+    title: 'Facebook Ads Playbook',
+    description: 'A guide to creating high-converting Facebook ads for your affiliate business.',
+    image: 'strategy-3',
+    content: `
+      <h2 class="font-headline text-2xl font-bold mb-4 text-accent">Facebook Ads Playbook: Convert Clicks to Commissions</h2>
+      <p class="mb-4"><a href="https://www.facebook.com/business/ads" target="_blank" rel="noopener noreferrer" class="font-bold text-primary hover:underline">Facebook's advertising platform</a> is a powerhouse for affiliate marketers due to its vast user base and sophisticated targeting options. This guide will give you ad copy that works and tricks to lower your ad spend.</p>
+      
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">How to Copy & Paste Your Ads</h3>
+      <p class="mb-4">To use the ad templates below, simply copy the text and paste it into the Facebook Ads Manager when creating your ad.</p>
+      <ul class="list-disc list-inside mb-4 space-y-2">
+        <li><strong>Method 1 (Keyboard):</strong> Highlight the ad text with your mouse, then press <strong>Ctrl + C</strong> (on Windows/PC) or <strong>Command + C</strong> (on Mac) to copy. In Facebook Ads Manager, click where you want to paste the text and press <strong>Ctrl + V</strong> or <strong>Command + V</strong>.</li>
+        <li><strong>Method 2 (Mouse):</strong> Use your mouse to click and drag over the ad text to highlight it. Then, <strong>right-click</strong> on the highlighted text and select <strong>Copy</strong>. Go to Facebook Ads Manager, <strong>right-click</strong> in the text box, and select <strong>Paste</strong>.</li>
+      </ul>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">High-Converting Ad Examples</h3>
+      
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Ad 1: The "Problem/Solution" Angle</h4>
+      <p class="mb-2"><strong>Best for:</strong> Targeting users frustrated with their current hosting.</p>
+      <pre class="bg-muted p-4 rounded-lg text-sm whitespace-pre-wrap"><code>
+**Headline:** Is Your Slow Website Killing Your Business?
+
+**Body:** Don't let a sluggish host cost you another sale. 🐌 Our NVMe-powered platform delivers sub-second load times, boosting your SEO and conversions overnight. Plus, our AI tools help you create content 10x faster. Stop losing money. Start building faster today.
+
+**CTA:** Learn More
+      </code></pre>
+
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Ad 2: The "Benefit-Driven" Angle</h4>
+      <p class="mb-2"><strong>Best for:</strong> Targeting aspiring entrepreneurs and content creators.</p>
+      <pre class="bg-muted p-4 rounded-lg text-sm whitespace-pre-wrap"><code>
+**Headline:** Your All-in-One Online Business Toolkit 🚀
+
+**Body:** Launch your dream business faster than ever before. Get ultra-fast web hosting AND a powerful suite of AI content tools in one affordable package. Generate blog posts, ad copy, and even entire websites in minutes. Start your 3-day trial and see for yourself!
+
+**CTA:** Sign Up
+      </code></pre>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Pro Tips for Cheaper Clicks</h3>
+      <ul class="list-disc list-inside space-y-2">
+        <li><strong>Laser-Targeting:</strong> Go beyond basic demographics. Create custom audiences by targeting people who have visited your affiliate landing page but didn't sign up (retargeting). Target users who have shown interest in competitors like Bluehost or GoDaddy.</li>
+        <li><strong>Use Video Ads:</strong> Create a simple 15-30 second screen recording of you using one of the AI tools. Video ads have higher engagement rates, which Facebook's algorithm rewards with lower costs per click.</li>
+        <li><strong>Engage with Comments:</strong> Actively reply to every comment and question on your ads. This signals to Facebook that your ad is relevant and engaging, which can significantly lower your costs.</li>
+        <li><strong>A/B Test Your Creative:</strong> Always test at least two different images/videos and two different headlines for each ad. Let them run for a few days on a small budget, then turn off the losers and put more money behind the winner. This simple step can cut your ad spend in half.</li>
+      </ul>
+    `,
+  },
+  {
+    slug: 'x-twitter-ads-guide',
+    title: 'X (Twitter) Ads Strategy',
+    description: 'Leverage the power of real-time conversation with ads that convert on X.',
+    image: 'strategy-6',
+    content: `
+      <h2 class="font-headline text-2xl font-bold mb-4 text-accent">X (Twitter) Ads: Tapping Into the Conversation</h2>
+      <p class="mb-4"><a href="https://ads.twitter.com/" target="_blank" rel="noopener noreferrer" class="font-bold text-primary hover:underline">Advertising on X</a> is about being concise, timely, and joining the conversation. Your ads should feel like native tweets, not disruptive commercials. This guide provides templates and strategies to win on X.</p>
+      
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">How to Copy & Paste Your Ads</h3>
+      <p class="mb-4">To use the ad templates below, simply copy the text and paste it into the X Ads Manager when creating your campaign.</p>
+      <ul class="list-disc list-inside mb-4 space-y-2">
+        <li><strong>Keyboard:</strong> Highlight the ad text, press <strong>Ctrl + C</strong> (PC) or <strong>Command + C</strong> (Mac). In X Ads Manager, click in the text box and press <strong>Ctrl + V</strong> or <strong>Command + V</strong>.</li>
+        <li><strong>Mouse:</strong> Highlight the ad text, <strong>right-click</strong> and choose <strong>Copy</strong>. Go to the X Ads text box, <strong>right-click</strong> and choose <strong>Paste</strong>.</li>
+      </ul>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">High-Converting Ad Examples</h3>
+      
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Ad 1: The "Direct Question" Hook</h4>
+      <p class="mb-2"><strong>Best for:</strong> Engaging with developers, marketers, and tech enthusiasts.</p>
+      <pre class="bg-muted p-4 rounded-lg text-sm whitespace-pre-wrap"><code>
+Is your host slowing you down?
+
+Site speed is a bigger SEO factor than ever. We put our NVMe hosting against the competition. The results are shocking. 🤯
+
+See the data and find out why we're the secret weapon for top affiliates.
+
+#webhosting #seo #pagespeed
+      </code></pre>
+
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Ad 2: The "Bold Statement" Hook</h4>
+      <p class="mb-2"><strong>Best for:</strong> A confident, attention-grabbing approach.</p>
+      <pre class="bg-muted p-4 rounded-lg text-sm whitespace-pre-wrap"><code>
+Stop paying for web hosting.
+
+Start INVESTING in it.
+
+Our platform isn't just hosting. It's a daily income machine with 70% recurring commissions and daily PayPal payouts.
+
+The best part? It pays for itself. 👇
+
+#affiliatemarketing #passiveincome #makemoneyonline
+      </code></pre>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Pro Tips for Cheaper Clicks</h3>
+      <ul class="list-disc list-inside space-y-2">
+        <li><strong>Conversation Targeting:</strong> Don't just target keywords. Target conversations. Run ads to people who have recently tweeted about "slow website", "bad hosting", or engaged with tweets from major hosting companies.</li>
+        <li><strong>Use "Follower Look-alikes":</strong> Target users who have similar profiles to the followers of major marketing influencers or tech accounts (e.g., target users who look like followers of @neilpatel or @smashingmag).</li>
+        <li><strong>Leverage Polls:</strong> Run a simple poll as an ad, like "What's more important for your website? A) Speed B) Price". You can then retarget everyone who votes with a follow-up ad tailored to their answer.</li>
+        <li><strong>Keep it Short:</strong> The most effective ads on X are often under 140 characters. Get straight to the point and use a compelling image or short GIF.</li>
+      </ul>
+    `,
+  },
+  {
+    slug: 'tiktok-viral-marketing',
+    title: 'TikTok Viral Marketing',
+    description: 'Create engaging, short-form video ads that feel native to the TikTok platform.',
+    image: 'strategy-5',
+    content: `
+      <h2 class="font-headline text-2xl font-bold mb-4 text-accent">TikTok Viral Marketing: Don't Make Ads, Make TikToks</h2>
+      <p class="mb-4">Success on <a href="https://www.tiktok.com/business" target="_blank" rel="noopener noreferrer" class="font-bold text-primary hover:underline">TikTok</a> means fitting in with the culture. Your ads should be entertaining, educational, or both. They need to feel like organic content, not a sales pitch. This guide focuses on video concepts that sell.</p>
+      
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">How to Use These Ideas</h3>
+      <p class="mb-4">These are concepts for short videos. You'll need a video editor (like CapCut) to add text overlays and music. The "Ad Copy" is what you'd put in the TikTok video description.</p>
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Copying the Text</h4>
+      <ul class="list-disc list-inside mb-4 space-y-2">
+        <li><strong>Keyboard:</strong> Highlight the ad text, press <strong>Ctrl + C</strong> (PC) or <strong>Command + C</strong> (Mac). In TikTok, paste with <strong>Ctrl + V</strong> or <strong>Command + V</strong>.</li>
+        <li><strong>Mouse:</strong> Highlight the ad text, <strong>right-click</strong> and choose <strong>Copy</strong>. Go to the TikTok caption box, <strong>right-click</strong> and choose <strong>Paste</strong>.</li>
+      </ul>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">High-Converting Video Concepts</h3>
+      
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Concept 1: "3 Side Hustles I Wish I Knew Sooner"</h4>
+      <p class="mb-2"><strong>Video:</strong> A fast-paced video pointing to text overlays. 1) "Dropshipping" (X). 2) "Surveys" (X). 3) A screen recording of the Host Pro Ai dashboard showing daily payouts, with a big green checkmark. Use a trending, upbeat sound.</p>
+      <pre class="bg-muted p-4 rounded-lg text-sm whitespace-pre-wrap"><code>
+**Ad Copy:**
+The last one pays me EVERY SINGLE DAY. 🤯 Link in bio to see how. #sidehustle #passiveincome #affiliatemarketing #entrepreneur
+      </code></pre>
+
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Concept 2: "POV: You just launched your website"</h4>
+      <p class="mb-2"><strong>Video:</strong> First half shows someone looking stressed, with text "My site is so slow, no one is buying." Use a sad sound. Second half shows them looking happy, with a screen recording of a fast-loading website. Text: "Then I switched to NVMe hosting." Use an exciting, triumphant sound for the switch.</p>
+      <pre class="bg-muted p-4 rounded-lg text-sm whitespace-pre-wrap"><code>
+**Ad Copy:**
+Page speed literally changes everything. If you run an online store, you NEED this. #ecommerce #smallbusiness #website #webdeveloper
+      </code></pre>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Pro Tips for Cheaper Clicks</h3>
+      <ul class="list-disc list-inside space-y-2">
+        <li><strong>Use Spark Ads:</strong> This feature lets you run your own organic TikTok videos as ads. Post your video first, and if it starts to get good engagement, put ad spend behind it using Spark Ads. This is cheaper and looks more authentic.</li>
+        <li><strong>Jump on Trends FAST:</strong> Use trending sounds and video formats within the first 48 hours of them becoming popular. This is the fastest way to get organic reach, which you can then boost with ads.</li>
+        <li><strong>The First 3 Seconds are Everything:</strong> Your video needs a strong hook immediately. Start with a controversial statement, a surprising visual, or a direct question.</li>
+        <li><strong>Text is Your Friend:</strong> Many people watch TikToks with the sound off. Use clear, bold text overlays to tell your story.</li>
+      </ul>
+    `,
+  },
+  {
+    slug: 'linkedin-b2b-lead-gen',
+    title: 'LinkedIn B2B Lead Gen',
+    description: 'Target professionals and businesses with precision on the world\'s largest professional network.',
+    image: 'strategy-4',
+    content: `
+      <h2 class="font-headline text-2xl font-bold mb-4 text-accent">LinkedIn B2B Domination</h2>
+      <p class="mb-4">On <a href="https://www.linkedin.com/campaignmanager/" target="_blank" rel="noopener noreferrer" class="font-bold text-primary hover:underline">LinkedIn</a>, you're not talking to consumers; you're talking to decision-makers. Your ad copy should be professional, data-driven, and focused on business outcomes like ROI, efficiency, and competitive advantage.</p>
+      
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">How to Copy & Paste Your Ads</h3>
+      <p class="mb-4">To use the ad templates below, simply copy the text and paste it into the LinkedIn Campaign Manager.</p>
+      <ul class="list-disc list-inside mb-4 space-y-2">
+        <li><strong>Keyboard:</strong> Highlight the ad text, press <strong>Ctrl + C</strong> (PC) or <strong>Command + C</strong> (Mac). In LinkedIn, paste with <strong>Ctrl + V</strong> or <strong>Command + V</strong>.</li>
+        <li><strong>Mouse:</strong> Highlight the ad text, <strong>right-click</strong> and choose <strong>Copy</strong>. Go to the LinkedIn ad creative section, <strong>right-click</strong> and choose <strong>Paste</strong>.</li>
+      </ul>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">High-Converting Ad Examples</h3>
+      
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Ad 1: The "Agency/Developer" Angle</h4>
+      <p class="mb-2"><strong>Best for:</strong> Targeting marketing agencies, freelancers, and web developers.</p>
+      <pre class="bg-muted p-4 rounded-lg text-sm whitespace-pre-wrap"><code>
+**Headline:** Add a recurring revenue stream in 24 hours.
+
+**Body:** Stop leaving money on the table. Offer your clients superior NVMe hosting and our integrated AI content suite. You keep 70% of the daily revenue. We handle all the support and infrastructure. It's the simplest, most profitable partnership you'll make this year. Download our free guide to learn more.
+      </code></pre>
+
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Ad 2: The "SaaS/E-commerce Founder" Angle</h4>
+      <p class="mb-2"><strong>Best for:</strong> Targeting founders and CTOs of online businesses.</p>
+      <pre class="bg-muted p-4 rounded-lg text-sm whitespace-pre-wrap"><code>
+**Headline:** Your hosting is a cost center. We make it a profit center.
+
+**Body:** Every millisecond of latency costs you revenue. Our NVMe infrastructure is architected to maximize your Core Web Vitals, improve SEO, and lower cart abandonment. But we didn't stop there. Our platform also PAYS you. Refer other businesses and earn 70% recurring daily commissions. The platform that powers your growth can also fund it.
+      </code></pre>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Pro Tips for Cheaper Clicks</h3>
+      <ul class="list-disc list-inside space-y-2">
+        <li><strong>Hyper-Specific Targeting:</strong> This is LinkedIn's superpower. Target by Job Title ("Marketing Manager", "CTO"), Company Size, and Industry ("Software", "E-commerce"). The more specific your audience, the higher your conversion rate and the more efficient your ad spend.</li>
+        <li><strong>Use Lead Gen Forms:</strong> Instead of sending users to a landing page, use LinkedIn's native Lead Gen Forms. This allows users to opt-in with one click, dramatically increasing conversion rates. You can then add them to an email nurture sequence.</li>
+        <li><strong>Sponsor Your Best Content:</strong> Wrote a great blog post on the "NVMe Edge SEO Advantage"? Promote it on LinkedIn. Offer high-value content instead of a hard sell. Target professionals who will find the content useful, and include your affiliate link at the end of the post.</li>
+        <li><strong>Use Data and Numbers:</strong> LinkedIn audiences respond to data. Use specific numbers in your ads: "Boost TTFB by up to 250%", "Earn 70% recurring commissions", "Join 500+ other agencies".</li>
+      </ul>
     `,
   },
 ];
