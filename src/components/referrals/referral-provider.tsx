@@ -20,22 +20,26 @@ interface ReferralContextType {
 const ReferralContext = createContext<ReferralContextType | undefined>(undefined);
 const LOCAL_STORAGE_KEY = 'platformReferrals';
 
+const getInitialState = () => {
+  // This function runs only on the client, once, to get the initial state.
+  if (typeof window === 'undefined') {
+    return initialReferrals;
+  }
+  try {
+    const item = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    // If there's something in local storage, use it. Otherwise, use the mock data.
+    return item ? JSON.parse(item) : initialReferrals;
+  } catch (error) {
+    console.error("Failed to read from localStorage, using initial data.", error);
+    return initialReferrals;
+  }
+};
+
+
 export const ReferralProvider = ({ children }: { children: ReactNode }) => {
-  const [referrals, setReferrals] = useState<PlatformReferral[]>(initialReferrals);
+  const [referrals, setReferrals] = useState<PlatformReferral[]>(getInitialState);
 
-  // Load from localStorage on initial client-side mount
-  useEffect(() => {
-    try {
-      const storedReferrals = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (storedReferrals) {
-        setReferrals(JSON.parse(storedReferrals));
-      }
-    } catch (error) {
-      console.error("Failed to read from localStorage", error);
-    }
-  }, []);
-
-  // Save to localStorage whenever referrals change
+  // This effect now ONLY saves to localStorage when the referrals state changes.
   useEffect(() => {
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(referrals));
