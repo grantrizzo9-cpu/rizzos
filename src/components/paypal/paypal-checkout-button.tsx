@@ -29,7 +29,7 @@ export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
             title: "Account Activated!",
             description: `Your ${tier.name} plan is now active. Welcome aboard!`,
         });
-        router.push('/dashboard');
+        router.push('/strategy-center/connecting-your-domain');
     };
 
     const handleSimulatePayment = () => {
@@ -46,7 +46,7 @@ export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
                 title: "Account Activated!",
                 description: `Your ${tier.name} plan is now active. Welcome aboard!`,
             });
-            router.push('/dashboard');
+            router.push('/strategy-center/connecting-your-domain');
         }, 500);
     }
 

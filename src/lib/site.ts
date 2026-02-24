@@ -28,6 +28,65 @@ export const strategyArticles: Article[] = [
     `,
   },
   {
+    slug: 'connecting-your-domain',
+    title: 'Guide: Connecting Your Custom Domain',
+    description: 'A complete walkthrough for purchasing and connecting a custom domain to your website.',
+    image: 'strategy-2',
+    content: `
+      <h2 class="font-headline text-2xl font-bold mb-4 text-accent">Introduction: Your Professional Online Address</h2>
+      <p class="mb-4">Once you've activated your Host Pro Ai account, the next crucial step is to give your website a professional address with a custom domain name (e.g., <code>www.yourbusiness.com</code>). This guide will walk you through the entire process, from purchasing a domain to configuring it to work with your high-speed hosting. Following these steps will make your site live to the world on your own branded domain.</p>
+      
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 1: Purchase Your Domain Name</h3>
+      <p class="mb-4">If you don't already own a domain name, you'll need to purchase one. A domain is your unique address on the internet. We recommend using a reputable registrar that provides easy-to-use DNS management tools.</p>
+      <p class="mb-4">To purchase your domain, <a href="https://rizzosai.shopco.com/" target="_blank" rel="noopener noreferrer" class="font-bold text-primary hover:underline">go to this recommended domain registrar</a> to find and buy the perfect domain name for your business.</p>
+      
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 2: Add Your Domain in the Hosting Manager</h3>
+      <p class="mb-4">Once you have a domain, our system (powered by Firebase Hosting) will provide you with the specific DNS records you need to connect it. You do not need to use the "Connect a new domain" button, as the required records are standard for all users.</p>
+      <p class="mb-4">You will need to add the following records at your domain registrar:</p>
+      <ul class="list-disc list-inside mb-4 space-y-2">
+        <li><strong>Two 'A' Records:</strong> These point your root domain (e.g., <code>yourbusiness.com</code>) to specific IP addresses.</li>
+        <li><strong>One 'CNAME' Record:</strong> This points a subdomain, usually 'www' (e.g., <code>www.yourbusiness.com</code>), to your hosted content.</li>
+      </ul>
+      <p class="mb-4">For your convenience, here are the exact values you will need. These are the same for all users on our platform:</p>
+      <ul class="list-none mb-4 space-y-2 bg-muted p-4 rounded-lg">
+          <li><strong>A Record 1:</strong> Type: A, Host: @, Value: 199.36.158.100</li>
+          <li><strong>A Record 2:</strong> Type: A, Host: @, Value: 199.36.158.101</li>
+          <li><strong>CNAME Record:</strong> Type: CNAME, Host: www, Value: <code>[YOUR_USERNAME].hostproai.com</code> (replace with your actual username)</li>
+      </ul>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 3: Configure DNS Records at Your Registrar (OpenSRS Example)</h3>
+      <p class="mb-4">This is the most technical step, but it's straightforward if you follow the instructions. You need to log in to where you purchased your domain (your registrar) and find the DNS Management or DNS Settings area.</p>
+      <p class="mb-4">The following instructions are specifically for <strong>OpenSRS</strong>, based on their control panel. The principles are the same for all registrars.</p>
+      
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Important Note on CNAMEs and Root Domains</h4>
+      <p class="mb-4">You may see an error like <code>CNAME hostname(label) must be unique for zone</code> if you try to add a CNAME record for your main (root) domain. This is normal! The root domain (e.g., <code>yourbusiness.com</code>) cannot be a CNAME; it must use 'A' records. Only subdomains (like <code>www</code>) should use CNAMEs.</p>
+
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Adding the 'A' Records for the Root Domain:</h4>
+      <ol class="list-decimal list-inside mb-4 space-y-2">
+        <li>In your OpenSRS DNS panel, look for a section like "DNS" or "Manage DNS Records".</li>
+        <li>You will want to edit the records for the root domain (sometimes represented by an '@' symbol).</li>
+        <li>Find the area to add a new record. Leave the 'Sub-Domain' or 'Host' field **blank** or use **@**.</li>
+        <li>In the 'Record Type' dropdown, select **A**.</li>
+        <li>In the 'IP Address' or 'Value' field that appears, enter the first IP address: <strong>199.36.158.100</strong>.</li>
+        <li>Save the record.</li>
+        <li>Repeat the process to add a second 'A' record, using the second IP address: <strong>199.36.158.101</strong>.</li>
+      </ol>
+      
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Adding the 'CNAME' Record for 'www':</h4>
+      <ol class="list-decimal list-inside mb-4 space-y-2">
+        <li>In the DNS panel, you will add another record.</li>
+        <li>In the 'Sub-Domain' or 'Host' field, type **www**.</li>
+        <li>In the 'Record Type' dropdown, select **CNAME**.</li>
+        <li>In the 'Hostname' or 'Value' field, enter your unique hosting address: <code>[YOUR_USERNAME].hostproai.com</code>. Make sure to replace `[YOUR_USERNAME]` with your actual username.</li>
+        <li>Save the record.</li>
+      </ol>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 4: Wait for Propagation</h3>
+      <p>DNS changes can take anywhere from a few minutes to 48 hours to take effect across the internet. This is called propagation. Once it's complete, your website will be live at your custom domain. You can use an online tool like <a href="https://dnschecker.org" target="_blank" rel="noopener noreferrer">DNS Checker</a> to monitor the status of your 'A' and 'CNAME' records.</p>
+      <p class="mt-4">If you have any trouble, please do not hesitate to contact us at our support email after trying these steps. We are here to help!</p>
+    `,
+  },
+  {
     slug: 'roadmap-to-10-referrals',
     title: 'Roadmap to 10 Referrals (75% Bump)',
     description: 'A step-by-step guide to reaching 10 active referrals and unlocking the 75% commission tier.',

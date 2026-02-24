@@ -1,15 +1,8 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { HardDrive, ExternalLink } from "lucide-react";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { HardDrive } from "lucide-react";
-
-const connectedDomains = [
-  { domain: "mycoolsite.com", status: "Connected", plan: "Pro" },
-  { domain: "another-niche.net", status: "Propagating", plan: "Pro" },
-];
 
 export default function HostingPage() {
   return (
@@ -17,47 +10,31 @@ export default function HostingPage() {
        <Card>
         <CardHeader>
           <CardTitle className="font-headline text-2xl flex items-center gap-2"><HardDrive/>Hosting Manager</CardTitle>
-          <CardDescription>Connect and manage your domains. All domain fulfillment is handled via the secure OpenSRS registrar pipeline.</CardDescription>
+          <CardDescription>Connect and manage your custom domains for your websites.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-2">
-            <Label htmlFor="domain">Connect a new domain</Label>
-            <div className="flex gap-2">
-                <Input id="domain" placeholder="your-new-domain.com" />
-                <Button>Connect</Button>
-            </div>
-          </div>
+            <Alert>
+                <HardDrive className="h-4 w-4" />
+                <AlertTitle>Ready to Connect Your Domain?</AlertTitle>
+                <AlertDescription>
+                    <p>We've created a comprehensive step-by-step guide to help you purchase and connect your custom domain name.</p>
+                    <Button asChild className="mt-4">
+                        <Link href="/strategy-center/connecting-your-domain">
+                            View Domain Connection Guide <ExternalLink className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                </AlertDescription>
+            </Alert>
         </CardContent>
-        <CardFooter>
-            <p className="text-sm text-muted-foreground">After connecting, you will be provided with nameservers to point your domain to.</p>
-        </CardFooter>
       </Card>
       
       <Card>
         <CardHeader>
           <CardTitle>Connected Domains</CardTitle>
+          <CardDescription>This feature is coming soon. Your connected domains will be listed here.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Domain</TableHead>
-                <TableHead>Plan</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {connectedDomains.map((item) => (
-                <TableRow key={item.domain}>
-                  <TableCell className="font-medium">{item.domain}</TableCell>
-                  <TableCell>{item.plan}</TableCell>
-                  <TableCell>
-                    <Badge variant={item.status === 'Connected' ? 'default' : 'secondary'}>{item.status}</Badge>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <p className="text-center text-muted-foreground py-8">You have not connected any domains yet.</p>
         </CardContent>
       </Card>
 
