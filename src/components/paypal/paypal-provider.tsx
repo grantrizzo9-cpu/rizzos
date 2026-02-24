@@ -3,8 +3,8 @@
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { createContext, useContext, type ReactNode } from "react";
 
-// The app will first look for NEXT_PUBLIC_PAYPAL_CLIENT_ID, and fall back to NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID.
-const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || process.env.NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID;
+// The app will first look for NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID, and fall back to NEXT_PUBLIC_PAYPAL_CLIENT_ID for production.
+const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_SANDBOX_CLIENT_ID || process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
 
 type PayPalContextType = {
   isPayPalConfigured: boolean;
