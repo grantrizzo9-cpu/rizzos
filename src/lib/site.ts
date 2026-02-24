@@ -1,4 +1,5 @@
 
+
 export type Article = {
   slug: string;
   title: string;
@@ -17,21 +18,15 @@ export const strategyArticles: Article[] = [
       <h2 class="font-headline text-2xl font-bold mb-4 text-accent">Introduction: Your Professional Online Address</h2>
       <p class="mb-4">Once you've activated your Host Pro Ai account, the next crucial step is to give your website a professional address with a custom domain name (e.g., <code>www.yourbusiness.com</code>). This guide will walk you through the entire process, from purchasing a domain to configuring it to work with our system. Following these steps will make your site live to the world on your own branded domain.</p>
       
-      <h2 class="font-headline text-2xl font-bold mt-8 mb-4 text-accent">Your Domain vs. Your Affiliate Link: Why It Matters</h2>
-      <p class="mb-4">Before we dive in, it's important to know that you don't <strong>have</strong> to buy a custom domain to start earning. You can always give your affiliate link directly to anyone. However, there's a reason why top affiliates always use their own domain.</p>
-      <p class="mb-4">Raw affiliate links can look long, complicated, and can sometimes be perceived as less trustworthy. They don't help you build a unique brand. This is why having a custom domain is so important. A short, memorable domain name (like <code>www.BobsBestHosting.com</code>) is far more professional and builds instant credibility. It acts as a simple, trustworthy entry point that forwards customers to your offer, making your marketing efforts significantly more effective. Think of it as the digital storefront for your affiliate business. Picking a good domain is one of the most crucial steps in building your brand online.</p>
-
-      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 1: Purchase Your Domain Name</h3>
-      <p class="mb-4">If you don't already own a domain name, you'll need to purchase one. A domain is your unique address on the internet. We recommend using a reputable registrar that provides easy-to-use DNS management tools.</p>
-      <p class="mb-4">To purchase your domain, <a href="https://rizzosai.shopco.com/" target="_blank" rel="noopener noreferrer" class="font-bold text-primary hover:underline">go to this recommended domain registrar</a> to find and buy the perfect domain name for your business.</p>
+      <h2 class="font-headline text-2xl font-bold mt-8 mb-4 text-accent">Understanding Your Unique CNAME Value</h2>
+      <p class="mb-4">In the records below, you will see a value like <code>[USER_CNAME_VALUE]</code>. This unique address is automatically generated from your account username. For example, if your username is "fdwy", your unique address will be <code>fdwy.hostproai.com</code>.</p>
+      <p class="mb-4"><strong>If you would prefer a different address</strong>, you can! Simply go to your <a href="/dashboard/settings" target="_blank" class="font-bold text-primary hover:underline">Account Settings</a> page and change your username. Your CNAME value will update automatically. We recommend choosing a username that reflects your brand, as it will be part of your hosting address.</p>
       
-      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 2: Find Your DNS Records</h3>
-      <p class="mb-4">Our system provides standard DNS records that you will need to connect your domain. You do not need to use the "Connect a new domain" button in the Hosting Manager, as these records are the same for all users on our platform.</p>
-      
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 1: The Required DNS Records</h3>
       <p class="mb-4">You will need to add the following records at your domain registrar:</p>
       <ul class="list-disc list-inside mb-4 space-y-2">
-        <li><strong>Two 'A' Records:</strong> These point your root domain (e.g., <code>yourbusiness.com</code>) to specific IP addresses.</li>
-        <li><strong>One 'CNAME' Record:</strong> This points a subdomain, usually 'www' (e.g., <code>www.yourbusiness.com</code>), to your hosted content.</li>
+        <li><strong>Two 'A' Records:</strong> These point your root domain (e.g., <code>yourbusiness.com</code>) to our servers.</li>
+        <li><strong>One 'CNAME' Record:</strong> This points the 'www' version of your domain (e.g., <code>www.yourbusiness.com</code>) to your unique hosting address.</li>
       </ul>
       <p class="mb-4">Here are the exact values you will need:</p>
       <ul class="list-none mb-4 space-y-2 bg-muted p-4 rounded-lg">
@@ -40,64 +35,45 @@ export const strategyArticles: Article[] = [
           <li><strong>CNAME Record:</strong> Type: CNAME, Host: www, Value: [USER_CNAME_VALUE]</li>
       </ul>
 
-      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">How to Copy and Paste</h3>
-      <p class="mb-4">To avoid typos, it's best to copy and paste the record values. Here’s how:</p>
-      <ul class="list-disc list-inside mb-4 space-y-2">
-        <li><strong>Method 1 (Keyboard):</strong> Highlight the text with your mouse, then press <strong>Ctrl + C</strong> (on Windows/PC) or <strong>Command + C</strong> (on Mac) to copy. To paste, click where you want the text to go and press <strong>Ctrl + V</strong> or <strong>Command + V</strong>.</li>
-        <li><strong>Method 2 (Mouse):</strong> Use your mouse to click and drag over the text to highlight it. Then, <strong>right-click</strong> on the highlighted text and select <strong>Copy</strong> from the menu. Go to where you need to paste it, <strong>right-click</strong> again, and select <strong>Paste</strong>.</li>
-        <li><strong>On Mobile (iPhone/Android):</strong> Tap and hold on the text until it's highlighted. Drag the handles to select all the text you need, then tap the 'Copy' option that appears. To paste, tap and hold in the text field where you want to paste, and then tap 'Paste'.</li>
-      </ul>
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 2: Adding the 'A' Records for the Root Domain</h3>
+      <p class="mb-4">You have already completed this step correctly, as shown in your screenshots. These records point your main domain (<code>rizzosaipro.com</code>) to our IP addresses.</p>
 
-      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 3: Configure DNS Records at Your Registrar (OpenSRS Example)</h3>
-      <p class="mb-4">This is the most technical step, but it's straightforward if you follow the instructions. You need to log in to where you purchased your domain (your registrar) and find the DNS Management or DNS Settings area. The principles are the same for all registrars.</p>
-      
-      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Important Note on CNAMEs and Root Domains</h4>
-      <p class="mb-4">You may see an error like <code>CNAME hostname(label) must be unique for zone</code> if you try to add a CNAME record for your main (root) domain. This is normal! The root domain (e.g., <code>yourbusiness.com</code>) cannot be a CNAME; it must use 'A' records. Only subdomains (like <code>www</code>) should use CNAMEs.</p>
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 3: Adding the 'CNAME' Record for 'www'</h3>
+      <p class="mb-4">This is the final step. Based on your screenshot, your DNS panel requires a special process for subdomains like 'www'.</p>
 
-      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Adding the 'A' Records for the Root Domain:</h4>
-      <p class="mb-2">Follow these steps to add the required 'A' records:</p>
+      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Part A: Create the Sub-Domain</h4>
       <ol class="list-decimal list-inside mb-4 space-y-2">
-        <li>In your registrar's DNS panel, find the option to add a new record.</li>
-        <li>Leave the 'Sub-Domain' or 'Host' field **blank** or use **@**. This targets your root domain.</li>
-        <li>Select **A** as the 'Record Type'.</li>
-        <li>In the 'IP Address' or 'Value' field, enter the first IP address: <strong>199.36.158.100</strong>. Save the record.</li>
-        <li>Repeat the process to add a second 'A' record with the IP address: <strong>199.36.158.101</strong>.</li>
+          <li>In your DNS panel, find the button that says <strong>'Add Sub-Domain'</strong>. Do NOT use the main 'Add Record' dropdown for this.</li>
+          <li>In the input box that appears, type <strong>www</strong>.</li>
+          <li>Click the 'Save DNS Settings' or 'Add' button to create the subdomain.</li>
       </ol>
        <div class="my-4 p-2 border border-border rounded-lg bg-muted">
-            <img src="https://picsum.photos/seed/dns-a-record/800/250" alt="Example of setting up A records" class="rounded-md w-full" data-ai-hint="dns settings"/>
-            <p class="text-xs text-center p-2 text-muted-foreground">Example of an 'A' Record configuration panel. Your interface may look different.</p>
+            <img src="https://picsum.photos/seed/dns-add-subdomain/800/250" alt="Example of adding a www subdomain" class="rounded-md w-full" data-ai-hint="dns settings"/>
+            <p class="text-xs text-center p-2 text-muted-foreground">Use the 'Add Sub-Domain' button and enter 'www'.</p>
        </div>
       
-      <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Adding the 'CNAME' Record for 'www':</h4>
-       <p class="mb-2">The error "CNAME hostname must be unique" happens because you cannot add a CNAME record to the main domain section. You must create a subdomain first.</p>
-       <p class="mb-2">Based on your screenshot, here are the correct steps:</p>
-      <ol class="list-decimal list-inside mb-4 space-y-2">
-        <li><strong>Do not</strong> use the 'Record' dropdown where you are currently getting the error. Cancel or clear that change.</li>
-        <li>Find the section on the page that says <strong>'Add Sub-Domain'</strong>.</li>
-        <li>There is an input box next to this button that should already say 'www'. Click the **'Add Sub-Domain'** button.</li>
-        <li>This action will create a new DNS section specifically for your 'www' subdomain.</li>
-        <li>Go into the settings for the new 'www' subdomain you just created.</li>
-        <li>Inside that new section, add a **CNAME** record. Set the 'Hostname' or 'Value' to your unique hosting address: <code>[USER_CNAME_VALUE]</code></li>
-        <li>Save the changes for the subdomain.</li>
-      </ol>
-      <div class="my-4 p-2 border border-border rounded-lg bg-muted">
-            <img src="https://picsum.photos/seed/dns-cname-record/800/250" alt="Example of setting up a CNAME record" class="rounded-md w-full" data-ai-hint="dns settings"/>
-            <p class="text-xs text-center p-2 text-muted-foreground">Example of a 'CNAME' Record configuration panel for a subdomain.</p>
-       </div>
-
+       <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Part B: Add the CNAME Record to the New Subdomain</h4>
+       <p class="mb-2">After adding the 'www' subdomain, your page will likely reload or take you to a new section to manage it. Now you can add the CNAME record.</p>
+       <ol class="list-decimal list-inside mb-4 space-y-2">
+           <li>Find the new section for your <code>www.rizzosaipro.com</code> subdomain.</li>
+           <li>In this section, click 'Add Record'.</li>
+           <li>Select <strong>CNAME</strong> as the 'Record Type'.</li>
+           <li>In the 'Hostname' or 'Value' field, enter your unique hosting address: <strong>[USER_CNAME_VALUE]</strong>. (e.g., <code>rizzosaipro.hostproai.com</code>).</li>
+           <li>Save the record.</li>
+       </ol>
+       <p class="mb-4"><strong>What this does:</strong> You are telling the internet that when someone visits <code>www.rizzosaipro.com</code>, it should load the content from your unique address.</p>
+      
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 4: Wait for Propagation & Verify</h3>
-      <p class="mb-4">DNS changes can take anywhere from a few minutes to 48 hours to take effect across the internet. This is called propagation. Once it's complete, your website will be live at your custom domain. You can use an online tool like <a href="https://dnschecker.org" target="_blank" rel="noopener noreferrer" class="font-bold text-primary hover:underline">DNS Checker</a> to monitor the status.</p>
+      <p class="mb-4">DNS changes can take up to 48 hours to take effect. You can use an online tool like <a href="https://dnschecker.org" target="_blank" rel="noopener noreferrer" class="font-bold text-primary hover:underline">DNS Checker</a> to monitor the status.</p>
       <p class="mb-2">There are two checks to perform:</p>
       <ol class="list-decimal list-inside mb-4 space-y-2">
-        <li>Enter your main domain (e.g., <code>yourbusiness.com</code>), select 'A' from the dropdown, and click Search. You should see green checkmarks next to the IP addresses <code>199.36.158.100</code> and <code>199.36.158.101</code> across the globe. This is what your screenshot shows - great job!</li>
-        <li>Enter the 'www' version of your domain (e.g., <code>www.yourbusiness.com</code>), select 'CNAME' from the dropdown, and click Search. You should see it pointing to your unique value: [USER_CNAME_VALUE].</li>
+        <li>Enter your main domain (e.g., <code>rizzosaipro.com</code>), select 'A' from the dropdown, and click Search. You should see green checkmarks next to the IP addresses <code>199.36.158.100</code> and <code>199.36.158.101</code>.</li>
+        <li>Enter the 'www' version of your domain (e.g., <code>www.rizzosaipro.com</code>), select 'CNAME' from the dropdown, and click Search. You should see it pointing to your unique value: [USER_CNAME_VALUE].</li>
       </ol>
-      <p>Once both of these checks show green checkmarks worldwide, your domain is fully connected and ready to use!</p>
-      <p class="mt-4">If you have any trouble, please do not hesitate to contact us at our support email after trying these steps. We are here to help!</p>
-      <p class="mt-8">We're excited to have you on board. <strong>Good luck with your promotions!</strong></p>
+      <p>Once both of these checks show green checkmarks worldwide, your domain is fully connected!</p>
     `,
   },
-   {
+  {
     slug: 'facebook-ads-playbook',
     title: 'Facebook Ads Playbook',
     description: 'A guide to creating high-converting Facebook ads for your affiliate business.',
@@ -242,7 +218,7 @@ Page speed literally changes everything. If you run an online store, you NEED th
   {
     slug: 'linkedin-b2b-lead-gen',
     title: 'LinkedIn B2B Lead Gen',
-    description: 'Target professionals and businesses with precision on the world\'s largest professional network.',
+    description: "Target professionals and businesses with precision on the world's largest professional network.",
     image: 'strategy-4',
     content: `
       <h2 class="font-headline text-2xl font-bold mb-4 text-accent">LinkedIn B2B Domination</h2>
