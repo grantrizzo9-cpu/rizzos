@@ -11,12 +11,13 @@ interface User {
   isPaid?: boolean;
   plan?: string;
   isFriendAndFamily?: boolean;
+  referrer?: string;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signIn: (userToSignIn?: User, isNewUser?: boolean) => void;
+  signIn: (userToSignIn?: User, isNewUser?: boolean, referrerUsername?: string) => void;
   signOut: () => void;
   activateAccount: (planName: string) => void;
 }
@@ -35,7 +36,8 @@ const defaultMockUser: User = {
   email: 'renntapog@gmail.com',
   displayName: 'Host Pro Ai Admin',
   username: 'hostproai',
-  isPaid: false,
+  isPaid: true,
+  plan: 'Diamond'
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -52,7 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
   }, []);
 
-  const signIn = (userToSignIn?: User, isNewUser = false) => {
+  const signIn = (userToSignIn?: User, isNewUser = false, referrerUsername?: string) => {
     setLoading(true);
     let userToSet: User;
 
@@ -62,7 +64,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (isFriend) {
           userToSet = { ...userToSignIn, isPaid: true, plan: 'Diamond', isFriendAndFamily: true };
       } else {
-        userToSet = { ...userToSignIn, isPaid: isNewUser ? false : userToSignIn.isPaid ?? true, isFriendAndFamily: false };
+        userToSet = { 
+            ...userToSignIn, 
+            isPaid: isNewUser ? false : userToSignIn.isPaid ?? true, 
+            isFriendAndFamily: false,
+        };
+        if (isNewUser && referrerUsername) {
+            userToSet.referrer = referrerUsername;
+        }
       }
     } else {
       userToSet = defaultMockUser;

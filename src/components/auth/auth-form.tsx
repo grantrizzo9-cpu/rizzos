@@ -11,9 +11,10 @@ import { Loader2 } from 'lucide-react';
 
 type AuthFormProps = {
   mode: 'login' | 'signup';
+  referrer?: string;
 };
 
-export function AuthForm({ mode }: AuthFormProps) {
+export function AuthForm({ mode, referrer }: AuthFormProps) {
   const router = useRouter();
   const { signIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -33,13 +34,14 @@ export function AuthForm({ mode }: AuthFormProps) {
           email: email,
           displayName: username,
           username: username,
-        }, true);
+        }, true, referrer);
+        router.push('/dashboard/upgrade');
       } else {
         // For login, we use the signIn with a default user.
         // This is a mock, in a real app you'd validate credentials
         signIn();
+        router.push('/dashboard');
       }
-      router.push('/dashboard');
       setIsLoading(false);
     }, 1000);
   };

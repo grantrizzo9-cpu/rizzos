@@ -1,7 +1,8 @@
-
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -125,6 +126,10 @@ export default function Home() {
   const incomePathImage = PlaceHolderImages.find(img => img.id === 'income-path');
   const affiliateDashboardImage = PlaceHolderImages.find(img => img.id === 'affiliate-dashboard');
   const aiStudioImage = PlaceHolderImages.find(img => img.id === 'ai-studio');
+  
+  const searchParams = useSearchParams();
+  const ref = searchParams.get('ref');
+  const signupHref = ref ? `/signup?ref=${ref}` : '/signup';
 
   return (
     <>
@@ -141,7 +146,7 @@ export default function Home() {
             </p>
             <div className="mt-8 flex justify-center gap-4">
               <Button size="lg" asChild>
-                <Link href="/signup">Get Started</Link>
+                <Link href={signupHref}>Get Started</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
                 <Link href="#features">Learn More</Link>
@@ -339,7 +344,7 @@ export default function Home() {
             <p className="mt-4 mx-auto max-w-xl">Join the most profitable affiliate program in the industry and start your journey to daily, recurring income.</p>
             <div className="mt-8">
               <Button size="lg" variant="secondary" asChild>
-                <Link href="/signup">Sign Up & Get Your Affiliate Link</Link>
+                <Link href={signupHref}>Sign Up & Get Your Affiliate Link</Link>
               </Button>
             </div>
           </div>

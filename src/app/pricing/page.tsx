@@ -9,9 +9,13 @@ import { Footer } from "@/components/layout/footer";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/auth/auth-provider";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function PricingPage() {
   const { user } = useAuth();
+  const searchParams = useSearchParams();
+  const ref = searchParams.get('ref');
+  const signupHref = ref ? `/signup?ref=${ref}` : '/signup';
 
   return (
     <>
@@ -55,7 +59,7 @@ export default function PricingPage() {
                 </CardContent>
                 <CardFooter>
                     <Button asChild className="w-full">
-                        <Link href={user ? '/dashboard/upgrade' : '/signup'}>
+                        <Link href={user ? '/dashboard/upgrade' : signupHref}>
                             {user ? 'Upgrade in Dashboard' : 'Sign Up to Start'}
                         </Link>
                     </Button>
