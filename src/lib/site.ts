@@ -41,7 +41,7 @@ export const strategyArticles: Article[] = [
       <p class="mb-4">To purchase your domain, <a href="https://rizzosai.shopco.com/" target="_blank" rel="noopener noreferrer" class="font-bold text-primary hover:underline">go to this recommended domain registrar</a> to find and buy the perfect domain name for your business.</p>
       
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 2: Find Your DNS Records</h3>
-      <p class="mb-4">Our system (powered by Firebase Hosting) provides standard DNS records that you will need to connect your domain. You can find these values listed below. You do not need to use the "Connect a new domain" button in the Hosting Manager, as these records are the same for all users on our platform.</p>
+      <p class="mb-4">Our system (powered by Firebase Hosting) provides standard DNS records that you will need to connect your domain. You do not need to use the "Connect a new domain" button in the Hosting Manager, as these records are the same for all users on our platform.</p>
       
       <p class="mb-4">You will need to add the following records at your domain registrar:</p>
       <ul class="list-disc list-inside mb-4 space-y-2">
@@ -52,7 +52,15 @@ export const strategyArticles: Article[] = [
       <ul class="list-none mb-4 space-y-2 bg-muted p-4 rounded-lg">
           <li><strong>A Record 1:</strong> Type: A, Host: @, Value: 199.36.158.100</li>
           <li><strong>A Record 2:</strong> Type: A, Host: @, Value: 199.36.158.101</li>
-          <li><strong>CNAME Record:</strong> Type: CNAME, Host: www, Value: <code>[YOUR_USERNAME].hostproai.com</code> (replace with your actual username)</li>
+          <li><strong>CNAME Record:</strong> Type: CNAME, Host: www, Value: [USER_CNAME_VALUE]</li>
+      </ul>
+
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">How to Copy and Paste</h3>
+      <p class="mb-4">To avoid typos, it's best to copy and paste the record values. Here’s how:</p>
+      <ul class="list-disc list-inside mb-4 space-y-2">
+        <li><strong>On PC (Windows):</strong> Highlight the text with your mouse, then press <strong>Ctrl + C</strong> to copy. To paste, click where you want the text to go and press <strong>Ctrl + V</strong>.</li>
+        <li><strong>On Mac:</strong> Highlight the text with your mouse, then press <strong>Command + C</strong> to copy. To paste, click where you want the text to go and press <strong>Command + V</strong>.</li>
+        <li><strong>On Mobile (iPhone/Android):</strong> Tap and hold on the text until it's highlighted. Drag the handles to select all the text you need, then tap the 'Copy' option that appears. To paste, tap and hold in the text field where you want to paste, and then tap 'Paste'.</li>
       </ul>
 
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 3: Configure DNS Records at Your Registrar (OpenSRS Example)</h3>
@@ -81,7 +89,7 @@ export const strategyArticles: Article[] = [
         <li>In the DNS panel, add another new record.</li>
         <li>In the 'Sub-Domain' or 'Host' field, type **www**.</li>
         <li>Select **CNAME** as the 'Record Type'.</li>
-        <li>In the 'Hostname' or 'Value' field, enter your unique hosting address: <code>[YOUR_USERNAME].hostproai.com</code>. Make sure to replace \\\`[YOUR_USERNAME]\\\` with your actual username.</li>
+        <li>In the 'Hostname' or 'Value' field, enter your unique hosting address. You can copy it from the section above.</li>
         <li>Save the record.</li>
       </ol>
       <div class="my-4 p-2 border border-border rounded-lg bg-muted">

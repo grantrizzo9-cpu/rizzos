@@ -1,10 +1,17 @@
 
+'use client';
+
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
+import { useMemo } from "react";
+import { ArrowRight } from "lucide-react";
 import { strategyArticles } from "@/lib/site";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { useAuth } from "@/components/auth/auth-provider";
+import { Button } from "@/components/ui/button";
 
 type ArticlePageProps = {
   params: {
@@ -12,18 +19,26 @@ type ArticlePageProps = {
   };
 };
 
-export async function generateStaticParams() {
-  return strategyArticles.map((article) => ({
-    slug: article.slug,
-  }));
-}
-
 export default function ArticlePage({ params }: ArticlePageProps) {
+  const { user } = useAuth();
   const article = strategyArticles.find((a) => a.slug === params.slug);
 
   if (!article) {
     notFound();
   }
+
+  const processedContent = useMemo(() => {
+    if (!article) return "";
+    let content = article.content;
+    
+    if (params.slug === 'connecting-your-domain') {
+      const cnameValue = user?.username ? `${user.username}.hostproai.com` : `[your-username].hostproai.com`;
+      const cnameHtml = `<code class="bg-muted p-1 rounded font-mono">${cnameValue}</code>`;
+      content = content.replace(/\[USER_CNAME_VALUE\]/g, cnameHtml);
+    }
+    
+    return content;
+  }, [article, user, params.slug]);
 
   const image = PlaceHolderImages.find(img => img.id === article.image);
 
@@ -53,13 +68,22 @@ export default function ArticlePage({ params }: ArticlePageProps) {
           )}
           <div
             className="prose mx-auto mt-8 max-w-none prose-h2:font-headline prose-h3:font-headline prose-p:text-muted-foreground prose-a:text-primary prose-strong:text-foreground prose-h2:text-accent prose-h3:text-accent"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: processedContent }}
           />
+
+          {params.slug === 'connecting-your-domain' && (
+            <div className="mt-12 text-center">
+              <Button asChild size="lg">
+                <Link href="/dashboard">
+                  Continue to your Dashboard
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
+          )}
         </article>
       </main>
       <Footer />
     </>
   );
 }
-
-    
