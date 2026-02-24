@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { format, startOfWeek, getMonth } from 'date-fns';
+import { format } from 'date-fns';
 import { useAuth } from '@/components/auth/auth-provider';
 import { useReferrals } from '@/components/referrals/referral-provider';
 import { pricingTiers } from '@/lib/site';
@@ -17,19 +17,19 @@ export interface Referral {
 }
 
 export interface Earning {
-    amount: number;
-    date: Date;
+  amount: number;
+  date: Date;
 }
 
 // Chart data types
 export interface DailyEarning {
-    date: string; // e.g., 'Mon', 'Tue'
-    earnings: number;
+  date: string; // e.g., 'Mon', 'Tue'
+  earnings: number;
 }
 
 export interface MonthlyReferral {
-    month: string; // e.g., 'Jan', 'Feb'
-    referrals: number;
+  month: string; // e.g., 'Jan', 'Feb'
+  referrals: number;
 }
 
 interface EarningsContextType {
@@ -56,49 +56,46 @@ export const EarningsProvider = ({ children }: { children: ReactNode }) => {
       setReferrals([]);
       setEarnings([]);
       return;
-    };
+    }
 
     // Filter platform referrals to find ones made by the current logged-in user
     const myPlatformReferrals = platformReferrals.filter(
-      (r) => r.affiliate === user.username
+      r => r.affiliate === user.username
     );
-
-    // Calculate commission rate based on *activated* referrals
-    const activeReferralCount = myPlatformReferrals.filter(r => r.status === 'activated').length;
-    const commissionRate = activeReferralCount >= 10 ? 0.75 : 0.70;
 
     // Process only activated referrals for earnings
     const activatedReferrals = myPlatformReferrals.filter(r => r.status === 'activated');
 
     const processedReferrals: Referral[] = activatedReferrals.map(pr => {
-      const planDetails = pricingTiers.find(p => p.name === pr.plan);
-      const dailyCommission = planDetails ? planDetails.price * commissionRate : 0;
-      
+      // Per the business rule: "The first payment from every new user is a 100% platform fee."
+      // This means the affiliate's commission on the initial activation is $0.
+      // In a real application, you'd check if this is the first payment cycle.
+      // For this simulation, we assume any 'activated' referral is a new one and thus commission is 0.
+      const dailyCommission = 0;
+
       return {
         id: pr.email,
         email: pr.email,
         plan: pr.plan,
-        // The user dashboard expects 'Active', 'Trial', or 'Canceled'. We only have 'activated'.
-        // Mapping 'activated' to 'Active' for display.
+        // The user dashboard expects 'Active', 'Trial', or 'Canceled'.
+        // We map 'activated' to 'Active' for display purposes.
         status: 'Active',
         commission: dailyCommission,
         date: new Date(), // Mock date, not available in platform referral data
       };
     });
-    
+
     const processedEarnings: Earning[] = processedReferrals.map(r => ({
       amount: r.commission,
       date: r.date,
     }));
-    
+
     setReferrals(processedReferrals);
     setEarnings(processedEarnings);
-
   }, [user, platformReferrals]);
-  
-  // This function is the source of the original bug. 
-  // It is no longer needed but kept to prevent breaking the payment button component signature.
-  // It correctly does nothing now.
+
+  // This function is no longer needed but kept for compatibility with the payment button.
+  // It correctly does nothing.
   const addEarning = () => {};
 
   const processEarningsForChart = (): DailyEarning[] => {
@@ -122,13 +119,19 @@ export const EarningsProvider = ({ children }: { children: ReactNode }) => {
       const monthlyTotals: { [key: string]: number } = {};
       monthNames.forEach(m => monthlyTotals[m] = 0);
 
+      const monthCounter = new Set();
       referrals.forEach(ref => {
-          const monthIndex = getMonth(ref.date);
+          const monthIndex = ref.date.getMonth();
           const monthName = monthNames[monthIndex];
-          monthlyTotals[monthName]++;
+          const uniqueKey = `${ref.email}-${monthIndex}`;
+
+          if(!monthCounter.has(uniqueKey)) {
+             monthlyTotals[monthName]++;
+             monthCounter.add(uniqueKey);
+          }
       });
 
-      return monthNames.slice(0, 6).map(month => ({
+      return monthNames.slice(0, new Date().getMonth() + 1).map(month => ({
           month,
           referrals: monthlyTotals[month] || 0
       }));
