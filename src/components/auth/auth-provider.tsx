@@ -20,6 +20,7 @@ interface AuthContextType {
   signIn: (userToSignIn?: User, isNewUser?: boolean, referrerUsername?: string) => void;
   signOut: () => void;
   activateAccount: (planName: string) => void;
+  updateUser: (data: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -99,7 +100,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const value = { user, loading, signIn, signOut, activateAccount };
+  const updateUser = (data: Partial<User>) => {
+    if (user) {
+      const updatedUser = { ...user, ...data };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+    }
+  };
+
+
+  const value = { user, loading, signIn, signOut, activateAccount, updateUser };
 
   return (
     <AuthContext.Provider value={value}>

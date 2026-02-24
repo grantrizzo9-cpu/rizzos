@@ -35,7 +35,7 @@ const settingsFormSchema = z.object({
 type SettingsFormValues = z.infer<typeof settingsFormSchema>;
 
 export default function SettingsPage() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,6 +56,8 @@ export default function SettingsPage() {
     
     // We'll simulate a network request
     await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    updateUser(values);
 
     toast({
       title: 'Settings Saved',
