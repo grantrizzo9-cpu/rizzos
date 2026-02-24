@@ -11,9 +11,8 @@ import { PayPalCheckoutButton } from "@/components/paypal/paypal-checkout-button
 // Mock function to get affiliate's plan index. In a real app, this would be a DB lookup.
 const getAffiliatePlanIndex = (username: string | undefined | null): number => {
     if (!username) {
-        // Default for direct signups: they can see up to Gold.
-        const goldIndex = pricingTiers.findIndex(t => t.name === 'Gold');
-        return goldIndex > -1 ? goldIndex : pricingTiers.length -1;
+        // Default for direct signups (no referrer): show all plans.
+        return pricingTiers.length - 1;
     }
 
     // Mock affiliate plans.
