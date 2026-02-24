@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from "react";
@@ -43,35 +44,47 @@ export default function HostingPage() {
 
         // This is a simulation. A real implementation would require a backend endpoint to perform DNS lookups.
         await new Promise(resolve => setTimeout(resolve, 2500));
+        
+        const requiredCnameValue = user?.username ? `${user.username}.hostproai.com` : `[your-username].hostproai.com`;
 
-        const isUserDomainCorrect = domainInput.toLowerCase() === 'rizzosaipro.com' && user?.username === 'fde';
-        const isTestDomainCorrect = domainInput.toLowerCase() === 'success-domain.com';
-
-        if (isUserDomainCorrect || isTestDomainCorrect) {
-            const value = isUserDomainCorrect ? 'fde.hostproai.com' : cnameValue;
+        if (domainInput.toLowerCase() === 'rizzosaipro.com') {
+            // SIMULATE THE MISMATCH: The user's DNS is set to `rizzosaipro.hostproai.com` but the system requires a CNAME based on the username 'fde'.
             setCheckResults([
                 { type: 'A', host: '@', value: '199.36.158.100', status: 'ok' },
                 { type: 'A', host: '@', value: '199.36.158.101', status: 'ok' },
-                { type: 'CNAME', host: 'www', value: value, status: 'ok' },
+                { type: 'CNAME', host: 'www', value: 'rizzosaipro.hostproai.com', status: 'mismatch' },
+            ]);
+            setCheckStatus('error');
+            toast({
+                title: "CNAME Value Mismatch",
+                description: `Your DNS points to the wrong value. It must point to ${requiredCnameValue}`,
+                variant: "destructive"
+            });
+        } else if (domainInput.toLowerCase() === 'success-domain.com') {
+            // SIMULATE A SUCCESSFUL CONNECTION
+            setCheckResults([
+                { type: 'A', host: '@', value: '199.36.158.100', status: 'ok' },
+                { type: 'A', host: '@', value: '199.36.158.101', status: 'ok' },
+                { type: 'CNAME', host: 'www', value: requiredCnameValue, status: 'ok' },
             ]);
             setCheckStatus('connected');
             addDomain(domainInput);
-            setDomainInput(''); // Clear input after successful connection
+            setDomainInput('');
             toast({
                 title: "Domain Connected!",
                 description: `${domainInput} has been successfully verified and added.`,
             });
         } else {
-             // Simulate a generic error
+             // SIMULATE A GENERIC FAILURE (records not found)
             setCheckResults([
                 { type: 'A', host: '@', value: '199.36.158.100', status: 'missing' },
                 { type: 'A', host: '@', value: '199.36.158.101', status: 'missing' },
-                { type: 'CNAME', host: 'www', value: cnameValue, status: 'missing' },
+                { type: 'CNAME', host: 'www', value: requiredCnameValue, status: 'missing' },
             ]);
             setCheckStatus('error');
             toast({
                 title: "Verification Failed",
-                description: `Could not verify DNS records for ${domainInput}. Please check your settings.`,
+                description: `Could not find the required DNS records for ${domainInput}.`,
                 variant: "destructive"
             });
         }
@@ -135,7 +148,7 @@ export default function HostingPage() {
                         </Button>
                     </div>
                      <p className="text-xs text-muted-foreground pt-2">
-                        For this demo, try entering `success-domain.com` to see a successful verification.
+                        For this demo, try `rizzosaipro.com` to see a mismatch error, or `success-domain.com` for a success.
                     </p>
                 </CardContent>
                 {checkStatus !== 'idle' && (
@@ -168,12 +181,12 @@ export default function HostingPage() {
                                         <XCircle className="h-6 w-6"/>
                                         <div>
                                             <h3 className="font-bold">
-                                                {checkResults.some(r => r.status === 'mismatch') ? 'CNAME Value Mismatch' : 'Configuration Error'}
+                                                {checkResults.some(r => r.status === 'mismatch') ? 'Configuration Mismatch' : 'Configuration Error'}
                                             </h3>
                                             <p className="text-sm">
                                                 {checkResults.some(r => r.status === 'mismatch') 
-                                                ? `Your CNAME record must point to the value shown below, which is based on your username ('${user?.username}'). Please update the value in your DNS provider.`
-                                                : 'Some DNS records are missing or incorrect. Please check your settings.'}
+                                                ? `There's a mismatch in your CNAME record. Your DNS settings must point to the value required by your account.`
+                                                : 'Some required DNS records are missing or incorrect. Please check your settings.'}
                                             </p>
                                         </div>
                                     </div>
@@ -182,7 +195,10 @@ export default function HostingPage() {
 
                              {checkResults.length > 0 && (
                                 <div className="w-full p-4 border rounded-lg">
-                                    <h4 className="font-semibold mb-2">DNS Check Results</h4>
+                                    <h4 className="font-semibold mb-2">DNS Verification Results</h4>
+                                     <p className="text-xs text-muted-foreground mb-4">
+                                        Required CNAME value for your account ({user?.username}): <code className="bg-muted p-1 rounded-sm">{cnameValue}</code>
+                                    </p>
                                     <ul className="space-y-2 text-sm">
                                         {checkResults.map((res, i) => (
                                             <li key={i} className="flex items-center justify-between">
@@ -193,7 +209,7 @@ export default function HostingPage() {
                                                     <span>{res.value}</span>
                                                 </div>
                                                 <span className={cn("text-xs font-bold", res.status === 'ok' ? 'text-green-500' : 'text-red-500')}>
-                                                    {res.status === 'ok' ? 'Found' : (res.status === 'mismatch' ? 'Mismatch' : 'Missing')}
+                                                    {res.status === 'ok' ? 'OK' : (res.status === 'mismatch' ? 'MISMATCH' : 'MISSING')}
                                                 </span>
                                             </li>
                                         ))}
@@ -245,3 +261,5 @@ export default function HostingPage() {
         </div>
     );
 }
+
+    
