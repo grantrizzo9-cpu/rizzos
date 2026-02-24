@@ -14,6 +14,12 @@ export function generateHtmlForWebsite(
     .map(([key, value]) => `${key}: ${value};`)
     .join('\n');
 
+  const navLinks = [
+      { text: "Features", href: "#features"},
+      { text: "Testimonials", href: "#testimonials"},
+      { text: "FAQ", href: "#faq"},
+  ];
+
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +105,7 @@ export function generateHtmlForWebsite(
         <div class="container mx-auto flex h-16 items-center justify-between px-4">
             <a href="#" class="font-bold text-xl">${homepage.title}</a>
             <nav class="hidden md:flex items-center gap-6">
-                ${homepage.navLinks.map(link => `<a href="${link.href}" class="text-sm font-medium hover:text-primary transition-colors">${link.text}</a>`).join('')}
+                ${navLinks.map(link => `<a href="${link.href}" class="text-sm font-medium hover:text-primary transition-colors">${link.text}</a>`).join('')}
             </nav>
             <a href="${affiliateLink}" class="btn btn-primary hidden md:inline-block">${homepage.ctaButtonText}</a>
         </div>
@@ -226,5 +232,3 @@ export function generateHtmlForWebsite(
 </html>
   `;
 }
-
-    
