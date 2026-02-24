@@ -45,9 +45,23 @@ export function AuthForm({ mode, referrer }: AuthFormProps) {
         }, true, referrer);
         router.push('/dashboard/upgrade');
       } else {
-        // For login, we use the signIn with a default user.
-        // This is a mock, in a real app you'd validate credentials
-        signIn();
+        // For login, we check if it's the admin email.
+        if (email.toLowerCase() === 'renntapog@gmail.com') {
+          // If it's the admin, use the default signIn to log in as admin.
+          signIn();
+        } else {
+          // For any other user, create a mock user object.
+          // In a real app, you'd fetch this user's data after validating credentials.
+          const mockLoggedInUser = {
+              uid: `mock-user-${Date.now()}`,
+              email: email,
+              displayName: email.split('@')[0],
+              username: email.split('@')[0],
+              isPaid: true, // Assuming existing users are paid
+              plan: 'Gold', // Mock a default plan for existing users
+          };
+          signIn(mockLoggedInUser);
+        }
         router.push('/dashboard');
       }
       setIsLoading(false);
