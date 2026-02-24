@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
@@ -11,7 +12,7 @@ interface User {
   isPaid?: boolean;
   plan?: string;
   isFriendAndFamily?: boolean;
-  referrer?: string;
+  referrer?: string | null;
 }
 
 interface AuthContextType {
@@ -38,7 +39,8 @@ const defaultMockUser: User = {
   displayName: 'Host Pro Ai Admin',
   username: 'hostproai',
   isPaid: true,
-  plan: 'Diamond'
+  plan: 'Diamond',
+  referrer: null,
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -63,16 +65,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const isFriend = userToSignIn.email ? friendsAndFamilyEmails.includes(userToSignIn.email) : false;
       
       if (isFriend) {
-          userToSet = { ...userToSignIn, isPaid: true, plan: 'Diamond', isFriendAndFamily: true };
+          userToSet = { ...userToSignIn, isPaid: true, plan: 'Diamond', isFriendAndFamily: true, referrer: null };
       } else {
         userToSet = { 
             ...userToSignIn, 
             isPaid: isNewUser ? false : userToSignIn.isPaid ?? true, 
             isFriendAndFamily: false,
+            referrer: referrerUsername || null,
         };
-        if (isNewUser && referrerUsername) {
-            userToSet.referrer = referrerUsername;
-        }
       }
     } else {
       userToSet = defaultMockUser;
