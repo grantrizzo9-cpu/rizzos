@@ -33,7 +33,7 @@ const friendsAndFamilyEmails = [
 // Mock default user
 const defaultMockUser: User = {
   uid: 'mock-admin-user-123',
-  email: 'renntapog@gmail.com',
+  email: 'rentapog@gmail.com',
   displayName: 'Host Pro Ai Admin',
   username: 'hostproai',
   isPaid: true,

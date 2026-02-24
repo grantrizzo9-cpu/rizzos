@@ -467,7 +467,7 @@ function UserDashboard() {
 
 export default function DashboardOverviewPage() {
   const { user } = useAuth();
-  const isAdmin = user?.email === 'renntapog@gmail.com';
+  const isAdmin = user?.email === 'rentapog@gmail.com';
   const isFriendsAndFamily = user?.isFriendAndFamily;
 
   if (!user?.isPaid) {

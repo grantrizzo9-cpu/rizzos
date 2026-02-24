@@ -46,7 +46,7 @@ export function AuthForm({ mode, referrer }: AuthFormProps) {
         router.push('/dashboard/upgrade');
       } else {
         // For login, we check if it's the admin email.
-        if (email.toLowerCase() === 'renntapog@gmail.com') {
+        if (email.toLowerCase() === 'rentapog@gmail.com') {
           // If it's the admin, use the default signIn to log in as admin.
           signIn();
         } else {
