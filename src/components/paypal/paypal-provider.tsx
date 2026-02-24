@@ -13,7 +13,8 @@ type PayPalContextType = {
 const PayPalContext = createContext<PayPalContextType | undefined>(undefined);
 
 export function PayPalProvider({ children }: { children: ReactNode }) {
-  const isConfigured = !!(PAYPAL_CLIENT_ID && PAYPAL_CLIENT_ID !== 'YOUR_PAYPAL_CLIENT_ID_HERE' && PAYPAL_CLIENT_ID.length > 0);
+  // A more robust check to ensure the Client ID is not a placeholder.
+  const isConfigured = !!(PAYPAL_CLIENT_ID && !PAYPAL_CLIENT_ID.includes('YOUR_PAYPAL_'));
 
   if (!isConfigured) {
     if (process.env.NODE_ENV !== 'production') {
