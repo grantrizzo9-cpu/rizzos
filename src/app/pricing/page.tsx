@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -64,7 +65,7 @@ export default function PricingPage() {
               Find Your Edge. Start Earning Daily.
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
-              All plans are billed daily in AUD. Start with a 3-day trial by covering just the first day's activation fee to secure your NVMe slot.
+              Pay a one-time activation fee to start your 3-day free trial. After the trial, your daily plan fee is covered by the platform's 30% share from just two of your referrals, putting you in profit mode immediately.
             </p>
           </div>
 

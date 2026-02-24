@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -66,9 +67,24 @@ function AdminDashboard() {
     return total + (tier ? tier.price : 0);
   }, 0);
   
-  // Placeholders for future recurring payment logic
-  const totalRecurringPlatformShare = 0.00;
-  const totalRecurringAffiliatePayouts = 0.00;
+  // Simulate recurring payments for the admin view. Assume half are recurring.
+  const recurringReferrals = activatedReferrals.filter((_, index) => index % 2 !== 0);
+
+  const recurringRevenueDetails = recurringReferrals.reduce((acc, referral) => {
+    const affiliateReferralCount = platformReferrals.filter(r => r.affiliate === referral.affiliate && r.status === 'activated').length;
+    const commissionRate = affiliateReferralCount >= 10 ? 75 : 70;
+    
+    const tier = pricingTiers.find(t => t.name === referral.plan);
+    if (tier) {
+        const dailyPayment = tier.price;
+        acc.affiliatePayout += dailyPayment * (commissionRate / 100);
+        acc.platformShare += dailyPayment * ((100 - commissionRate) / 100);
+    }
+    return acc;
+  }, { platformShare: 0, affiliatePayout: 0 });
+
+  const totalRecurringPlatformShare = recurringRevenueDetails.platformShare;
+  const totalRecurringAffiliatePayouts = recurringRevenueDetails.affiliatePayout;
   const totalRefundsProcessed = 0.00;
 
   const totalPlatformEarnings = totalFirstPaymentsRevenue + totalRecurringPlatformShare - totalRefundsProcessed;

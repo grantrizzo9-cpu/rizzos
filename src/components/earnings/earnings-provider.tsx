@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
@@ -71,18 +72,12 @@ export const EarningsProvider = ({ children }: { children: ReactNode }) => {
 
     const processedReferrals: Referral[] = activatedReferrals.map((pr, index) => {
       let dailyCommission = 0;
-
-      // SIMULATION LOGIC:
-      // The first payment always goes to the platform owner (commission = $0).
-      // To demonstrate how recurring commissions work for affiliates, we'll simulate
-      // that every *second* referral is an "older" one on a recurring payment cycle.
-      const isRecurring = index % 2 !== 0;
-
-      if (isRecurring) {
-        const tier = pricingTiers.find(t => t.name === pr.plan);
-        if (tier) {
-          dailyCommission = tier.price * (commissionRate / 100);
-        }
+      const tier = pricingTiers.find(t => t.name === pr.plan);
+      
+      // In the affiliate's dashboard, we simulate that all their activated referrals
+      // are generating recurring daily commissions for them.
+      if (tier) {
+        dailyCommission = tier.price * (commissionRate / 100);
       }
       
       return {

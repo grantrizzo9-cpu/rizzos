@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -68,7 +69,7 @@ export default function UpgradePage() {
               {user?.isPaid ? "Upgrade Your Plan" : "Activate Your Plan"}
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
-              All plans are billed daily in AUD. Start with a 3-day trial by covering just the first day's activation fee to secure your NVMe slot.
+             Pay a one-time activation fee to start your 3-day trial. After the trial, your daily plan fee is covered by the platform's 30% share from just two of your referrals, putting you in profit mode immediately.
             </p>
         </div>
         {visibleTiers.length > 0 ? (

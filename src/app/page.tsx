@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -47,16 +48,16 @@ const whyPartnerFeatures = [
 
 const incomePathSteps = [
     {
-        title: "Create Your Account & Choose a Plan",
-        description: "Sign up to get your unique referral link. Your referred users will immediately appear on your dashboard.",
-    },
-    {
         title: "Activate Your 3-Day Trial",
-        description: "Pay a one-time activation fee to get instant access to your dashboard and tools. This fee goes to the platform owner, not your referrer.",
+        description: "Pay a one-time activation fee (equal to one day's plan cost) to secure your server resources and start your 3-day free trial. This fee goes 100% to the platform.",
     },
     {
-        title: "Promote, Refer & Get Paid Daily",
-        description: "Earn 70-75% commission on recurring daily sales from your referrals after their trial ends. Payouts are sent automatically to your PayPal every day.",
+        title: "Refer Two Users to Be Profitable",
+        description: "Share your unique affiliate link. Your daily plan cost is covered by the platform's 30% share from just two referrals on the same plan as you, putting you in profit mode.",
+    },
+    {
+        title: "Earn 70-75% Daily Profit",
+        description: "You earn 70% of every recurring daily payment from all your referrals. After 10 referrals, this increases to 75%. Payouts are sent automatically to your PayPal every day.",
     },
 ];
 

@@ -1,3 +1,4 @@
+
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import {
@@ -27,7 +28,7 @@ export default function FAQPage() {
             <AccordionItem value="item-2">
               <AccordionTrigger className="text-lg">How does the 3-day free trial work?</AccordionTrigger>
               <AccordionContent className="text-base text-muted-foreground">
-                To start your trial, you pay a one-time activation fee equal to one day of your chosen plan's cost. This secures your dedicated NVMe server resources. After that, you get three full days to use the platform completely free of charge. Your affiliate link is active from the moment you sign up, so you can start earning commissions even during your trial period. If you decide to continue, your daily billing will begin automatically after the three days. If you cancel within the trial, you won't be charged again.
+                To start your trial, you pay a one-time activation fee equal to one day of your chosen plan's cost. This secures your server resources and goes 100% to the platform owner. After that, you get a 3-day free trial to use all the tools and start referring others. Once your trial ends, your daily subscription cost is covered by the platform's 30% share from just two referrals on the same plan as you—meaning you only ever have to pay once to be in profit.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
