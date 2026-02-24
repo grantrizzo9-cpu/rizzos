@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import type { OnApproveData, CreateOrderData } from '@paypal/react-paypal-js';
 import { useAuth } from '@/components/auth/auth-provider';
 import { useToast } from '@/hooks/use-toast';
 import { type PricingTier } from '@/lib/site';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { usePayPal } from '@/components/paypal/paypal-provider';
 
 export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
     const { activateAccount } = useAuth();
@@ -17,7 +16,7 @@ export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | React.ReactNode | null>(null);
-    const { isPayPalConfigured } = usePayPal();
+    const [{ isPending, isRejected }] = usePayPalScriptReducer();
 
     const handleSuccessfulPayment = () => {
         activateAccount();
@@ -106,48 +105,56 @@ export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
         });
     };
 
-
-    if (isLoading) {
-        return <div className="flex justify-center items-center h-10"><Loader2 className="h-6 w-6 animate-spin" /></div>
+    if (isLoading || isPending) {
+        return <div className="flex justify-center items-center h-20"><Loader2 className="h-6 w-6 animate-spin" /></div>
+    }
+    
+    if (isRejected) {
+         return (
+            <div className="space-y-4">
+                <div className="text-center p-4 border rounded-lg bg-destructive/10 text-destructive">
+                    <h3 className="font-semibold text-sm mb-2">Error Loading PayPal</h3>
+                    <p className="text-xs">Could not load the payment buttons. Please check your PayPal Client ID and network connection.</p>
+                </div>
+                <Button variant="outline" className="w-full" onClick={handleSimulatePayment}>
+                    Simulate Successful Payment
+                 </Button>
+            </div>
+        )
     }
 
     return (
-        <>
+        <div className="w-full">
             {error && (
-                <div className="flex items-start gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive mb-2">
+                 <div className="flex items-start gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive mb-4">
                     <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
                     <div>{error}</div>
                 </div>
             )}
-            {isPayPalConfigured && (
-                <PayPalButtons
-                    style={{ layout: 'vertical', label: 'pay' }}
-                    forceReRender={[tier, error]}
-                    createOrder={createOrder}
-                    onApprove={onApprove}
-                    onError={onError}
-                    onCancel={onCancel}
-                    onClick={() => setError(null)}
-                />
-            )}
+            
+            <PayPalButtons
+                style={{ layout: 'vertical', label: 'pay' }}
+                forceReRender={[tier, error]}
+                createOrder={createOrder}
+                onApprove={onApprove}
+                onError={onError}
+                onCancel={onCancel}
+                onClick={() => setError(null)}
+            />
+            
             <div className="relative my-4">
                 <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
                     <span className="bg-card px-2 text-muted-foreground">
-                        For Development
+                        Or
                     </span>
                 </div>
             </div>
             <Button variant="outline" className="w-full" onClick={handleSimulatePayment}>
                 Simulate Successful Payment
             </Button>
-            {!isPayPalConfigured && (
-                 <p className="mt-2 text-xs text-center text-muted-foreground">
-                    To enable live PayPal payments, add your Sandbox Client ID to the .env file.
-                 </p>
-            )}
-        </>
+        </div>
     );
 }
