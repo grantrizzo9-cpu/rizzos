@@ -40,9 +40,20 @@ export default function UpgradePage() {
   const isAdmin = user?.email === 'renntapog@gmail.com';
   let visibleTiers: PricingTier[] = [];
 
-  // Admins and existing paid affiliates see all tiers to allow them to upgrade.
-  if (isAdmin || user.isPaid) {
+  if (isAdmin) {
+    // Admins see all tiers for management purposes.
     visibleTiers = pricingTiers;
+  } else if (user.isPaid && user.plan) {
+    // Paid users only see available upgrades, not their current or lower tiers.
+    const currentUserPlanIndex = pricingTiers.findIndex(t => t.name === user.plan);
+    
+    if (currentUserPlanIndex !== -1) {
+      // Show only tiers with a higher index than the user's current plan.
+      visibleTiers = pricingTiers.slice(currentUserPlanIndex + 1);
+    } else {
+      // Fallback: If user's plan is not found (should not happen), show all tiers to be safe.
+      visibleTiers = pricingTiers;
+    }
   } else {
     // This is a new, unpaid user. Their view is determined by their referrer.
     const affiliatePlanIndex = getAffiliatePlanIndex(user.referrer);
@@ -60,41 +71,54 @@ export default function UpgradePage() {
               All plans are billed daily in AUD. Start with a 3-day trial by covering just the first day's activation fee to secure your NVMe slot.
             </p>
         </div>
-
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {visibleTiers.map((tier) => (
-              <Card key={tier.id} className={cn("flex flex-col", tier.isPopular && visibleTiers.length > 1 && "border-primary ring-2 ring-primary")}>
-                {tier.isPopular && visibleTiers.length > 1 && (
-                  <div className="py-1.5 px-4 bg-primary text-center text-sm font-semibold text-primary-foreground rounded-t-lg -mt-px">
-                    Most Popular
-                  </div>
-                )}
-                <CardHeader>
-                  <CardTitle className="font-headline text-2xl">{tier.name}</CardTitle>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-bold tracking-tighter">${tier.price.toFixed(2)}</span>
-                    <span className="text-muted-foreground">/ day (AUD)</span>
-                  </div>
-                  <CardDescription>{tier.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <ul className="space-y-3">
-                    {tier.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-2">
-                        <Check className="h-5 w-5 text-primary" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardFooter>
-                  <div className="w-full">
-                    {user && <PayPalCheckoutButton tier={tier} />}
-                  </div>
-                </CardFooter>
-              </Card>
-            ))}
-        </div>
+        {visibleTiers.length > 0 ? (
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {visibleTiers.map((tier) => (
+                  <Card key={tier.id} className={cn("flex flex-col", tier.isPopular && visibleTiers.length > 1 && "border-primary ring-2 ring-primary")}>
+                    {tier.isPopular && visibleTiers.length > 1 && (
+                      <div className="py-1.5 px-4 bg-primary text-center text-sm font-semibold text-primary-foreground rounded-t-lg -mt-px">
+                        Most Popular
+                      </div>
+                    )}
+                    <CardHeader>
+                      <CardTitle className="font-headline text-2xl">{tier.name}</CardTitle>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-4xl font-bold tracking-tighter">${tier.price.toFixed(2)}</span>
+                        <span className="text-muted-foreground">/ day (AUD)</span>
+                      </div>
+                      <CardDescription>{tier.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                      <ul className="space-y-3">
+                        {tier.features.map((feature) => (
+                          <li key={feature} className="flex items-center gap-2">
+                            <Check className="h-5 w-5 text-primary" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                    <CardFooter>
+                      <div className="w-full">
+                        {user && <PayPalCheckoutButton tier={tier} />}
+                      </div>
+                    </CardFooter>
+                  </Card>
+                ))}
+            </div>
+        ) : (
+            user.isPaid && (
+                <Card className="max-w-2xl mx-auto text-center">
+                    <CardHeader>
+                        <CardTitle className="font-headline">You're at the Top!</CardTitle>
+                        <CardDescription>You are currently on our highest available plan.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <p>Thank you for being a top-tier partner! There are no further upgrades available at this time.</p>
+                    </CardContent>
+                </Card>
+            )
+        )}
         <div className="mt-12 text-center text-muted-foreground">
             <p><strong>Commission Structure:</strong> All plans start at a 70% recurring daily commission rate. <br /> Automatically upgrade to <strong>75%</strong> upon reaching 10 active referrals.</p>
         </div>
