@@ -69,17 +69,20 @@ export const strategyArticles: Article[] = [
        </div>
       
       <h4 class="font-headline text-lg font-semibold mt-4 mb-2">Adding the 'CNAME' Record for 'www':</h4>
-       <p class="mb-2">Now, add the 'CNAME' record to direct 'www' traffic:</p>
+       <p class="mb-2">The error "CNAME hostname must be unique" happens because you cannot add a CNAME record to the main domain section. You must create a subdomain first.</p>
+       <p class="mb-2">Based on your screenshot, here are the correct steps:</p>
       <ol class="list-decimal list-inside mb-4 space-y-2">
-        <li>In the DNS panel, add another new record.</li>
-        <li>In the 'Sub-Domain' or 'Host' field, type **www**.</li>
-        <li>Select **CNAME** as the 'Record Type'.</li>
-        <li>In the 'Hostname' or 'Value' field, enter your unique hosting address. You can copy it from the section above.</li>
-        <li>Save the record.</li>
+        <li><strong>Do not</strong> use the 'Record' dropdown where you are currently getting the error. Cancel or clear that change.</li>
+        <li>Find the section on the page that says <strong>'Add Sub-Domain'</strong>.</li>
+        <li>There is an input box next to this button that should already say 'www'. Click the **'Add Sub-Domain'** button.</li>
+        <li>This action will create a new DNS section specifically for your 'www' subdomain.</li>
+        <li>Go into the settings for the new 'www' subdomain you just created.</li>
+        <li>Inside that new section, add a **CNAME** record. Set the 'Hostname' or 'Value' to your unique hosting address: <code>[USER_CNAME_VALUE]</code></li>
+        <li>Save the changes for the subdomain.</li>
       </ol>
       <div class="my-4 p-2 border border-border rounded-lg bg-muted">
             <img src="https://picsum.photos/seed/dns-cname-record/800/250" alt="Example of setting up a CNAME record" class="rounded-md w-full" data-ai-hint="dns settings"/>
-            <p class="text-xs text-center p-2 text-muted-foreground">Example of a 'CNAME' Record configuration panel.</p>
+            <p class="text-xs text-center p-2 text-muted-foreground">Example of a 'CNAME' Record configuration panel for a subdomain.</p>
        </div>
 
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 4: Wait for Propagation</h3>
@@ -233,7 +236,7 @@ Page speed literally changes everything. If you run an online store, you NEED th
   {
     slug: 'linkedin-b2b-lead-gen',
     title: 'LinkedIn B2B Lead Gen',
-    description: 'Target professionals and businesses with precision on the world\'s largest professional network.',
+    description: "Target professionals and businesses with precision on the world's largest professional network.",
     image: 'strategy-4',
     content: `
       <h2 class="font-headline text-2xl font-bold mb-4 text-accent">LinkedIn B2B Domination</h2>
