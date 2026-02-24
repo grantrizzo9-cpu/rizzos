@@ -1,6 +1,6 @@
 "use client";
 
-import { AreaChart as AreaChartIcon, BarChart as BarChartIcon, DollarSign, Users, Percent, Link as LinkIcon, Info, TrendingUp, AlertCircle, Package, ShieldAlert, LayoutDashboard, CreditCard } from "lucide-react";
+import { AreaChart as AreaChartIcon, BarChart as BarChartIcon, DollarSign, Users, Percent, Link as LinkIcon, Info, TrendingUp, AlertCircle, Package, ShieldAlert, LayoutDashboard, CreditCard, Heart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +25,12 @@ const chartConfig = {
     color: "hsl(var(--destructive))",
   }
 };
+
+// Add the email addresses of friends and family here to give them a special dashboard view
+const friendsAndFamilyEmails = [
+    'friend@example.com',
+    'family@example.com',
+];
 
 function AdminDashboard() {
   return (
@@ -150,6 +156,25 @@ function AdminDashboard() {
         </Card>
     </div>
   );
+}
+
+function FriendsAndFamilyDashboard() {
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle className="font-headline text-2xl flex items-center gap-2">
+                    <Heart className="text-destructive" />
+                    Friends & Family Dashboard
+                </CardTitle>
+                <CardDescription>
+                    Welcome! We've given you a special dashboard with full access to all features.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <p>Enjoy the platform! We appreciate you being part of our journey.</p>
+            </CardContent>
+        </Card>
+    );
 }
 
 function ActivationCard() {
@@ -320,10 +345,21 @@ function UserDashboard() {
 export default function DashboardOverviewPage() {
     const { user } = useAuth();
     const isAdmin = user?.email === 'renntapog@gmail.com';
+    const isFriendsAndFamily = user?.email ? friendsAndFamilyEmails.includes(user.email) : false;
 
     if (!user?.isPaid) {
         return <ActivationCard />;
     }
 
-    return isAdmin ? <AdminDashboard /> : <UserDashboard />;
+    if (isAdmin) {
+        return <AdminDashboard />;
+    }
+
+    if (isFriendsAndFamily) {
+        return <FriendsAndFamilyDashboard />;
+    }
+
+    return <UserDashboard />;
 }
+
+    
