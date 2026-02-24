@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth/auth-provider';
+import { useReferrals } from '@/components/referrals/referral-provider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -17,6 +18,7 @@ type AuthFormProps = {
 export function AuthForm({ mode, referrer }: AuthFormProps) {
   const router = useRouter();
   const { signIn } = useAuth();
+  const { addReferral } = useReferrals();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +31,12 @@ export function AuthForm({ mode, referrer }: AuthFormProps) {
     // Mocking auth flow
     setTimeout(() => {
       if (mode === 'signup') {
+        addReferral({
+          referredUser: username,
+          email: email,
+          affiliate: referrer || 'hostproai', // Default to platform owner if no referrer
+        });
+
         signIn({
           uid: `mock-user-${Date.now()}`,
           email: email,

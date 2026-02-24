@@ -1,24 +1,19 @@
 'use client';
 
-import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { UserCheck } from "lucide-react";
-import { platformReferrals as initialReferrals } from "@/lib/mock-data";
 import { useToast } from '@/hooks/use-toast';
+import { useReferrals } from "@/components/referrals/referral-provider"; // Import useReferrals
 
 export default function AdminActivationsPage() {
-    const [referrals, setReferrals] = useState(initialReferrals);
+    const { referrals, activateReferral } = useReferrals(); // Use context
     const { toast } = useToast();
 
     const handleActivate = (email: string) => {
-        setReferrals(currentReferrals =>
-            currentReferrals.map(r =>
-                r.email === email ? { ...r, status: 'activated' } : r
-            )
-        );
+        activateReferral(email); // Call context function
         toast({
             title: "User Activated",
             description: `The account for ${email} has been successfully activated.`,

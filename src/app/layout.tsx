@@ -3,6 +3,7 @@ import { AuthProvider } from '@/components/auth/auth-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { PayPalProvider } from '@/components/paypal/paypal-provider';
 import { EarningsProvider } from '@/components/earnings/earnings-provider';
+import { ReferralProvider } from '@/components/referrals/referral-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -26,12 +27,14 @@ export default function RootLayout({
       <body className="font-body bg-background text-foreground antialiased">
         <PayPalProvider>
           <AuthProvider>
-            <EarningsProvider>
-              <div className="flex min-h-screen flex-col">
-                {children}
-              </div>
-              <Toaster />
-            </EarningsProvider>
+            <ReferralProvider>
+              <EarningsProvider>
+                <div className="flex min-h-screen flex-col">
+                  {children}
+                </div>
+                <Toaster />
+              </EarningsProvider>
+            </ReferralProvider>
           </AuthProvider>
         </PayPalProvider>
       </body>

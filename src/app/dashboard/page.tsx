@@ -5,10 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { AreaChart, Area, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
-import { platformReferrals } from "@/lib/mock-data";
+// No longer need to import platformReferrals from mock-data here
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { useAuth } from "@/components/auth/auth-provider";
 import { useEarnings } from "@/components/earnings/earnings-provider";
+import { useReferrals } from "@/components/referrals/referral-provider"; // Import useReferrals
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -27,6 +28,7 @@ const chartConfig = {
 };
 
 function AdminDashboard() {
+  const { referrals: platformReferrals } = useReferrals(); // Use context
   const pendingActivationsCount = platformReferrals.filter(r => r.status === 'pending').length;
 
   return (
@@ -79,7 +81,7 @@ function AdminDashboard() {
                     <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">+22</div>
+                    <div className="text-2xl font-bold">+{platformReferrals.length}</div>
                     <p className="text-xs text-muted-foreground">Total users referred across the entire platform.</p>
                 </CardContent>
             </Card>
@@ -104,7 +106,7 @@ function AdminDashboard() {
                     <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">47</div>
+                    <div className="text-2xl font-bold">{platformReferrals.length + 1}</div> {/* +1 for the admin user */}
                     <p className="text-xs text-muted-foreground">Total number of user accounts on the platform.</p>
                 </CardContent>
             </Card>
@@ -114,7 +116,7 @@ function AdminDashboard() {
                     <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">47</div>
+                    <div className="text-2xl font-bold">{platformReferrals.length + 1}</div> {/* +1 for the admin user */}
                     <p className="text-xs text-muted-foreground">Total users who are active affiliates.</p>
                 </CardContent>
             </Card>
