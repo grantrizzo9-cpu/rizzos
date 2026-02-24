@@ -1,22 +1,18 @@
 "use client";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, ArrowUpCircle } from "lucide-react";
+import { Check, ArrowUpCircle, Lock } from "lucide-react";
 import { pricingTiers } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/auth/auth-provider";
 import { PayPalCheckoutButton } from "@/components/paypal/paypal-checkout-button";
+import { Button } from "@/components/ui/button";
 
 export default function UpgradePage() {
   const { user } = useAuth();
   const isAdmin = user?.email === 'renntapog@gmail.com';
 
-  const userPlanIndex = pricingTiers.findIndex(tier => tier.name === user?.plan);
-
-  const visibleTiers = isAdmin || userPlanIndex === -1 
-    ? pricingTiers 
-    : pricingTiers.slice(0, userPlanIndex + 1);
-
+  const goldTierIndex = pricingTiers.findIndex(tier => tier.name === 'Gold');
 
   return (
     <div className="space-y-8">
@@ -31,9 +27,14 @@ export default function UpgradePage() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {visibleTiers.map((tier) => (
-              <Card key={tier.id} className={cn("flex flex-col", tier.isPopular && "border-primary ring-2 ring-primary")}>
-                {tier.isPopular && (
+            {pricingTiers.map((tier, index) => {
+              const isNewUser = !user?.isPaid;
+              // For new users, lock plans above Gold. Admins see everything.
+              const isLocked = isNewUser && !isAdmin && index > goldTierIndex;
+
+              return (
+              <Card key={tier.id} className={cn("flex flex-col", tier.isPopular && !isLocked && "border-primary ring-2 ring-primary", isLocked && "bg-muted/50")}>
+                {tier.isPopular && !isLocked && (
                   <div className="py-1.5 px-4 bg-primary text-center text-sm font-semibold text-primary-foreground rounded-t-lg -mt-px">
                     Most Popular
                   </div>
@@ -50,8 +51,8 @@ export default function UpgradePage() {
                   <ul className="space-y-3">
                     {tier.features.map((feature) => (
                       <li key={feature} className="flex items-center gap-2">
-                        <Check className="h-5 w-5 text-primary" />
-                        <span>{feature}</span>
+                        <Check className={cn("h-5 w-5", isLocked ? "text-muted-foreground" : "text-primary")} />
+                        <span className={cn(isLocked && "text-muted-foreground")}>{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -59,12 +60,19 @@ export default function UpgradePage() {
                 <CardFooter>
                   <div className="w-full">
                     {user && (
+                      isLocked ? (
+                         <Button disabled className="w-full">
+                            <Lock className="mr-2 h-4 w-4" />
+                            Activate a lower plan to unlock
+                         </Button>
+                      ) : (
                         <PayPalCheckoutButton tier={tier} />
+                      )
                     )}
                   </div>
                 </CardFooter>
               </Card>
-            ))}
+            )})}
         </div>
         <div className="mt-12 text-center text-muted-foreground">
             <p><strong>Commission Structure:</strong> All plans start at a 70% recurring daily commission rate. <br /> Automatically upgrade to <strong>75%</strong> upon reaching 10 active referrals.</p>
