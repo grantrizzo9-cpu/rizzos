@@ -10,12 +10,10 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/auth/auth-provider";
 import { useRouter } from "next/navigation";
 import { PayPalCheckoutButton } from "@/components/paypal/paypal-checkout-button";
-import { usePayPal } from "@/components/paypal/paypal-provider";
 
 export default function PricingPage() {
   const { user } = useAuth();
   const router = useRouter();
-  const { isPayPalConfigured } = usePayPal();
 
   return (
     <>
@@ -60,11 +58,7 @@ export default function PricingPage() {
                 <CardFooter>
                   <div className="w-full">
                     {user && !user.isPaid ? (
-                        isPayPalConfigured ? (
-                          <PayPalCheckoutButton tier={tier} />
-                        ) : (
-                           <Button className="w-full" disabled>PayPal Not Configured</Button>
-                        )
+                        <PayPalCheckoutButton tier={tier} />
                     ) : (
                       <Button
                         className="w-full"

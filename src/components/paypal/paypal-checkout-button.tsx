@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { type PricingTier } from '@/lib/site';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePayPal } from '@/components/paypal/paypal-provider';
 
 export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
     const { activateAccount } = useAuth();
@@ -16,6 +17,7 @@ export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | React.ReactNode | null>(null);
+    const { isPayPalConfigured } = usePayPal();
 
     const handleSuccessfulPayment = () => {
         activateAccount();
@@ -117,15 +119,17 @@ export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
                     <div>{error}</div>
                 </div>
             )}
-            <PayPalButtons
-                style={{ layout: 'vertical', label: 'pay' }}
-                forceReRender={[tier, error]}
-                createOrder={createOrder}
-                onApprove={onApprove}
-                onError={onError}
-                onCancel={onCancel}
-                onClick={() => setError(null)}
-            />
+            {isPayPalConfigured && (
+                <PayPalButtons
+                    style={{ layout: 'vertical', label: 'pay' }}
+                    forceReRender={[tier, error]}
+                    createOrder={createOrder}
+                    onApprove={onApprove}
+                    onError={onError}
+                    onCancel={onCancel}
+                    onClick={() => setError(null)}
+                />
+            )}
             <div className="relative my-4">
                 <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
@@ -139,6 +143,11 @@ export function PayPalCheckoutButton({ tier }: { tier: PricingTier }) {
             <Button variant="outline" className="w-full" onClick={handleSimulatePayment}>
                 Simulate Successful Payment
             </Button>
+            {!isPayPalConfigured && (
+                 <p className="mt-2 text-xs text-center text-muted-foreground">
+                    To enable live PayPal payments, add your Sandbox Client ID to the .env file.
+                 </p>
+            )}
         </>
     );
 }
