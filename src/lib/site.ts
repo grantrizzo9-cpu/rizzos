@@ -391,34 +391,93 @@ export type PricingTier = {
   isPopular?: boolean;
 };
 
+const starterGuides = [
+  'Guide: Infrastructure as Income',
+  'Guide: Facebook Ads Playbook',
+];
+
+const bronzeGuides = [
+  ...starterGuides,
+  'Guide: Roadmap to 10 Referrals (75% Bump)',
+  'Guide: X (Twitter) Ads Strategy',
+];
+
+const silverGuides = [
+  ...bronzeGuides,
+  'Guide: AI Content Velocity',
+  'Guide: TikTok Viral Marketing',
+];
+
+const goldGuides = [
+  ...silverGuides,
+  'Guide: NVMe Edge SEO Advantage',
+  'Guide: LinkedIn B2B Lead Gen',
+];
+
+const platinumGuides = [
+  ...goldGuides,
+  'Guide: Daily PayPal Cashflow Management',
+];
+
+const diamondGuides = [
+  ...platinumGuides,
+  'Guide: 1-Click Niche Site Scaling',
+];
+
 export const pricingTiers: PricingTier[] = [
   {
     id: 'starter',
     name: 'Starter',
     price: 9.95,
     description: 'For marketers starting their journey.',
-    features: ['1 Hosted Site', 'NVMe Edge Storage', 'Basic AI Tools (Ad Copy)', '70% Commission Rate'],
+    features: [
+      '1 Hosted Site',
+      'NVMe Edge Storage',
+      'Basic AI Tools (Ad Copy)',
+      '70% Commission Rate',
+      ...starterGuides,
+    ],
   },
   {
     id: 'bronze',
     name: 'Bronze',
     price: 29.95,
     description: 'For marketers expanding their portfolio.',
-    features: ['5 Hosted Sites', 'NVMe Edge Storage', 'AI Blog, Article & Website Creation', '70% Commission Rate'],
+    features: [
+      '5 Hosted Sites',
+      'NVMe Edge Storage',
+      'AI Blog, Article & Website Creation',
+      '70% Commission Rate',
+      ...bronzeGuides,
+    ],
   },
   {
     id: 'silver',
     name: 'Silver',
     price: 49.95,
     description: 'For marketers expanding their portfolio.',
-    features: ['15 Hosted Sites', 'NVMe Edge Storage', 'AI Blog, Article & Website Creation', '70% Commission Rate', 'Priority Support'],
+    features: [
+      '15 Hosted Sites',
+      'NVMe Edge Storage',
+      'AI Blog, Article & Website Creation',
+      '70% Commission Rate',
+      'Priority Support',
+      ...silverGuides,
+    ],
   },
   {
     id: 'gold',
     name: 'Gold',
     price: 99.95,
     description: 'For serious marketers scaling their operations.',
-    features: ['50 Hosted Sites', 'NVMe Edge Storage', 'AI Blog, Article & Website Creation', '75% Commission Rate', 'Priority Support'],
+    features: [
+      '50 Hosted Sites',
+      'NVMe Edge Storage',
+      'AI Blog, Article & Website Creation',
+      '75% Commission Rate',
+      'Priority Support',
+      ...goldGuides,
+    ],
     isPopular: true,
   },
   {
@@ -426,13 +485,28 @@ export const pricingTiers: PricingTier[] = [
     name: 'Platinum',
     price: 199.95,
     description: 'For affiliate teams managing multiple brands.',
-    features: ['150 Hosted Sites', 'NVMe Edge Storage', 'AI Blog, Article & Website Creation', '75% Commission Rate', 'Priority Support'],
+    features: [
+      '150 Hosted Sites',
+      'NVMe Edge Storage',
+      'AI Blog, Article & Website Creation',
+      '75% Commission Rate',
+      'Priority Support',
+      ...platinumGuides,
+    ],
   },
   {
     id: 'diamond',
     name: 'Diamond',
     price: 499.00,
     description: 'For agencies and large-scale businesses.',
-    features: ['Unlimited Hosted Sites', 'NVMe Edge Storage', 'Full AI Suite with Video Generation', '75% Commission Rate', 'Dedicated Account Manager', 'Whitelabel Solution'],
+    features: [
+      'Unlimited Hosted Sites',
+      'NVMe Edge Storage',
+      'Full AI Suite with Video Generation',
+      '75% Commission Rate',
+      'Dedicated Account Manager',
+      'Whitelabel Solution',
+      ...diamondGuides,
+    ],
   },
 ];
