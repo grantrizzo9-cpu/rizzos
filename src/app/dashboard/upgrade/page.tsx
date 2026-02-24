@@ -9,6 +9,14 @@ import { PayPalCheckoutButton } from "@/components/paypal/paypal-checkout-button
 
 export default function UpgradePage() {
   const { user } = useAuth();
+  const isAdmin = user?.email === 'renntapog@gmail.com';
+
+  const userPlanIndex = pricingTiers.findIndex(tier => tier.name === user?.plan);
+
+  const visibleTiers = isAdmin || userPlanIndex === -1 
+    ? pricingTiers 
+    : pricingTiers.slice(0, userPlanIndex + 1);
+
 
   return (
     <div className="space-y-8">
@@ -23,7 +31,7 @@ export default function UpgradePage() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {pricingTiers.map((tier) => (
+            {visibleTiers.map((tier) => (
               <Card key={tier.id} className={cn("flex flex-col", tier.isPopular && "border-primary ring-2 ring-primary")}>
                 {tier.isPopular && (
                   <div className="py-1.5 px-4 bg-primary text-center text-sm font-semibold text-primary-foreground rounded-t-lg -mt-px">
