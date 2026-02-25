@@ -214,8 +214,8 @@ export function generateHtmlForWebsite(
             <div class="container mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-sm opacity-70">&copy; ${new Date().getFullYear()} ${homepage.title}. All rights reserved.</p>
                 <div class="flex gap-4 text-sm">
-                    <a href="#" class="hover:text-primary" onclick="event.preventDefault(); showPage('page-terms')">Terms</a>
-                    <a href="#" class="hover:text-primary" onclick="event.preventDefault(); showPage('page-privacy')">Privacy</a>
+                    <a href="#" class="hover:text-primary" onclick="event.preventDefault(); showPage('page-terms')">Terms & Conditions</a>
+                    <a href="#" class="hover:text-primary" onclick="event.preventDefault(); showPage('page-privacy')">Privacy Policy</a>
                     <a href="#" class="hover:text-primary" onclick="event.preventDefault(); showPage('page-disclaimer')">Disclaimer</a>
                 </div>
             </div>
