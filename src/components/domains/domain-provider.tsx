@@ -1,6 +1,8 @@
+
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
+import { useAuth } from '@/components/auth/auth-provider';
 
 export interface ConnectedDomain {
   name: string;
@@ -14,40 +16,51 @@ interface DomainContextType {
 }
 
 const DomainContext = createContext<DomainContextType | undefined>(undefined);
-const LOCAL_STORAGE_KEY = 'connectedDomains';
-
-const getInitialState = (): ConnectedDomain[] => {
-  if (typeof window === 'undefined') {
-    return [];
-  }
-  try {
-    const item = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-    return item ? JSON.parse(item) : [];
-  } catch (error) {
-    console.error("Failed to read domains from localStorage.", error);
-    return [];
-  }
-};
 
 export const DomainProvider = ({ children }: { children: ReactNode }) => {
-  const [domains, setDomains] = useState<ConnectedDomain[]>(getInitialState);
+  const { user } = useAuth();
+  const [domains, setDomains] = useState<ConnectedDomain[]>([]);
+  
+  // Create a user-specific key for local storage
+  const userStorageKey = user ? `connectedDomains_${user.uid}` : null;
 
+  // Load domains from local storage when the user changes
   useEffect(() => {
-    try {
-      window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(domains));
-    } catch (error) {
-      console.error("Failed to write domains to localStorage", error);
+    if (userStorageKey) {
+      try {
+        const item = window.localStorage.getItem(userStorageKey);
+        setDomains(item ? JSON.parse(item) : []);
+      } catch (error) {
+        console.error("Failed to read domains from localStorage.", error);
+        setDomains([]);
+      }
+    } else {
+      // If there's no user, clear the domains list
+      setDomains([]);
     }
-  }, [domains]);
+  }, [userStorageKey]);
+
+  // Save domains to local storage whenever they change
+  useEffect(() => {
+    if (userStorageKey) {
+      try {
+        window.localStorage.setItem(userStorageKey, JSON.stringify(domains));
+      } catch (error) {
+        console.error("Failed to write domains to localStorage", error);
+      }
+    }
+  }, [domains, userStorageKey]);
 
   const addDomain = useCallback((name: string) => {
-    if (!name || domains.some(d => d.name === name)) return;
-    const newDomain: ConnectedDomain = {
-      name,
-      connectedAt: new Date().toISOString(),
-    };
-    setDomains(prev => [newDomain, ...prev]);
-  }, [domains]);
+    setDomains(prev => {
+      if (!name || prev.some(d => d.name === name)) return prev;
+      const newDomain: ConnectedDomain = {
+        name,
+        connectedAt: new Date().toISOString(),
+      };
+      return [newDomain, ...prev];
+    });
+  }, []);
   
   const removeDomain = useCallback((name: string) => {
     setDomains(prev => prev.filter(d => d.name !== name));
