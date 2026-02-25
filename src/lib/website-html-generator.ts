@@ -50,7 +50,7 @@ export function generateHtmlForWebsite(
   username: string
 ): string {
   const { homepage, legal } = data;
-  const affiliateLink = `https://hostproai.com/?ref=${username}`;
+  const affiliateLink = `https://hostproai.com/signup?ref=${username}&theme=${encodeURIComponent(theme.name)}`;
 
   const themeStyles = Object.entries(theme.colors)
     .map(([key, value]) => `${key}: ${value};`)

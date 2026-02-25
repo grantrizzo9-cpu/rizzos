@@ -1,7 +1,7 @@
 
-"use client";
+'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth/auth-provider';
 import { useReferrals } from '@/components/referrals/referral-provider';
@@ -10,10 +10,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
+import { themes } from '@/lib/data';
 
 type AuthFormProps = {
   mode: 'login' | 'signup';
   referrer?: string;
+  themeName?: string;
 };
 
 // Simple hash function for consistent ID generation
@@ -28,7 +30,7 @@ const simpleHash = (str: string) => {
 };
 
 
-export function AuthForm({ mode, referrer }: AuthFormProps) {
+export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
   const router = useRouter();
   const { signIn } = useAuth();
   const { addReferral } = useReferrals();
@@ -36,6 +38,29 @@ export function AuthForm({ mode, referrer }: AuthFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    if (themeName) {
+      const selectedTheme = themes.find(t => t.name === decodeURIComponent(themeName));
+      if (selectedTheme) {
+        const root = document.documentElement;
+        
+        // Apply new styles
+        const themeColorKeys = Object.keys(selectedTheme.colors);
+        themeColorKeys.forEach(key => {
+            root.style.setProperty(key, selectedTheme.colors[key as keyof typeof selectedTheme.colors]);
+        });
+
+        // Cleanup function to remove the inline styles when the component unmounts
+        return () => {
+          themeColorKeys.forEach(key => {
+              root.style.removeProperty(key);
+          });
+        };
+      }
+    }
+  }, [themeName]);
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,7 +109,7 @@ export function AuthForm({ mode, referrer }: AuthFormProps) {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-background">
       <Card className="w-full max-w-sm">
         <form onSubmit={handleSubmit}>
           <CardHeader>
