@@ -25,7 +25,7 @@ export interface Earning {
 // Chart data types
 export interface DailyEarning {
   date: string; // e.g., 'Mon', 'Tue'
-  earnings: number;
+  [plan: string]: number | string;
 }
 
 export interface MonthlyReferral {
@@ -70,25 +70,25 @@ export const EarningsProvider = ({ children }: { children: ReactNode }) => {
     // Determine the correct commission rate
     const commissionRate = activatedReferrals.length >= 10 ? 75 : 70;
 
-    const processedReferrals: Referral[] = activatedReferrals.map((pr, index) => {
+    const processedReferrals: Referral[] = myPlatformReferrals.map((pr, index) => {
       let dailyCommission = 0;
       const tier = pricingTiers.find(t => t.name === pr.plan);
+      let status: 'Active' | 'Trial' = 'Trial';
       
-      // In the affiliate's dashboard, we simulate that all their activated referrals
-      // are generating recurring daily commissions for them.
-      if (tier) {
-        dailyCommission = tier.price * (commissionRate / 100);
+      if (pr.status === 'activated') {
+          status = 'Active';
+          if (tier) {
+              dailyCommission = tier.price * (commissionRate / 100);
+          }
       }
       
       return {
         id: pr.email,
         email: pr.email,
         plan: pr.plan,
-        // The user dashboard expects 'Active', 'Trial', or 'Canceled'.
-        // We map 'activated' to 'Active' for display purposes.
-        status: 'Active',
+        status: status,
         commission: dailyCommission,
-        date: new Date(), // Mock date, not available in platform referral data
+        date: new Date(new Date().setDate(new Date().getDate() - (index % 7))), // Spread dates over last 7 days
       };
     });
 
@@ -108,19 +108,34 @@ export const EarningsProvider = ({ children }: { children: ReactNode }) => {
   const addEarning = () => {};
 
   const processEarningsForChart = (): DailyEarning[] => {
-    const dailyTotals: { [key: string]: number } = { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0 };
-    
-    earnings.forEach(earning => {
-        const dayOfWeek = format(earning.date, 'E'); // Mon, Tue, etc.
-        if (dayOfWeek in dailyTotals) {
-            dailyTotals[dayOfWeek] += earning.amount;
+    const days = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        return d;
+    }).reverse();
+
+    const dailyData = days.map(d => ({
+      date: format(d, 'E'),
+    }));
+
+    const dailyTotals: DailyEarning[] = dailyData.map(d => ({...d}));
+
+    referrals.forEach(referral => {
+      if (referral.status === 'Active' && referral.commission > 0) {
+        const referralDateStr = format(referral.date, 'yyyy-MM-dd');
+        const matchingDayIndex = days.findIndex(d => format(d, 'yyyy-MM-dd') === referralDateStr);
+
+        if (matchingDayIndex !== -1) {
+          const planName = referral.plan;
+          if (!dailyTotals[matchingDayIndex][planName]) {
+            dailyTotals[matchingDayIndex][planName] = 0;
+          }
+          (dailyTotals[matchingDayIndex][planName] as number) += referral.commission;
         }
+      }
     });
 
-    return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => ({
-        date: day,
-        earnings: dailyTotals[day] || 0
-    }));
+    return dailyTotals;
   };
   
   const processReferralsForChart = (): MonthlyReferral[] => {

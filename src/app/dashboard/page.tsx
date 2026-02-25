@@ -45,14 +45,16 @@ import Link from 'next/link';
 import { pricingTiers } from '@/lib/site';
 
 const chartConfig = {
-  earnings: {
-    label: 'Earnings (AUD)',
-    color: 'hsl(var(--primary))',
-  },
   referrals: {
     label: 'Referrals',
     color: 'hsl(var(--destructive))',
   },
+  Starter: { label: 'Starter', color: 'hsl(var(--chart-1))' },
+  Bronze: { label: 'Bronze', color: 'hsl(var(--chart-2))' },
+  Silver: { label: 'Silver', color: 'hsl(var(--chart-3))' },
+  Gold: { label: 'Gold', color: 'hsl(var(--chart-4))' },
+  Platinum: { label: 'Platinum', color: 'hsl(var(--chart-5))' },
+  Diamond: { label: 'Diamond', color: 'hsl(var(--chart-2))' }, // Re-use color
 };
 
 function AdminDashboard() {
@@ -387,7 +389,7 @@ function UserDashboard() {
           <CardHeader>
             <CardTitle className="font-headline flex items-center gap-2">
               <AreaChartIcon className="h-5 w-5" />
-              Daily Earnings (This Week)
+              Daily Earnings by Plan (This Week)
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -395,15 +397,19 @@ function UserDashboard() {
               <AreaChart data={dailyEarnings} margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={8} />
-                <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-                <Tooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
-                <Area
-                  dataKey="earnings"
-                  type="monotone"
-                  fill="var(--color-earnings)"
-                  fillOpacity={0.4}
-                  stroke="var(--color-earnings)"
-                />
+                <YAxis tickLine={false} axisLine={false} tickMargin={8} tickFormatter={(value) => `$${value as number}`} />
+                <ChartTooltipContent indicator="dot" />
+                {pricingTiers.map((tier) => (
+                    <Area
+                        key={tier.id}
+                        dataKey={tier.name}
+                        type="monotone"
+                        stackId="a"
+                        fill={`var(--color-${tier.name})`}
+                        fillOpacity={0.4}
+                        stroke={`var(--color-${tier.name})`}
+                    />
+                ))}
               </AreaChart>
             </ChartContainer>
           </CardContent>
@@ -424,7 +430,7 @@ function UserDashboard() {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
                 <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-                <Tooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
+                <ChartTooltipContent indicator="dot" />
                 <Bar dataKey="referrals" fill="var(--color-referrals)" radius={4} />
               </BarChart>
             </ChartContainer>
