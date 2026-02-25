@@ -29,6 +29,48 @@ const simpleHash = (str: string) => {
   return `user_${Math.abs(hash).toString(16)}`;
 };
 
+// Re-defining user type here as we can't import it from auth-provider.
+interface MockUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  username: string | null;
+  isPaid?: boolean;
+  plan?: string;
+  isFriendAndFamily?: boolean;
+  referrer?: string | null;
+}
+
+// Mock user DB functions
+const MOCK_USER_DB_KEY = 'mock_user_db';
+
+const getMockUserDB = (): MockUser[] => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const db = window.localStorage.getItem(MOCK_USER_DB_KEY);
+    return db ? JSON.parse(db) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveMockUserDB = (db: MockUser[]) => {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(MOCK_USER_DB_KEY, JSON.stringify(db));
+};
+
+const findUserByEmail = (email: string): MockUser | undefined => {
+  const db = getMockUserDB();
+  return db.find(u => u.email?.toLowerCase() === email.toLowerCase());
+}
+
+const addUserToDB = (user: MockUser) => {
+    const db = getMockUserDB();
+    // remove user if exists to avoid duplicates, then add the new one
+    const filteredDb = db.filter(u => u.email?.toLowerCase() !== user.email?.toLowerCase());
+    saveMockUserDB([...filteredDb, user]);
+}
+
 
 export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
   const router = useRouter();
@@ -45,13 +87,11 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
       if (selectedTheme) {
         const root = document.documentElement;
         
-        // Apply new styles
         const themeColorKeys = Object.keys(selectedTheme.colors);
         themeColorKeys.forEach(key => {
             root.style.setProperty(key, selectedTheme.colors[key as keyof typeof selectedTheme.colors]);
         });
 
-        // Cleanup function to remove the inline styles when the component unmounts
         return () => {
           themeColorKeys.forEach(key => {
               root.style.removeProperty(key);
@@ -66,46 +106,58 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
     e.preventDefault();
     setIsLoading(true);
 
-    // Mocking auth flow
-    setTimeout(() => {
+    // Mock network delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    if (mode === 'signup') {
+      const existingUser = findUserByEmail(email);
+      if (existingUser) {
+          alert("User with this email already exists. Please log in.");
+          setIsLoading(false);
+          return;
+      }
+
       const stableUid = simpleHash(email.toLowerCase());
-
-      if (mode === 'signup') {
-        addReferral({
-          referredUser: username,
-          email: email,
-          affiliate: referrer || 'hostproai', // Default to platform owner if no referrer
-        });
-
-        signIn({
+      const newUser: MockUser = {
           uid: stableUid,
           email: email,
           displayName: username,
           username: username,
-        }, true, referrer);
-        router.push('/dashboard/upgrade');
+          isPaid: false,
+          plan: undefined,
+          isFriendAndFamily: false,
+          referrer: referrer || null,
+      };
+      
+      addUserToDB(newUser);
+
+      addReferral({
+          referredUser: username,
+          email: email,
+          affiliate: referrer || 'hostproai',
+      });
+
+      // The `as any` cast is necessary because MockUser is defined locally.
+      signIn(newUser as any, true, referrer);
+      router.push('/dashboard/upgrade');
+
+    } else { // Login mode
+      if (email.toLowerCase() === 'rentapog@gmail.com') {
+          signIn(); // Special case for admin login
+          router.push('/dashboard');
       } else {
-        // For login, we check if it's the admin email.
-        if (email.toLowerCase() === 'rentapog@gmail.com') {
-          // If it's the admin, use the default signIn to log in as admin.
-          signIn();
-        } else {
-          // For any other user, create a mock user object.
-          // This simulates fetching existing user data based on their now-stable ID.
-          const mockLoggedInUser = {
-              uid: stableUid,
-              email: email,
-              displayName: username || email.split('@')[0],
-              username: username || email.split('@')[0],
-              isPaid: true, // Assuming existing users are paid for simulation
-              plan: 'Gold', // Mock a default plan for existing users
-          };
-          signIn(mockLoggedInUser);
-        }
-        router.push('/dashboard');
+          const existingUser = findUserByEmail(email);
+          if (existingUser) {
+              // In a real app, you would verify the password here.
+              // We pass the full, correct user object from our mock DB.
+              signIn(existingUser as any, false);
+              router.push('/dashboard');
+          } else {
+              alert("No user found with this email. Please sign up first.");
+              setIsLoading(false);
+          }
       }
-      setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
