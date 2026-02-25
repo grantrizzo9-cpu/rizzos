@@ -20,7 +20,7 @@ export const strategyArticles: Article[] = [
       
       <h2 class="font-headline text-2xl font-bold mt-8 mb-4 text-accent">Understanding Your Unique CNAME Value</h2>
       <p class="mb-4">In the records below, you will see a value like <code>[USER_CNAME_VALUE]</code>. This unique address is automatically generated from your account username. For example, if your username is "rizzosaipro", your unique address will be <code>rizzosaipro.hostproai.com</code>.</p>
-      <p class="mb-4"><strong>If you would prefer a different username</strong>, you can change it in your <a href="/dashboard/settings" target="_blank" class="font-bold text-primary hover:underline">Account Settings</a> page. Your CNAME value will update automatically.</p>
+      <p class="mb-4"><strong>If you would prefer a different username</strong>, you can change it in your <a href="/dashboard/settings" class="font-bold text-primary hover:underline">Account Settings</a> page. Your CNAME value will update automatically.</p>
       
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 1: The Required DNS Records</h3>
       <p class="mb-4">You will need to add the following records at your domain registrar:</p>
