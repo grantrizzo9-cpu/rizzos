@@ -118,20 +118,6 @@ export default function HostingPage() {
                             </Button>
                         </AlertDescription>
                     </Alert>
-
-                    <Alert>
-                        <Info className="h-4 w-4" />
-                        <AlertTitle>Seeing a "Site Not Found" page?</AlertTitle>
-                        <AlertDescription>
-                            <p>This is the final step and means you've correctly added your domain in Firebase! This page appears because Firebase is finishing the setup.</p>
-                             <p className="mt-2">This can happen for two reasons:</p>
-                            <ul className="list-disc pl-5 mt-2 space-y-1 text-xs">
-                                <li><strong>Propagation:</strong> It can take from a few minutes up to an hour for Firebase to provision the SSL certificate and connect your domain worldwide.</li>
-                                <li><strong>App Not Deployed:</strong> Your app needs to be built and deployed. This usually happens automatically in Firebase Studio after you commit your code.</li>
-                            </ul>
-                            <p className="mt-3">Your setup is correct. Please wait a bit for the process to complete. If it takes longer than an hour, check the build logs in your Firebase project.</p>
-                        </AlertDescription>
-                    </Alert>
                 </CardContent>
             </Card>
 
