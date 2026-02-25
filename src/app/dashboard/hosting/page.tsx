@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink, Globe, Trash2, Info, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,7 @@ export default function HostingPage() {
     const { domains, addDomain, removeDomain } = useDomains();
     const { toast } = useToast();
     const { user } = useAuth();
+    const router = useRouter();
     
     const cnameValue = user?.username ? `${user.username}.hostproai.com` : `[your-username].hostproai.com`;
 
@@ -40,8 +42,9 @@ export default function HostingPage() {
         setDomainInput('');
         toast({
             title: "Domain Added",
-            description: `${domainInput} has been added. Please allow up to an hour for settings to propagate.`,
+            description: `${domainInput} has been added. Redirecting to the connection guide...`,
         });
+        router.push('/dashboard/strategy-center/connecting-your-domain');
     };
     
     const handleDisconnectDomain = (domainName: string) => {
