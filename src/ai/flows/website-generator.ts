@@ -8,7 +8,7 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { z } from 'zod';
 
 const GenerateWebsiteJsonInputSchema = z.object({
   username: z.string().describe("The affiliate's username."),
@@ -28,26 +28,29 @@ const GenerateWebsiteJsonOutputSchema = z.object({
     headline: z.string().describe('A high-conversion, catchy headline.'),
     subheadline: z
       .string()
-      .describe('A persuasive subheadline expanding on the main message.'),
+      .describe('A persuasive subheadline expanding on the main message, at least 40 words long.'),
     ctaButtonText: z.string().describe('A strong call-to-action text for the main button.'),
     features: z
       .array(
         z.object({
           title: z.string(),
-          description: z.string(),
+          description: z.string().describe('A detailed description of the feature, at least 30 words long.'),
           iconEmoji: z.string().describe('A single emoji representing the feature.'),
         })
       )
       .length(3)
-      .describe('An array of 3 key features.'),
+      .describe('An array of 3 key features with detailed descriptions.'),
     howItWorksSteps: z
-      .array(z.object({ title: z.string(), description: z.string() }))
+      .array(z.object({ 
+          title: z.string(), 
+          description: z.string().describe('A detailed description of the step, at least 30 words long.') 
+        }))
       .length(3)
-      .describe('An array of 3 simple steps explaining the process.'),
+      .describe('An array of 3 simple steps explaining the process, with detailed descriptions.'),
     testimonials: z
       .array(
         z.object({
-          text: z.string(),
+          text: z.string().describe('A realistic, fictional testimonial of at least 2-3 sentences.'),
           name: z.string(),
           role: z.string(),
         })
@@ -55,10 +58,13 @@ const GenerateWebsiteJsonOutputSchema = z.object({
       .length(3)
       .describe('An array of 3 realistic, fictional testimonials.'),
     faqs: z
-      .array(z.object({ question: z.string(), answer: z.string() }))
+      .array(z.object({ 
+          question: z.string(), 
+          answer: z.string().describe('A comprehensive answer to the question, at least 50 words long.') 
+        }))
       .min(3)
       .max(5)
-      .describe('An array of 3 to 5 frequently asked questions.'),
+      .describe('An array of 3 to 5 frequently asked questions with comprehensive answers.'),
     finalCta: z.object({
       headline: z.string(),
       subheadline: z.string(),
@@ -66,9 +72,9 @@ const GenerateWebsiteJsonOutputSchema = z.object({
     }),
   }),
   legal: z.object({
-    terms: z.string().describe('Full boilerplate text for Terms & Conditions.'),
-    privacy: z.string().describe('Full boilerplate text for a Privacy Policy.'),
-    disclaimer: z.string().describe('Full boilerplate text for an Earnings Disclaimer.'),
+    terms: z.string().describe('Full boilerplate text for Terms & Conditions, at least 400 words long.'),
+    privacy: z.string().describe('Full boilerplate text for a Privacy Policy, at least 400 words long.'),
+    disclaimer: z.string().describe('Full boilerplate text for an Earnings Disclaimer, at least 200 words long.'),
   }),
 });
 
@@ -90,12 +96,12 @@ const prompt = ai.definePrompt({
 
 The affiliate's niche is: {{{niche}}}.
 
-Generate a complete JSON object that contains all the text and content needed for the website. The tone should be professional, persuasive, and exciting. All content should be tailored to the specified niche.
+Generate a complete JSON object that contains all the text and content needed for the website. The tone should be professional, persuasive, and exciting. All content should be tailored to the specified niche and be comprehensive and detailed as specified in the output schema.
 
 - For the features, focus on the benefits of "Host Pro Ai" for someone in that niche.
 - For testimonials, invent names and roles that fit the niche.
-- For FAQs, anticipate questions someone from that niche might have.
-- For legal text, generate standard, comprehensive boilerplate content.
+- For FAQs, anticipate questions someone from that niche might have and provide detailed answers.
+- For legal text, generate standard, comprehensive boilerplate content of a suitable length for real websites.
 - All CTA buttons will eventually link to "https://hostproai.com/?ref={{{username}}}". The button text should be action-oriented.
 `,
   config: {
