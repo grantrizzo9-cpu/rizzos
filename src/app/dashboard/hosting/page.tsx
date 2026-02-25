@@ -1,10 +1,8 @@
-
 'use client';
 
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink, Globe, Trash2, Info } from "lucide-react";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { ExternalLink, Globe, Trash2, Info, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,7 +39,7 @@ export default function HostingPage() {
         setDomainInput('');
         toast({
             title: "Domain Added",
-            description: `${domainInput} has been added. Please allow up to an hour for settings to propagate before completing the setup in Firebase.`,
+            description: `${domainInput} has been added. Please allow up to an hour for settings to propagate.`,
         });
     };
     
@@ -65,11 +63,11 @@ export default function HostingPage() {
                     <div>
                         <h3 className="font-semibold mb-2">Step 1: Configure DNS Records</h3>
                         <p className="text-sm text-muted-foreground mb-4">
-                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the following three DNS records.
+                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the following three DNS records. Some registrars use '@' for the root domain, while others require you to leave it blank.
                         </p>
                         <div className="p-4 border rounded-lg bg-muted space-y-3 text-sm font-mono">
-                           <p><strong>A Record 1:</strong> Host: @, Value: 199.36.158.100</p>
-                           <p><strong>A Record 2:</strong> Host: @, Value: 199.36.158.101</p>
+                           <p><strong>A Record 1:</strong> Host: @ Value: 199.36.158.100</p>
+                           <p><strong>A Record 2:</strong> Host: @ Value: 199.36.158.101</p>
                            <p><strong>CNAME Record:</strong> Host: www, Value: {cnameValue}</p>
                         </div>
                     </div>
@@ -115,7 +113,7 @@ export default function HostingPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>Connected Domains</CardTitle>
-                    <CardDescription>A list of domains you have added to your account.</CardDescription>
+                    <CardDescription>A list of domains you have added to your account. Use a third-party tool to check propagation.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {domains.length > 0 ? (
@@ -138,9 +136,9 @@ export default function HostingPage() {
                                         <TableCell>{format(new Date(domain.connectedAt), "PPP")}</TableCell>
                                         <TableCell className="text-right space-x-2">
                                             <Button asChild variant="outline" size="sm">
-                                               <a href="https://console.firebase.google.com/project/_/hosting/main" target="_blank" rel="noopener noreferrer">
-                                                   <ExternalLink className="mr-2 h-4 w-4" />
-                                                   Complete in Firebase
+                                               <a href={`https://dnschecker.org/#A/${domain.name}`} target="_blank" rel="noopener noreferrer">
+                                                   <Search className="mr-2 h-4 w-4" />
+                                                   Check Status
                                                </a>
                                             </Button>
                                             <Button variant="destructive" size="sm" onClick={() => handleDisconnectDomain(domain.name)}>
@@ -157,7 +155,6 @@ export default function HostingPage() {
                     )}
                 </CardContent>
             </Card>
-
         </div>
     );
 }
