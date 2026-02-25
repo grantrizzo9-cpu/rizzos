@@ -58,7 +58,8 @@ export function generateHtmlForWebsite(
 
   const navLinks = [
       { text: "Features", href: "#features"},
-      { text: "Testimonials", href: "#testimonials"},
+      { text: "How It Works", href: "#how-it-works"},
+      { text: "Commission", href: "#commission"},
       { text: "FAQ", href: "#faq"},
   ];
 
@@ -163,13 +164,37 @@ export function generateHtmlForWebsite(
                 </div>
             </section>
 
+            <!-- Commission Structure Section -->
+            <section id="commission" class="py-20 bg-card">
+                <div class="container mx-auto px-4 text-center">
+                    <h2 class="text-3xl font-bold mb-4">A Simple, Powerful Commission Structure</h2>
+                    <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-80 mb-12">We believe in radical transparency and rewarding our partners generously. Our commission structure is designed to be simple to understand and incredibly lucrative.</p>
+                    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <div class="bg-background p-8 rounded-lg border border-border text-left">
+                            <div class="text-5xl font-extrabold text-primary mb-4">70%</div>
+                            <h3 class="text-xl font-bold mb-2">Your Starting Commission</h3>
+                            <p class="opacity-70">From your very first referral, you earn a massive 70% recurring daily commission. This isn't a one-time payout. You earn this every single day for the life of the referral.</p>
+                        </div>
+                        <div class="bg-background p-8 rounded-lg border border-border text-left">
+                            <div class="text-5xl font-extrabold text-primary mb-4">75%</div>
+                            <h3 class="text-xl font-bold mb-2">Unlock the Top Tier</h3>
+                            <p class="opacity-70">Once you refer 10 active customers, your commission rate automatically and permanently increases to 75%. We reward our top partners for their success.</p>
+                        </div>
+                    </div>
+                     <div class="mt-8 bg-primary text-primary-foreground p-6 rounded-lg max-w-4xl mx-auto">
+                        <h3 class="font-bold text-xl">Plus: Daily PayPal Payouts</h3>
+                        <p class="opacity-90 mt-2">No more waiting for payday. All your earned commissions are calculated and sent directly to your PayPal account every 24 hours. Your earnings become your daily cash flow.</p>
+                    </div>
+                </div>
+            </section>
+
             <!-- Testimonials Section -->
-            <section id="testimonials" class="py-20 bg-card">
+            <section id="testimonials" class="py-20">
                 <div class="container mx-auto px-4">
                     <h2 class="text-3xl font-bold mb-12 text-center">What Our Users Say</h2>
                     <div class="grid md:grid-cols-3 gap-8">
                         ${homepage.testimonials.map(testimonial => `
-                            <div class="bg-background p-6 rounded-lg border border-border">
+                            <div class="bg-card p-6 rounded-lg border border-border">
                                 <p class="italic mb-4">"${testimonial.text}"</p>
                                 <div class="font-semibold">${testimonial.name}</div>
                                 <div class="text-sm opacity-70">${testimonial.role}</div>
@@ -180,13 +205,13 @@ export function generateHtmlForWebsite(
             </section>
 
             <!-- FAQ Section -->
-            <section id="faq" class="py-20">
+            <section id="faq" class="py-20 bg-card">
                 <div class="container mx-auto px-4 max-w-3xl">
                     <h2 class="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
                     <div class="space-y-4">
                         ${homepage.faqs.map(faq => `
                             <div>
-                                <details class="group bg-card p-4 rounded-lg cursor-pointer border border-border">
+                                <details class="group bg-background p-4 rounded-lg cursor-pointer border border-border">
                                     <summary class="font-semibold flex justify-between items-center">
                                         ${faq.question}
                                         <span class="transform group-open:rotate-45 transition-transform">+</span>
