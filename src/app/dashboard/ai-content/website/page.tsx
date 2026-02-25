@@ -133,8 +133,8 @@ export default function WebsiteBuilderPage() {
 
 
   return (
-    <div className="grid gap-8 md:grid-cols-2">
-      <Card>
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+      <Card className="lg:col-span-2">
         <CardHeader>
           <CardTitle>1-Click Website Generator</CardTitle>
           <CardDescription>
@@ -194,7 +194,7 @@ export default function WebsiteBuilderPage() {
         </CardContent>
       </Card>
 
-      <Card className="min-h-[600px] flex flex-col">
+      <Card className="lg:col-span-3 min-h-[700px] flex flex-col">
         <CardHeader>
           <CardTitle>Generated Website</CardTitle>
           <CardDescription>Your AI-generated website preview will appear here.</CardDescription>
@@ -230,7 +230,7 @@ export default function WebsiteBuilderPage() {
                   />
                 </TabsContent>
                 <TabsContent value="html" className="relative mt-4 flex-grow">
-                     <pre className="bg-muted text-muted-foreground rounded-lg p-4 text-xs overflow-auto h-full max-h-[600px]">
+                     <pre className="bg-muted text-muted-foreground rounded-lg p-4 text-xs overflow-auto h-full max-h-[700px]">
                         <code>{generatedHtml}</code>
                     </pre>
                 </TabsContent>
