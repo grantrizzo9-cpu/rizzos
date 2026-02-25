@@ -47,20 +47,26 @@ export default function HostingPage() {
         
         const requiredCnameValue = user?.username ? `${user.username}.hostproai.com` : `[your-username].hostproai.com`;
 
-        if (domainInput.toLowerCase() === 'rizzosaipro.com' && user?.username !== 'rizzosaipro') {
+        // The user is right, the previous logic was too confusing.
+        // Let's simplify the simulation.
+        // 'fail-domain.com' will always show missing records.
+        // Any other domain will succeed to provide a better user experience.
+
+        if (domainInput.toLowerCase() === 'fail-domain.com') {
+            // SIMULATE A GENERIC FAILURE (records not found)
             setCheckResults([
-                { type: 'A', host: '@', value: '199.36.158.100', status: 'ok' },
-                { type: 'A', host: '@', value: '199.36.158.101', status: 'ok' },
-                { type: 'CNAME', host: 'www', value: 'rizzosaipro.hostproai.com', status: 'mismatch' },
+                { type: 'A', host: '@', value: '199.36.158.100', status: 'missing' },
+                { type: 'A', host: '@', value: '199.36.158.101', status: 'missing' },
+                { type: 'CNAME', host: 'www', value: requiredCnameValue, status: 'missing' },
             ]);
             setCheckStatus('error');
             toast({
-                title: "CNAME Value Mismatch",
-                description: `Your CNAME points to rizzosaipro.hostproai.com, but your username is '${user?.username}'. It must point to ${requiredCnameValue}.`,
+                title: "Verification Failed",
+                description: `Could not find the required DNS records for ${domainInput}. Please check your domain registrar's settings.`,
                 variant: "destructive"
             });
-        } else if (domainInput.toLowerCase() === 'success-domain.com' || (domainInput.toLowerCase() === 'rizzosaipro.com' && user?.username === 'rizzosaipro')) {
-            // SIMULATE A SUCCESSFUL CONNECTION
+        } else {
+            // SIMULATE A SUCCESSFUL CONNECTION for any other domain
             setCheckResults([
                 { type: 'A', host: '@', value: '199.36.158.100', status: 'ok' },
                 { type: 'A', host: '@', value: '199.36.158.101', status: 'ok' },
@@ -71,20 +77,7 @@ export default function HostingPage() {
             setDomainInput('');
             toast({
                 title: "DNS Verified!",
-                description: `DNS for ${domainInput} is verified. Add it in Firebase to go live.`,
-            });
-        } else {
-             // SIMULATE A GENERIC FAILURE (records not found)
-            setCheckResults([
-                { type: 'A', host: '@', value: '199.36.158.100', status: 'missing' },
-                { type: 'A', host: '@', value: '199.36.158.101', status: 'missing' },
-                { type: 'CNAME', host: 'www', value: requiredCnameValue, status: 'missing' },
-            ]);
-            setCheckStatus('error');
-            toast({
-                title: "Verification Failed",
-                description: `Could not find the required DNS records for ${domainInput}.`,
-                variant: "destructive"
+                description: `DNS for ${domainInput} is verified. You can now add it in Firebase to go live.`,
             });
         }
     };
@@ -100,27 +93,6 @@ export default function HostingPage() {
 
     return (
         <div className="space-y-8">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="font-headline text-2xl flex items-center gap-2"><HardDrive />Hosting Manager</CardTitle>
-                    <CardDescription>Connect and manage your custom domains for your websites.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                    <Alert>
-                        <HardDrive className="h-4 w-4" />
-                        <AlertTitle>New to Connecting a Domain?</AlertTitle>
-                        <AlertDescription>
-                            <p>Our step-by-step guide will walk you through purchasing and connecting a domain in minutes.</p>
-                            <Button asChild className="mt-4">
-                                <Link href="/dashboard/strategy-center/connecting-your-domain">
-                                    View Domain Connection Guide <ExternalLink className="ml-2 h-4 w-4" />
-                                </Link>
-                            </Button>
-                        </AlertDescription>
-                    </Alert>
-                </CardContent>
-            </Card>
-
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2"><Globe />Connect a New Domain</CardTitle>
@@ -147,7 +119,7 @@ export default function HostingPage() {
                         </Button>
                     </div>
                      <p className="text-xs text-muted-foreground pt-2">
-                        For this demo, try `rizzosaipro.com` to see a mismatch error, or `success-domain.com` for a success.
+                        For this demo, try `fail-domain.com` to see an error. Any other domain name will succeed.
                     </p>
                 </CardContent>
                 {checkStatus !== 'idle' && (
