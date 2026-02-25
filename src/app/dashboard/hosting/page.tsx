@@ -119,20 +119,6 @@ export default function HostingPage() {
                         </AlertDescription>
                     </Alert>
 
-                     <Alert variant="destructive">
-                        <AlertCircle className="h-4 w-4" />
-                        <AlertTitle>Seeing a "Fastly error: unknown domain"?</AlertTitle>
-                        <AlertDescription>
-                            <p>This is expected! It means your DNS is working correctly, but you haven't told Firebase about your domain yet.</p>
-                            <p className="mt-2">The next step is to add your custom domain in your Firebase project. Click the button below to go to the Firebase console and complete the setup.</p>
-                            <Button asChild className="mt-4">
-                                <a href="https://console.firebase.google.com/project/_/hosting/main" target="_blank" rel="noopener noreferrer">
-                                    Go to Firebase Console <ExternalLink className="ml-2 h-4 w-4" />
-                                </a>
-                            </Button>
-                        </AlertDescription>
-                    </Alert>
-
                     <Alert>
                         <Info className="h-4 w-4" />
                         <AlertTitle>Seeing a "Site Not Found" page?</AlertTitle>
