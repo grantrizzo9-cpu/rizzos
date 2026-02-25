@@ -1,85 +1,48 @@
+
 'use client';
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { HardDrive, ExternalLink, Globe, Loader2, CheckCircle, XCircle, Trash2, AlertCircle, Info } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ExternalLink, Globe, Trash2, Info } from "lucide-react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { useDomains } from "@/components/domains/domain-provider";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from "@/components/auth/auth-provider";
 import { Badge } from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
-type DnsStatus = 'idle' | 'checking' | 'connected' | 'error';
-
-type DnsCheckResult = {
-    type: 'A' | 'CNAME';
-    host: string;
-    value: string;
-    status: 'ok' | 'missing' | 'mismatch';
-};
 
 export default function HostingPage() {
     const [domainInput, setDomainInput] = useState('');
-    const [checkStatus, setCheckStatus] = useState<DnsStatus>('idle');
-    const [checkResults, setCheckResults] = useState<DnsCheckResult[]>([]);
-
     const { domains, addDomain, removeDomain } = useDomains();
     const { toast } = useToast();
     const { user } = useAuth();
     
     const cnameValue = user?.username ? `${user.username}.hostproai.com` : `[your-username].hostproai.com`;
 
-    const handleCheckDomain = async () => {
+    const handleAddDomain = () => {
         if (!domainInput) return;
-        setCheckStatus('checking');
-        setCheckResults([]);
-
-        // This is a simulation. A real implementation would require a backend endpoint to perform DNS lookups.
-        await new Promise(resolve => setTimeout(resolve, 2500));
-        
-        const requiredCnameValue = user?.username ? `${user.username}.hostproai.com` : `[your-username].hostproai.com`;
-
-        // The user is right, the previous logic was too confusing.
-        // Let's simplify the simulation.
-        // 'fail-domain.com' will always show missing records.
-        // Any other domain will succeed to provide a better user experience.
-
-        if (domainInput.toLowerCase() === 'fail-domain.com') {
-            // SIMULATE A GENERIC FAILURE (records not found)
-            setCheckResults([
-                { type: 'A', host: '@', value: '199.36.158.100', status: 'missing' },
-                { type: 'A', host: '@', value: '199.36.158.101', status: 'missing' },
-                { type: 'CNAME', host: 'www', value: requiredCnameValue, status: 'missing' },
-            ]);
-            setCheckStatus('error');
-            toast({
-                title: "Verification Failed",
-                description: `Could not find the required DNS records for ${domainInput}. Please check your domain registrar's settings.`,
-                variant: "destructive"
-            });
-        } else {
-            // SIMULATE A SUCCESSFUL CONNECTION for any other domain
-            setCheckResults([
-                { type: 'A', host: '@', value: '199.36.158.100', status: 'ok' },
-                { type: 'A', host: '@', value: '199.36.158.101', status: 'ok' },
-                { type: 'CNAME', host: 'www', value: requiredCnameValue, status: 'ok' },
-            ]);
-            setCheckStatus('connected');
-            addDomain(domainInput);
-            setDomainInput('');
-            toast({
-                title: "DNS Verified!",
-                description: `DNS for ${domainInput} is verified. You can now add it in Firebase to go live.`,
-            });
-        }
+        addDomain(domainInput);
+        setDomainInput('');
+        toast({
+            title: "Domain Added",
+            description: `${domainInput} has been added. Please allow up to an hour for settings to propagate before completing the setup in Firebase.`,
+        });
     };
     
     const handleDisconnectDomain = (domainName: string) => {
@@ -95,107 +58,71 @@ export default function HostingPage() {
         <div className="space-y-8">
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><Globe />Connect a New Domain</CardTitle>
-                    <CardDescription>Enter a domain below to verify it's pointing correctly to our servers.</CardDescription>
+                    <CardTitle className="flex items-center gap-2"><Globe />Connect a Custom Domain</CardTitle>
+                    <CardDescription>Follow these steps to point your custom domain to our servers.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="flex gap-2 items-end">
-                        <div className="grid w-full gap-1.5">
-                            <Label htmlFor="domain">Domain Name</Label>
-                            <Input
-                                id="domain"
-                                type="text"
-                                placeholder="your-new-domain.com"
-                                value={domainInput}
-                                onChange={(e) => setDomainInput(e.target.value)}
-                                disabled={checkStatus === 'checking'}
-                            />
+                <CardContent className="space-y-6">
+                    <div>
+                        <h3 className="font-semibold mb-2">Step 1: Configure DNS Records</h3>
+                        <p className="text-sm text-muted-foreground mb-4">
+                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the following three DNS records.
+                        </p>
+                        <div className="p-4 border rounded-lg bg-muted space-y-3 text-sm font-mono">
+                           <p><strong>A Record 1:</strong> Host: @, Value: 199.36.158.100</p>
+                           <p><strong>A Record 2:</strong> Host: @, Value: 199.36.158.101</p>
+                           <p><strong>CNAME Record:</strong> Host: www, Value: {cnameValue}</p>
                         </div>
-                        <Button onClick={handleCheckDomain} disabled={!domainInput || checkStatus === 'checking'}>
-                            {checkStatus === 'checking' ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            ) : null}
-                            Verify Domain
-                        </Button>
                     </div>
-                     <p className="text-xs text-muted-foreground pt-2">
-                        For this demo, try `fail-domain.com` to see an error. Any other domain name will succeed.
-                    </p>
+                    
+                    <div>
+                        <h3 className="font-semibold mb-2">Step 2: Add Your Domain Here</h3>
+                        <p className="text-sm text-muted-foreground mb-4">
+                            Once you have configured the records above, enter your domain name below and add it to your account.
+                        </p>
+                         <div className="flex gap-2 items-end">
+                            <div className="grid w-full gap-1.5">
+                                <Label htmlFor="domain">Domain Name</Label>
+                                <Input
+                                    id="domain"
+                                    type="text"
+                                    placeholder="your-new-domain.com"
+                                    value={domainInput}
+                                    onChange={(e) => setDomainInput(e.target.value)}
+                                />
+                            </div>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button disabled={!domainInput}>Add Domain</Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you ready to add this domain?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Please confirm that you have set the A and CNAME records at your registrar. DNS changes can take up to an hour to take effect globally.
+                                    </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={handleAddDomain}>Yes, Add Domain</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </div>
+                    </div>
+                     <Alert>
+                        <Info className="h-4 w-4" />
+                        <AlertTitle>Check Your Propagation</AlertTitle>
+                        <AlertDescription>
+                            You can use a free tool like <a href="https://dnschecker.org" target="_blank" rel="noopener noreferrer" className="font-semibold underline">dnschecker.org</a> to see if your new records are live across the world.
+                        </AlertDescription>
+                    </Alert>
                 </CardContent>
-                {checkStatus !== 'idle' && (
-                    <>
-                        <Separator />
-                        <CardFooter className="flex flex-col items-start gap-4 pt-6">
-                            {checkStatus === 'checking' && (
-                                <div className="flex items-center gap-2 text-muted-foreground">
-                                    <Loader2 className="h-4 w-4 animate-spin" />
-                                    <span>Checking DNS records for {domainInput}...</span>
-                                </div>
-                            )}
-
-                            {checkStatus === 'connected' && (
-                                <div className="w-full space-y-4">
-                                    <Alert variant="default" className="bg-green-100 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300">
-                                        <CheckCircle className="h-4 w-4 !text-green-800 dark:!text-green-300"/>
-                                        <AlertTitle className="text-green-900 dark:text-green-200">DNS Verification Successful!</AlertTitle>
-                                        <AlertDescription>
-                                            Your domain is pointing to our servers correctly. The domain has been added to your list below.
-                                        </AlertDescription>
-                                    </Alert>
-                                </div>
-                            )}
-
-                             {checkStatus === 'error' && (
-                                <div className="w-full space-y-4">
-                                     <div className="p-4 rounded-md bg-destructive/10 text-destructive border border-destructive/20 flex items-center gap-3">
-                                        <XCircle className="h-6 w-6"/>
-                                        <div>
-                                            <h3 className="font-bold">
-                                                {checkResults.some(r => r.status === 'mismatch') ? 'Configuration Mismatch' : 'Configuration Error'}
-                                            </h3>
-                                            <p className="text-sm">
-                                                {checkResults.some(r => r.status === 'mismatch') 
-                                                ? `There's a mismatch in your CNAME record. Your DNS settings must point to the value required by your account.`
-                                                : 'Some required DNS records are missing or incorrect. Please check your settings.'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                             )}
-
-                             {checkResults.length > 0 && (
-                                <div className="w-full p-4 border rounded-lg">
-                                    <h4 className="font-semibold mb-2">DNS Verification Results</h4>
-                                     <p className="text-xs text-muted-foreground mb-4">
-                                        Required CNAME value for your account ({user?.username}): <code className="bg-muted p-1 rounded-sm">{cnameValue}</code>
-                                    </p>
-                                    <ul className="space-y-2 text-sm">
-                                        {checkResults.map((res, i) => (
-                                            <li key={i} className="flex items-center justify-between">
-                                                <div className="flex items-center gap-2 font-mono text-xs">
-                                                    <span className={cn("h-2 w-2 rounded-full", res.status === 'ok' ? 'bg-green-500' : 'bg-red-500')}></span>
-                                                    <span className="w-16">{res.type}</span>
-                                                    <span className="w-24 text-muted-foreground">{res.host}</span>
-                                                    <span>{res.value}</span>
-                                                </div>
-                                                <span className={cn("text-xs font-bold", res.status === 'ok' ? 'text-green-500' : 'text-red-500')}>
-                                                    {res.status === 'ok' ? 'OK' : (res.status === 'mismatch' ? 'MISMATCH' : 'MISSING')}
-                                                </span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                             )}
-
-                        </CardFooter>
-                    </>
-                )}
             </Card>
 
             <Card>
                 <CardHeader>
                     <CardTitle>Connected Domains</CardTitle>
-                    <CardDescription>A list of your domains that have been successfully verified.</CardDescription>
+                    <CardDescription>A list of domains you have added to your account.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {domains.length > 0 ? (
@@ -204,7 +131,7 @@ export default function HostingPage() {
                                 <TableRow>
                                     <TableHead>Domain</TableHead>
                                     <TableHead>Status</TableHead>
-                                    <TableHead>Connected On</TableHead>
+                                    <TableHead>Added On</TableHead>
                                     <TableHead className="text-right">Action</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -213,14 +140,14 @@ export default function HostingPage() {
                                     <TableRow key={domain.name}>
                                         <TableCell className="font-medium">{domain.name}</TableCell>
                                         <TableCell>
-                                            <Badge variant="default">DNS Verified</Badge>
+                                            <Badge variant="secondary">Added</Badge>
                                         </TableCell>
                                         <TableCell>{format(new Date(domain.connectedAt), "PPP")}</TableCell>
                                         <TableCell className="text-right space-x-2">
                                             <Button asChild variant="outline" size="sm">
                                                <a href="https://console.firebase.google.com/project/_/hosting/main" target="_blank" rel="noopener noreferrer">
                                                    <ExternalLink className="mr-2 h-4 w-4" />
-                                                   Complete Setup
+                                                   Complete in Firebase
                                                </a>
                                             </Button>
                                             <Button variant="destructive" size="sm" onClick={() => handleDisconnectDomain(domain.name)}>
