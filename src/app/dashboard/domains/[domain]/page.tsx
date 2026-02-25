@@ -27,7 +27,7 @@ export default function ManageDomainPage() {
                         <Globe />
                         Connect: {domainName}
                     </CardTitle>
-                    <CardDescription>Manage connection and deployment for this domain.</CardDescription>
+                    <CardDescription>Follow the steps below to connect your domain.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div>
@@ -58,7 +58,7 @@ export default function ManageDomainPage() {
                      <div>
                         <h3 className="font-semibold text-lg mb-2">Step 2: Check DNS Propagation</h3>
                         <p className="text-muted-foreground mb-4">
-                            After adding the records, it can take up to an hour for the changes to take effect globally. You can use a tool like DNS Checker to see the live status.
+                            After adding the records, it can take some time (from a few minutes to an hour) for the changes to take effect globally. You can use a trusted third-party tool like DNS Checker to see the live status of your domain's propagation around the world.
                         </p>
                         <Button asChild variant="outline">
                             <a href={`https://dnschecker.org/#A/${domainName}`} target="_blank" rel="noopener noreferrer">
@@ -66,23 +66,16 @@ export default function ManageDomainPage() {
                             </a>
                         </Button>
                     </div>
-
-                    <Alert variant="destructive">
+                </CardContent>
+                 <CardFooter>
+                    <Alert variant="default">
                         <Info className="h-4 w-4" />
-                        <AlertTitle>Important Final Step: Authorize Your Domain</AlertTitle>
+                        <AlertTitle>What's Next?</AlertTitle>
                         <AlertDescription>
-                           <p className="mb-2">
-                             After your DNS records are pointing to Firebase (which you can confirm with the checker), you must perform a one-time security step to authorize your domain in our system. This tells Firebase that it has your permission to serve content on your behalf.
-                           </p>
-                            <Button asChild>
-                                <a href="https://console.firebase.google.com/project/_/hosting/main" target="_blank" rel="noopener noreferrer">
-                                   Go to Firebase Console to Add Domain <ExternalLink className="ml-2"/>
-                                </a>
-                            </Button>
-                            <p className="mt-2 text-xs">Click 'Add custom domain' and follow the steps. When it asks you to add DNS records, you can skip that part as you have already done it.</p>
+                           Once DNS Checker shows your 'A' records are pointing correctly, your domain is connected. The authorization of your domain on our platform will be handled automatically by our system.
                         </AlertDescription>
                     </Alert>
-                </CardContent>
+                </CardFooter>
             </Card>
         </div>
     );
