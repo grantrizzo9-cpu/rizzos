@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -6,7 +7,7 @@ import { Logo } from '@/components/icons/logo';
 
 const legalLinks = [
   { href: '/faq', label: 'FAQ' },
-  { href: '/disclaimer', label: 'Disclaimer (Earnings)' },
+  { href: '/disclaimer', label: 'Earnings Disclaimer' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms & Conditions' },
 ];

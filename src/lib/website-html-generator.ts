@@ -216,7 +216,7 @@ export function generateHtmlForWebsite(
                 <div class="flex gap-4 text-sm">
                     <a href="#" class="hover:text-primary" onclick="event.preventDefault(); showPage('page-terms')">Terms & Conditions</a>
                     <a href="#" class="hover:text-primary" onclick="event.preventDefault(); showPage('page-privacy')">Privacy Policy</a>
-                    <a href="#" class="hover:text-primary" onclick="event.preventDefault(); showPage('page-disclaimer')">Disclaimer</a>
+                    <a href="#" class="hover:text-primary" onclick="event.preventDefault(); showPage('page-disclaimer')">Earnings Disclaimer</a>
                 </div>
             </div>
         </footer>
