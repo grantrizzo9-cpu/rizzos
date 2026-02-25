@@ -260,7 +260,7 @@ export default function WebsiteBuilderPage() {
                     srcDoc={generatedHtml}
                     className="w-full h-full border rounded-md bg-white"
                     title="Generated Website Preview"
-                    sandbox="allow-scripts allow-popups allow-same-origin"
+                    sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin"
                   />
                 </TabsContent>
                 <TabsContent value="html" className="relative mt-4 flex-grow">
