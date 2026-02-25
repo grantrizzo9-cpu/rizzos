@@ -69,7 +69,7 @@ export const strategyArticles: Article[] = [
       </div>
 
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 4: Wait for Propagation & Verify</h3>
-      <p class="mb-4">DNS changes can take some time. Once you've completed the steps above, go to the <a href="/dashboard/hosting" class="font-bold text-primary hover:underline">Hosting Manager</a> page in your dashboard and use the verifier tool to check if your domain is fully connected.</p>
+      <p class="mb-4">DNS changes can take some time. Once you've completed the steps above, go to the <a href="/dashboard/domains" class="font-bold text-primary hover:underline">Domain Manager</a> page in your dashboard and use the verifier tool to check if your domain is fully connected.</p>
     `,
   },
   {

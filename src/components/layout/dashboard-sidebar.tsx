@@ -34,7 +34,7 @@ import {
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/hosting", label: "Hosting", icon: HardDrive },
+  { href: "/dashboard/domains", label: "Domains", icon: HardDrive },
   { href: "/dashboard/website", label: "Website", icon: Globe },
   { href: "/dashboard/ai-content", label: "AI Content", icon: Bot },
   { href: "/dashboard/strategy-center", label: "Marketing Guides", icon: BookOpen },
