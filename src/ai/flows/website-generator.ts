@@ -55,9 +55,9 @@ const GenerateWebsiteJsonOutputSchema = z.object({
           question: z.string(), 
           answer: z.string().describe('A comprehensive answer to the question, at least 50 words long.') 
         }))
-      .min(3)
-      .max(5)
-      .describe('An array of 3 to 5 frequently asked questions with comprehensive answers.'),
+      .min(4)
+      .max(6)
+      .describe('An array of 4 to 6 frequently asked questions with comprehensive answers, including one about the refund policy.'),
     finalCta: z.object({
       headline: z.string(),
       subheadline: z.string(),
@@ -93,7 +93,7 @@ Generate a complete JSON object that contains all the text and content needed fo
 
 - For the features, focus on the benefits of "Host Pro Ai" for someone in that niche.
 - For testimonials, invent names and roles that fit the niche.
-- For FAQs, anticipate questions someone from that niche might have and provide detailed answers.
+- For FAQs, anticipate questions someone from that niche might have and provide detailed answers. You MUST include one FAQ that asks "What is your refund policy?" and the answer must clearly state: A refund on the one-time activation fee is available if requested within 24 hours of joining, but only if you have not received any commission payouts. If payouts have been sent, a refund is not possible.
 - For legal text, generate standard, comprehensive boilerplate content of a suitable length for real websites.
 - All CTA buttons will eventually link to "https://hostproai.com/?ref={{{username}}}". The button text should be action-oriented.
 `,

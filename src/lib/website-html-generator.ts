@@ -182,23 +182,19 @@ export function generateHtmlForWebsite(
             <!-- Commission Structure Section -->
             <section id="commission" class="py-20 bg-card">
                 <div class="container mx-auto px-4 text-center">
-                    <h2 class="text-3xl font-bold mb-4">A Simple, Powerful Commission Structure</h2>
-                    <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-80 mb-12">We believe in radical transparency and rewarding our partners generously. Our commission structure is designed to be simple to understand and incredibly lucrative.</p>
+                    <h2 class="text-3xl font-bold mb-4">The Most Lucrative Commission in the Industry</h2>
+                    <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-80 mb-12">Our entire model is built to make you profitable. We pay more, and we pay faster than anyone else. Here’s exactly how you earn.</p>
                     <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         <div class="bg-background p-8 rounded-lg border border-border text-left">
-                            <div class="text-5xl font-extrabold text-primary mb-4">70%</div>
-                            <h3 class="text-xl font-bold mb-2">Your Starting Commission</h3>
-                            <p class="opacity-70">From your very first referral, you earn a massive 70% recurring daily commission. This isn't a one-time payout. You earn this every single day for the life of the referral.</p>
+                            <div class="text-5xl font-extrabold text-primary mb-4">70-75%</div>
+                            <h3 class="text-xl font-bold mb-2">Recurring Daily Commissions</h3>
+                            <p class="opacity-70">You start at an industry-leading 70% recurring daily commission. After just 10 referrals, you’re automatically bumped to 75% for life. You earn this on every payment, from every referral, every single day.</p>
                         </div>
                         <div class="bg-background p-8 rounded-lg border border-border text-left">
-                            <div class="text-5xl font-extrabold text-primary mb-4">75%</div>
-                            <h3 class="text-xl font-bold mb-2">Unlock the Top Tier</h3>
-                            <p class="opacity-70">Once you refer 10 active customers, your commission rate automatically and permanently increases to 75%. We reward our top partners for their success.</p>
+                            <div class="text-5xl font-extrabold text-primary mb-4">24hrs</div>
+                            <h3 class="text-xl font-bold mb-2">To Your PayPal Account</h3>
+                            <p class="opacity-70">Stop waiting 30-90 days for your money. We process payouts every 24 hours. The money you earn today is in your PayPal account tomorrow, ready to be reinvested or spent. This is true cash flow velocity.</p>
                         </div>
-                    </div>
-                     <div class="mt-8 bg-primary text-primary-foreground p-6 rounded-lg max-w-4xl mx-auto">
-                        <h3 class="font-bold text-xl">Plus: Daily PayPal Payouts</h3>
-                        <p class="opacity-90 mt-2">No more waiting for payday. All your earned commissions are calculated and sent directly to your PayPal account every 24 hours. Your earnings become your daily cash flow.</p>
                     </div>
                 </div>
             </section>
