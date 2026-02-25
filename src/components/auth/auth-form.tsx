@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -15,6 +16,18 @@ type AuthFormProps = {
   referrer?: string;
 };
 
+// Simple hash function for consistent ID generation
+const simpleHash = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return `user_${Math.abs(hash).toString(16)}`;
+};
+
+
 export function AuthForm({ mode, referrer }: AuthFormProps) {
   const router = useRouter();
   const { signIn } = useAuth();
@@ -30,6 +43,8 @@ export function AuthForm({ mode, referrer }: AuthFormProps) {
 
     // Mocking auth flow
     setTimeout(() => {
+      const stableUid = simpleHash(email.toLowerCase());
+
       if (mode === 'signup') {
         addReferral({
           referredUser: username,
@@ -38,7 +53,7 @@ export function AuthForm({ mode, referrer }: AuthFormProps) {
         });
 
         signIn({
-          uid: `mock-user-${Date.now()}`,
+          uid: stableUid,
           email: email,
           displayName: username,
           username: username,
@@ -51,13 +66,13 @@ export function AuthForm({ mode, referrer }: AuthFormProps) {
           signIn();
         } else {
           // For any other user, create a mock user object.
-          // In a real app, you'd fetch this user's data after validating credentials.
+          // This simulates fetching existing user data based on their now-stable ID.
           const mockLoggedInUser = {
-              uid: `mock-user-${Date.now()}`,
+              uid: stableUid,
               email: email,
-              displayName: email.split('@')[0],
-              username: email.split('@')[0],
-              isPaid: true, // Assuming existing users are paid
+              displayName: username || email.split('@')[0],
+              username: username || email.split('@')[0],
+              isPaid: true, // Assuming existing users are paid for simulation
               plan: 'Gold', // Mock a default plan for existing users
           };
           signIn(mockLoggedInUser);

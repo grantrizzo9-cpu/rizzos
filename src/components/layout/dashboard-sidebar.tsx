@@ -37,7 +37,7 @@ const navLinks = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/ai-content", label: "AI Content", icon: Bot },
   { href: "/dashboard/website", label: "My Websites", icon: Webhook },
-  { href: "/dashboard/domains", label: "Domains", icon: Globe },
+  { href: "/dashboard/domains", label: "Hosting", icon: Globe },
   { href: "/dashboard/strategy-center", label: "Marketing Guides", icon: BookOpen },
   { href: "/dashboard/upgrade", label: "Upgrade", icon: ArrowUpCircle },
   { href: "/dashboard/referrals", label: "Referrals", icon: Users },

@@ -1,6 +1,7 @@
+
 'use client';
 
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -16,8 +17,9 @@ type ArticlePageProps = {
   };
 };
 
-export default function ArticlePage({ params }: ArticlePageProps) {
-  const { slug } = params;
+export default function ArticlePage() {
+  const params = useParams();
+  const slug = typeof params.slug === 'string' ? params.slug : '';
   const { user } = useAuth();
   
   const article = strategyArticles.find((a) => a.slug === slug);
@@ -70,7 +72,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
         {slug === 'connecting-your-domain' && (
         <div className="mt-12 text-center">
             <Button asChild size="lg">
-            <Link href="/dashboard/hosting">
+            <Link href="/dashboard/domains">
                 Continue to Hosting Manager
                 <ArrowRight className="ml-2 h-5 w-5" />
             </Link>

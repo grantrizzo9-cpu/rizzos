@@ -1,6 +1,7 @@
+
 'use client';
 
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -11,14 +12,10 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 
-type ArticlePageProps = {
-  params: {
-    slug: string;
-  };
-};
 
-export default function ArticlePage({ params }: ArticlePageProps) {
-  const { slug } = params;
+export default function ArticlePage() {
+  const params = useParams();
+  const slug = typeof params.slug === 'string' ? params.slug : '';
   
   const article = strategyArticles.find((a) => a.slug === slug);
 
