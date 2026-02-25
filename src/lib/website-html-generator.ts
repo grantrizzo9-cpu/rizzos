@@ -151,15 +151,30 @@ export function generateHtmlForWebsite(
             <!-- How It Works Section -->
             <section id="how-it-works" class="py-20">
                 <div class="container mx-auto px-4 text-center">
-                    <h2 class="text-3xl font-bold mb-12">How It Works</h2>
-                    <div class="grid md:grid-cols-3 gap-8">
-                         ${homepage.howItWorksSteps.map((step, index) => `
-                            <div class="flex flex-col items-center">
-                                <div class="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl mb-4">${index + 1}</div>
-                                <h3 class="text-lg font-semibold mb-2">${step.title}</h3>
-                                <p class="opacity-70">${step.description}</p>
+                    <h2 class="text-3xl font-bold mb-4">Your Simple Path to Profit</h2>
+                    <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-80 mb-12">Our model is designed for transparency and to get you into profit as quickly as possible. Here’s the step-by-step breakdown:</p>
+                    <div class="grid md:grid-cols-3 gap-8 text-left">
+                        <div class="bg-card p-6 rounded-lg border border-border">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl flex-shrink-0">1</div>
+                                <h3 class="text-lg font-semibold">Activate & Start Your Trial</h3>
                             </div>
-                        `).join('')}
+                            <p class="opacity-80 text-sm">To begin, you pay a one-time activation fee for your chosen plan. This initial fee goes directly to the platform owner to support server maintenance, ongoing development, and customer support, ensuring the longevity and quality of the service for everyone. Upon activation, your 3-day, full-featured free trial begins immediately.</p>
+                        </div>
+                        <div class="bg-card p-6 rounded-lg border border-border">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl flex-shrink-0">2</div>
+                                <h3 class="text-lg font-semibold">Refer Two & Enter Profit Mode</h3>
+                            </div>
+                            <p class="opacity-80 text-sm">Your primary goal is to refer just two other members on the same plan. The platform's 30% share from their daily payments is designed to completely cover the cost of your own daily plan fee. This means that with only two referrals, you are effectively in profit mode. Even if you achieve this within your 3-day trial, you'll start earning profit from day four.</p>
+                        </div>
+                        <div class="bg-card p-6 rounded-lg border border-border">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl flex-shrink-0">3</div>
+                                <h3 class="text-lg font-semibold">Earn Daily, Paid to PayPal</h3>
+                            </div>
+                            <p class="opacity-80 text-sm">Every referral after your first two is pure profit, paid out daily. All recurring commissions you earn are calculated every 24 hours and sent directly to your registered PayPal account. Your affiliate business funds itself, and your profits are available as daily cash flow.</p>
+                        </div>
                     </div>
                 </div>
             </section>

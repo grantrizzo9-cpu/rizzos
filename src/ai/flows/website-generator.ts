@@ -40,13 +40,6 @@ const GenerateWebsiteJsonOutputSchema = z.object({
       )
       .length(3)
       .describe('An array of 3 key features with detailed descriptions.'),
-    howItWorksSteps: z
-      .array(z.object({ 
-          title: z.string(), 
-          description: z.string().describe('A detailed description of the step, at least 30 words long.') 
-        }))
-      .length(3)
-      .describe('An array of 3 simple steps explaining the process, with detailed descriptions.'),
     testimonials: z
       .array(
         z.object({
