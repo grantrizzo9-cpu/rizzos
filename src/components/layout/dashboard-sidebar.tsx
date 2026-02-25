@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, 
   Bot, 
-  HardDrive, 
   Wallet, 
   Settings, 
   BookOpen, 
@@ -35,7 +34,7 @@ import {
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/domains", label: "Domains", icon: HardDrive },
+  { href: "/dashboard/hosting", label: "Hosting", icon: Globe },
   { href: "/dashboard/ai-content", label: "AI Content", icon: Bot },
   { href: "/dashboard/strategy-center", label: "Marketing Guides", icon: BookOpen },
   { href: "/dashboard/upgrade", label: "Upgrade", icon: ArrowUpCircle },
