@@ -81,7 +81,7 @@
     {
       "id": "dns-correct-www",
       "description": "Example of adding a www subdomain correctly",
-      "imageUrl": "https://picsum.photos/seed/dns-correct-www/800/250",
+      "imageUrl": "https://placehold.co/800x250/e2e8f0/2d3748/png?text=Enter%20'www'%20and%20click%20Add%20Sub-Domain",
       "imageHint": "dns settings"
     }
   ]
