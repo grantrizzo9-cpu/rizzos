@@ -20,7 +20,7 @@ export const strategyArticles: Article[] = [
       
       <h2 class="font-headline text-2xl font-bold mt-8 mb-4 text-accent">Understanding Your Unique CNAME Value</h2>
       <p class="mb-4">In the records below, you will see a value like <code>[USER_CNAME_VALUE]</code>. This unique address is automatically generated from your account username. For example, if your username is "rizzosaipro", your unique address will be <code>rizzosaipro.hostproai.com</code>.</p>
-      <p class="mb-4"><strong>If you would prefer a different username</strong>, you can change it in your <a href="/dashboard/settings" class="font-bold text-primary hover:underline">Account Settings</a> page. Your CNAME value will update automatically.</p>
+      <p class="mb-4"><strong>If you would prefer a different username</strong>, you can change it in your <a href="/dashboard/settings">Account Settings</a> page. Your CNAME value will update automatically.</p>
       
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 1: The Required DNS Records</h3>
       <p class="mb-4">You will need to add the following records at your domain registrar:</p>
@@ -49,7 +49,7 @@ export const strategyArticles: Article[] = [
       </div>
 
        <div class="my-4 p-2 border border-border rounded-lg bg-muted">
-            <img src="https://placehold.co/800x250/e2e8f0/2d3748/png?text=Enter%20'www'%20and%20click%20Add%20Sub-Domain" alt="Example of adding a www subdomain correctly" class="rounded-md w-full" data-ai-hint="dns settings"/>
+            <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmb3JtJTIwaW5wdXR8ZW58MHx8fHwxNzcxNTYxMTEyfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Person typing 'www' into a form field" class="rounded-md w-full" data-ai-hint="form input"/>
             <p class="text-xs text-center p-2 text-muted-foreground">Your screen should look like this before you click the button.</p>
        </div>
       
