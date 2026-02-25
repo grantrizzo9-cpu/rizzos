@@ -1,3 +1,4 @@
+
 export type Theme = {
   name: string;
   colors: {
@@ -6,6 +7,84 @@ export type Theme = {
 };
 
 export const themes: Theme[] = [
+  {
+    name: 'Sunny Citrus',
+    colors: {
+      '--background': '0 0% 100%',
+      '--foreground': '240 10% 3.9%',
+      '--primary': '48 96% 57%',
+      '--primary-foreground': '240 10% 3.9%',
+      '--card': '50 100% 97%',
+      '--card-foreground': '240 10% 3.9%',
+      '--accent': '25 95% 53%',
+      '--border': '240 5.9% 90%',
+    },
+  },
+  {
+    name: 'Oceanic Teal',
+    colors: {
+      '--background': '0 0% 100%',
+      '--foreground': '222.2 84% 4.9%',
+      '--primary': '217.2 91.2% 59.8%',
+      '--primary-foreground': '210 40% 98%',
+      '--card': '190 50% 97%',
+      '--card-foreground': '222.2 84% 4.9%',
+      '--accent': '160 70% 45%',
+      '--border': '214.3 31.8% 91.4%',
+    },
+  },
+  {
+    name: 'Fiesta Red',
+    colors: {
+      '--background': '0 0% 100%',
+      '--foreground': '0 0% 15%',
+      '--primary': '0 84.2% 60.2%',
+      '--primary-foreground': '210 40% 98%',
+      '--card': '0 100% 97%',
+      '--card-foreground': '0 0% 15%',
+      '--accent': '45 95% 55%',
+      '--border': '0 10% 90%',
+    },
+  },
+  {
+    name: 'Purple Power',
+    colors: {
+      '--background': '0 0% 100%',
+      '--foreground': '260 50% 15%',
+      '--primary': '262 84% 60%',
+      '--primary-foreground': '0 0% 100%',
+      '--card': '260 80% 97%',
+      '--card-foreground': '260 50% 15%',
+      '--accent': '217.2 91.2% 59.8%',
+      '--border': '260 50% 90%',
+    },
+  },
+    {
+    name: 'Spring Green',
+    colors: {
+      '--background': '0 0% 100%',
+      '--foreground': '140 40% 15%',
+      '--primary': '130 60% 50%',
+      '--primary-foreground': '0 0% 100%',
+      '--card': '120 70% 97%',
+      '--card-foreground': '140 40% 15%',
+      '--accent': '48 96% 57%',
+      '--border': '120 70% 90%',
+    },
+  },
+  {
+    name: 'Coral Reef',
+    colors: {
+      '--background': '0 0% 100%',
+      '--foreground': '240 10% 3.9%',
+      '--primary': '5 80% 65%',
+      '--primary-foreground': '0 0% 100%',
+      '--card': '190 50% 97%',
+      '--card-foreground': '240 10% 3.9%',
+      '--accent': '210 70% 45%',
+      '--border': '190 50% 90%',
+    },
+  },
   {
     name: 'Midnight Glow',
     colors: {
@@ -17,84 +96,6 @@ export const themes: Theme[] = [
       '--card-foreground': '210 20% 98%',
       '--accent': '204 100% 50%',
       '--border': '215 28% 17%',
-    },
-  },
-  {
-    name: 'Crimson Tide',
-    colors: {
-      '--background': '0 0% 8%',
-      '--foreground': '0 0% 98%',
-      '--primary': '347 97% 52%',
-      '--primary-foreground': '0 0% 98%',
-      '--card': '0 0% 12%',
-      '--card-foreground': '0 0% 98%',
-      '--accent': '347 97% 52%',
-      '--border': '0 0% 20%',
-    },
-  },
-  {
-    name: 'Emerald Forest',
-    colors: {
-      '--background': '148 60% 8%',
-      '--foreground': '148 20% 95%',
-      '--primary': '148 80% 40%',
-      '--primary-foreground': '148 20% 98%',
-      '--card': '148 60% 12%',
-      '--card-foreground': '148 20% 95%',
-      '--accent': '148 80% 40%',
-      '--border': '148 60% 20%',
-    },
-  },
-  {
-    name: 'Golden Hour',
-    colors: {
-      '--background': '24 50% 10%',
-      '--foreground': '34 20% 95%',
-      '--primary': '44 98% 50%',
-      '--primary-foreground': '24 50% 10%',
-      '--card': '24 50% 14%',
-      '--card-foreground': '34 20% 95%',
-      '--accent': '44 98% 50%',
-      '--border': '24 50% 22%',
-    },
-  },
-  {
-    name: 'Arctic Dawn',
-    colors: {
-      '--background': '210 40% 98%',
-      '--foreground': '222.2 84% 4.9%',
-      '--primary': '217.2 91.2% 59.8%',
-      '--primary-foreground': '210 40% 98%',
-      '--card': '0 0% 100%',
-      '--card-foreground': '222.2 84% 4.9%',
-      '--accent': '217.2 91.2% 59.8%',
-      '--border': '214.3 31.8% 91.4%',
-    },
-  },
-  {
-    name: 'Amethyst Haze',
-    colors: {
-      '--background': '262 64% 12%',
-      '--foreground': '262 30% 95%',
-      '--primary': '262 84% 60%',
-      '--primary-foreground': '262 30% 98%',
-      '--card': '262 64% 16%',
-      '--card-foreground': '262 30% 95%',
-      '--accent': '262 84% 60%',
-      '--border': '262 64% 24%',
-    },
-  },
-  {
-    name: 'Desert Mirage',
-    colors: {
-      '--background': '38 92% 95%',
-      '--foreground': '38 40% 8%',
-      '--primary': '28 87% 53%',
-      '--primary-foreground': '38 92% 98%',
-      '--card': '38 92% 98%',
-      '--card-foreground': '38 40% 8%',
-      '--accent': '28 87% 53%',
-      '--border': '38 80% 85%',
     },
   },
 ];
