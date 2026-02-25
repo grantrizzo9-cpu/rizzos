@@ -63,7 +63,7 @@ export default function HostingPage() {
                     <div>
                         <h3 className="font-semibold mb-2">Step 1: Configure DNS Records</h3>
                         <p className="text-sm text-muted-foreground mb-4">
-                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the following three DNS records. Some registrars use '@' for the root domain, while others require you to leave it blank.
+                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the following three DNS records. Some registrars use '@' for the root domain. If you need to purchase a domain, you can do so from our partner <a href="https://www.shopco.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Shopco</a>.
                         </p>
                         <div className="p-4 border rounded-lg bg-muted space-y-3 text-sm font-mono">
                            <p><strong>A Record 1:</strong> Host: @ Value: 199.36.158.100</p>
