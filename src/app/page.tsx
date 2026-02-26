@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { getWebsiteForDomain, type SavedWebsite } from '@/lib/firestore';
 import { HomePageClient } from '@/components/home-page-client';
 import { Loader2 } from 'lucide-react';
@@ -57,6 +57,14 @@ export default function Page() {
         return <div dangerouslySetInnerHTML={{ __html: website.htmlContent }} />;
     }
 
-    // If no website is mapped, show the main marketing page.
-    return <HomePageClient />;
+    // If no website is mapped, show the main marketing page, wrapped in Suspense.
+    return (
+        <Suspense fallback={
+            <div className="flex h-screen w-full items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        }>
+            <HomePageClient />
+        </Suspense>
+    );
 }

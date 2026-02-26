@@ -9,6 +9,6 @@ backend:
 
 hosting:
   site: hostproai
-  domains:
+  customDomains:
     - rizzosa.com
     - www.rizzosa.com
