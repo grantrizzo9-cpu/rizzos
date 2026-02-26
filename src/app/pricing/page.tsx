@@ -1,6 +1,5 @@
 "use client";
 
-import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
@@ -11,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/auth/auth-provider";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
 
 
 // Mock function to get affiliate's plan index. In a real app, this would be a DB lookup.
@@ -94,28 +92,10 @@ function PricingTiersComponent() {
     );
 }
 
-// A simple loading skeleton for the suspense fallback.
-const PricingSkeleton = () => (
-    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {[1,2,3].map(i => (
-            <div key={i} className="flex flex-col space-y-3">
-                <Skeleton className="h-[200px] w-full rounded-xl" />
-                <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
-                </div>
-            </div>
-        ))}
-    </div>
-);
-
-
 export default function PricingPage() {
   return (
     <>
-      <Suspense>
-        <Header />
-      </Suspense>
+      <Header />
       <main className="flex-1">
         <section className="container px-4 sm:px-6 py-12 md:py-24">
             <div className="mx-auto mb-12 max-w-3xl text-center">
@@ -127,18 +107,14 @@ export default function PricingPage() {
                 </p>
             </div>
 
-            <Suspense fallback={<PricingSkeleton />}>
-                <PricingTiersComponent />
-            </Suspense>
+            <PricingTiersComponent />
 
             <div className="mt-12 text-center text-muted-foreground">
                 <p><strong>Commission Structure:</strong> All plans start at a 70% recurring daily commission rate. <br /> Automatically upgrade to <strong>75%</strong> upon reaching 10 active referrals.</p>
             </div>
         </section>
       </main>
-      <Suspense>
-        <Footer />
-      </Suspense>
+      <Footer />
     </>
   );
 }
