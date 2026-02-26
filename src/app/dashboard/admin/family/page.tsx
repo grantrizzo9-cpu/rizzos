@@ -5,7 +5,9 @@ import { useEffect, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { UserCheck, Users } from "lucide-react";
+import { useToast } from '@/hooks/use-toast';
 
 // This is a local type definition for the User, matching the one in auth-provider
 interface User {
@@ -31,14 +33,41 @@ const getMockUserDB = (): User[] => {
   }
 };
 
+const saveMockUserDB = (db: User[]) => {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(MOCK_USER_DB_KEY, JSON.stringify(db));
+};
+
+
 export default function AdminFamilyPage() {
     const [familyMembers, setFamilyMembers] = useState<User[]>([]);
+    const { toast } = useToast();
 
-    useEffect(() => {
+    const loadFamilyMembers = () => {
         const allUsers = getMockUserDB();
         const family = allUsers.filter(user => user.isFriendAndFamily);
         setFamilyMembers(family);
+    }
+
+    useEffect(() => {
+        loadFamilyMembers();
     }, []);
+
+    const handleActivate = (email: string) => {
+        const allUsers = getMockUserDB();
+        const updatedUsers = allUsers.map(user => {
+            if (user.email === email) {
+                return { ...user, isPaid: true };
+            }
+            return user;
+        });
+        saveMockUserDB(updatedUsers);
+        loadFamilyMembers(); // Reload state to reflect changes
+        toast({
+            title: "User Activated",
+            description: `The account for ${email} has been granted full family access.`,
+        });
+    };
 
     return (
         <Card>
@@ -48,7 +77,7 @@ export default function AdminFamilyPage() {
                     Friends & Family List
                 </CardTitle>
                 <CardDescription>
-                    This is a list of all registered users who have been granted free, full-access "Family" status.
+                    This is a list of all registered users who are eligible for free, full-access "Family" status. Activate their accounts here.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -58,8 +87,9 @@ export default function AdminFamilyPage() {
                             <TableRow>
                                 <TableHead>Display Name</TableHead>
                                 <TableHead>Email</TableHead>
-                                <TableHead>Plan</TableHead>
+                                <TableHead>Status</TableHead>
                                 <TableHead>Referred By</TableHead>
+                                <TableHead className="text-right">Action</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -68,9 +98,21 @@ export default function AdminFamilyPage() {
                                     <TableCell className="font-medium">{member.displayName}</TableCell>
                                     <TableCell>{member.email}</TableCell>
                                     <TableCell>
-                                        <Badge variant="default">{member.plan}</Badge>
+                                        <Badge variant={member.isPaid ? 'default' : 'secondary'}>
+                                            {member.isPaid ? 'Active' : 'Pending'}
+                                        </Badge>
                                     </TableCell>
                                     <TableCell className="font-mono text-xs">{member.referrer || 'N/A'}</TableCell>
+                                    <TableCell className="text-right">
+                                        {!member.isPaid && member.email && (
+                                            <Button
+                                                size="sm"
+                                                onClick={() => handleActivate(member.email!)}
+                                            >
+                                                Activate
+                                            </Button>
+                                        )}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -79,7 +121,7 @@ export default function AdminFamilyPage() {
                     <div className="text-center text-muted-foreground py-8">
                         <Users className="mx-auto h-12 w-12 mb-4"/>
                         <h3 className="text-lg font-semibold">No Family Members Yet</h3>
-                        <p>Newly registered users with "Family" status will appear here.</p>
+                        <p>Newly registered users eligible for "Family" status will appear here.</p>
                     </div>
                 )}
             </CardContent>

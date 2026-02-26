@@ -102,12 +102,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (userToSignIn) {
       const existingUser = getMockUserDB().find(u => u.email === userToSignIn.email);
 
-      // If it's a new user, they automatically become "Family"
+      // If it's a new user, they automatically become "Family" but require activation
       if (isNewUser) {
           userToSet = { 
               ...userToSignIn, 
-              isPaid: true, // Full access
-              plan: 'Diamond', // Top plan
+              isPaid: false, // Requires manual activation by admin
+              plan: 'Diamond', // They will get the top plan upon activation
               isFriendAndFamily: true, // Mark as family
               referrer: referrerUsername || null,
           };
