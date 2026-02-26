@@ -1,13 +1,12 @@
-
 'use client';
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2, Film } from 'lucide-react';
+import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2 } from 'lucide-react';
 import { useDomains, type DnsRecord } from "@/contexts/domains-provider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from "@/hooks/use-toast";
@@ -18,7 +17,35 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { generateDeploymentVideo } from '@/ai/flows/generate-deployment-video';
+import { generateDeploymentLog } from '@/ai/flows/generate-deployment-log';
+
+
+// --- Typewriter Component for Deployment Log ---
+const Typewriter = ({ text }: { text: string; }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  
+  useEffect(() => {
+    setDisplayedText(''); // Reset on new text
+    if (text) {
+      let i = 0;
+      const intervalId = setInterval(() => {
+        const chunkSize = Math.random() > 0.9 ? Math.floor(Math.random() * 10) + 1 : 1;
+        i += chunkSize;
+        if (i > text.length) {
+            i = text.length;
+        }
+        setDisplayedText(text.substring(0, i));
+        
+        if (i >= text.length) {
+          clearInterval(intervalId);
+        }
+      }, 25);
+      return () => clearInterval(intervalId);
+    }
+  }, [text]);
+
+  return <pre className="bg-black text-green-400 font-mono text-sm p-4 rounded-lg whitespace-pre-wrap overflow-y-auto max-h-[60vh]">{displayedText}<span className="animate-pulse">_</span></pre>;
+};
 
 
 const getStatusIcon = (status: DnsRecord['status']) => {
@@ -35,7 +62,6 @@ const getStatusIcon = (status: DnsRecord['status']) => {
 }
 
 export default function ManageDomainPage() {
-    const router = useRouter();
     const params = useParams();
     const { toast } = useToast();
     const { getDomainById, verifyDomainDns, deployWebsiteToDomain, generatedWebsites, loadingWebsites } = useDomains();
@@ -45,16 +71,14 @@ export default function ManageDomainPage() {
     const [selectedWebsite, setSelectedWebsite] = useState<string>('');
     const [isDeploying, setIsDeploying] = useState(false);
     
-    // State for deployment video
-    const [isGeneratingVideo, setIsGeneratingVideo] = useState(false);
-    const [deploymentVideoUrl, setDeploymentVideoUrl] = useState<string | null>(null);
+    const [isGeneratingLog, setIsGeneratingLog] = useState(false);
+    const [deploymentLogContent, setDeploymentLogContent] = useState<string | null>(null);
     const [publishedDomain, setPublishedDomain] = useState<string>('');
     
     const domain = getDomainById(domainId);
 
     useEffect(() => {
         if (!domain) {
-            // maybe redirect or show a not found message after a delay
             return;
         }
         setSelectedWebsite(domain.deployedWebsiteId || '');
@@ -88,8 +112,8 @@ export default function ManageDomainPage() {
             return;
         }
         setIsDeploying(true);
-        setIsGeneratingVideo(true);
-        setDeploymentVideoUrl(null);
+        setDeploymentLogContent(null);
+        setIsGeneratingLog(true);
         setPublishedDomain(domain.name);
 
 
@@ -101,16 +125,16 @@ export default function ManageDomainPage() {
                 description: `Now generating a live deployment log for ${domain.name}. This may take a moment.` 
             });
 
-            // Generate the video
-            const result = await generateDeploymentVideo({ domainName: domain.name });
-            setDeploymentVideoUrl(result.videoUrl);
+            const result = await generateDeploymentLog({ domainName: domain.name });
+            setIsGeneratingLog(false);
+            setDeploymentLogContent(result.logContent);
 
         } catch (error) {
-           console.error('Error deploying website or generating video:', error);
+           console.error('Error deploying website or generating log:', error);
            toast({ title: 'Error During Deployment', description: 'Could not complete the deployment or generate the deployment log.', variant: 'destructive'});
+           setIsGeneratingLog(false);
         } finally {
             setIsDeploying(false);
-            setIsGeneratingVideo(false);
         }
     };
     
@@ -202,7 +226,7 @@ export default function ManageDomainPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col sm:flex-row gap-4 max-w-lg">
-                        <Select onValueChange={setSelectedWebsite} defaultValue={selectedWebsite} disabled={!allRecordsFound || isDeploying || isGeneratingVideo}>
+                        <Select onValueChange={setSelectedWebsite} defaultValue={selectedWebsite} disabled={!allRecordsFound || isDeploying}>
                             <SelectTrigger>
                                 <SelectValue placeholder={loadingWebsites ? "Loading websites..." : "Select a generated website"} />
                             </SelectTrigger>
@@ -220,9 +244,9 @@ export default function ManageDomainPage() {
                                 )}
                             </SelectContent>
                         </Select>
-                        <Button onClick={handleDeploy} disabled={!allRecordsFound || !selectedWebsite || isDeploying || isGeneratingVideo}>
-                           {isDeploying || isGeneratingVideo ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Film className="mr-2"/> }
-                           {isDeploying || isGeneratingVideo ? 'Deploying...' : 'Deploy & View Log'}
+                        <Button onClick={handleDeploy} disabled={!allRecordsFound || !selectedWebsite || isDeploying}>
+                           {isDeploying ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Globe className="mr-2"/> }
+                           {isDeploying ? 'Deploying...' : 'Deploy & View Log'}
                         </Button>
                     </div>
                 </CardContent>
@@ -235,22 +259,22 @@ export default function ManageDomainPage() {
                 </CardFooter>
             </Card>
             
-            <Dialog open={!!deploymentVideoUrl} onOpenChange={(isOpen) => !isOpen && setDeploymentVideoUrl(null)}>
-                <DialogContent className="max-w-3xl">
-                <DialogHeader>
-                    <DialogTitle>Live Deployment Log: {publishedDomain}</DialogTitle>
-                    <DialogDescription>
-                    This is a visualization of the backend deployment process. Your site is now live, but global propagation can take 5-10 minutes.
+            <Dialog open={isGeneratingLog || !!deploymentLogContent} onOpenChange={(isOpen) => { if (!isOpen) { setDeploymentLogContent(null); setIsGeneratingLog(false); }}}>
+                <DialogContent className="max-w-3xl bg-black border-gray-700">
+                  <DialogHeader>
+                    <DialogTitle className="text-white font-mono">Live Deployment Log: {publishedDomain}</DialogTitle>
+                    <DialogDescription className="text-gray-400 font-mono">
+                      This is a visualization of the backend deployment process. Your site is now live, but global propagation can take 5-10 minutes.
                     </DialogDescription>
-                </DialogHeader>
-                {deploymentVideoUrl && (
-                    <div className="relative aspect-video w-full overflow-hidden rounded-lg border mt-4">
-                    <video controls autoPlay loop className="w-full h-full bg-black">
-                        <source src={deploymentVideoUrl} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
+                  </DialogHeader>
+                   {isGeneratingLog ? (
+                    <div className="flex flex-col items-center justify-center h-48 text-green-400 font-mono">
+                      <Loader2 className="h-8 w-8 animate-spin" />
+                      <p className="mt-4">Contacting AI... Generating deployment sequence...</p>
                     </div>
-                )}
+                  ) : (
+                    deploymentLogContent && <Typewriter text={deploymentLogContent} />
+                  )}
                 </DialogContent>
             </Dialog>
         </div>

@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import {
   generateWebsiteJson,
 } from '@/ai/flows/website-generator';
-import { generateDeploymentVideo } from '@/ai/flows/generate-deployment-video';
+import { generateDeploymentLog } from '@/ai/flows/generate-deployment-log';
 import { generateHtmlForWebsite } from '@/lib/website-html-generator';
 import { saveWebsite } from '@/lib/firestore';
 import { themes } from '@/lib/data';
@@ -46,8 +46,37 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/components/auth/auth-provider';
 import { useDomains } from '@/contexts/domains-provider';
-import { Loader2, Wand2, Eye, Globe, Film } from 'lucide-react';
+import { Loader2, Wand2, Eye, Globe } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+
+// --- Typewriter Component for Deployment Log ---
+const Typewriter = ({ text }: { text: string; }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  
+  useEffect(() => {
+    setDisplayedText(''); // Reset on new text
+    if (text) {
+      let i = 0;
+      const intervalId = setInterval(() => {
+        const chunkSize = Math.random() > 0.9 ? Math.floor(Math.random() * 10) + 1 : 1;
+        i += chunkSize;
+        if (i > text.length) {
+            i = text.length;
+        }
+        setDisplayedText(text.substring(0, i));
+        
+        if (i >= text.length) {
+          clearInterval(intervalId);
+        }
+      }, 25);
+      return () => clearInterval(intervalId);
+    }
+  }, [text]);
+
+  return <pre className="bg-black text-green-400 font-mono text-sm p-4 rounded-lg whitespace-pre-wrap overflow-y-auto max-h-[60vh]">{displayedText}<span className="animate-pulse">_</span></pre>;
+};
+
 
 const formSchema = z.object({
   niche: z.string().min(5, 'Please describe your niche in at least 5 characters.'),
@@ -66,9 +95,8 @@ export default function WebsiteBuilderPage() {
   const [selectedDomain, setSelectedDomain] = useState<string>('');
   const [publishedDomain, setPublishedDomain] = useState<string>('');
   
-  // New state for deployment video
-  const [isGeneratingVideo, setIsGeneratingVideo] = useState(false);
-  const [deploymentVideoUrl, setDeploymentVideoUrl] = useState<string | null>(null);
+  const [isGeneratingLog, setIsGeneratingLog] = useState(false);
+  const [deploymentLogContent, setDeploymentLogContent] = useState<string | null>(null);
 
   const { toast } = useToast();
   const { user } = useAuth();
@@ -96,7 +124,7 @@ export default function WebsiteBuilderPage() {
     }
     setIsLoading(true);
     setGeneratedHtml(null);
-    setDeploymentVideoUrl(null);
+    setDeploymentLogContent(null);
     setPublishedDomain('');
     try {
       const jsonContent = await generateWebsiteJson({
@@ -140,8 +168,8 @@ export default function WebsiteBuilderPage() {
     }
 
     setIsPublishing(true);
-    setIsGeneratingVideo(true);
-    setDeploymentVideoUrl(null);
+    setDeploymentLogContent(null);
+    setIsGeneratingLog(true);
     
     try {
       const selectedThemeName = form.getValues('themeName');
@@ -154,17 +182,17 @@ export default function WebsiteBuilderPage() {
         title: 'Deployment Initiated',
         description: `Now generating a live deployment log for ${domainObject.name}. This may take a moment.`,
       });
-
-      // Generate the video
-      const result = await generateDeploymentVideo({ domainName: domainObject.name });
-      setDeploymentVideoUrl(result.videoUrl);
+      
+      const result = await generateDeploymentLog({ domainName: domainObject.name });
+      setIsGeneratingLog(false);
+      setDeploymentLogContent(result.logContent);
 
     } catch (error) {
-       console.error('Error publishing website or generating video:', error);
+       console.error('Error publishing website or generating log:', error);
        toast({ title: 'Error During Deployment', description: 'Could not save the website or generate the deployment log.', variant: 'destructive'});
+       setIsGeneratingLog(false);
     } finally {
         setIsPublishing(false);
-        setIsGeneratingVideo(false);
     }
   };
 
@@ -308,9 +336,9 @@ export default function WebsiteBuilderPage() {
                               ))}
                           </SelectContent>
                       </Select>
-                      <Button onClick={handlePublishAndDeploy} disabled={isPublishing || !selectedDomain || isGeneratingVideo}>
-                          {isPublishing || isGeneratingVideo ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Film className="mr-2 h-4 w-4" />}
-                          Publish & View Log
+                      <Button onClick={handlePublishAndDeploy} disabled={isPublishing || !selectedDomain}>
+                          {isPublishing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Globe className="mr-2 h-4 w-4" />}
+                          {isPublishing ? 'Deploying...' : 'Publish & View Log'}
                       </Button>
                    </div>
                    {verifiedDomains.length === 0 && <FormDescription>You must add and verify a domain in the 'Hosting' section before you can publish.</FormDescription>}
@@ -321,21 +349,21 @@ export default function WebsiteBuilderPage() {
         </Card>
       </div>
 
-      <Dialog open={!!deploymentVideoUrl} onOpenChange={(isOpen) => !isOpen && setDeploymentVideoUrl(null)}>
-        <DialogContent className="max-w-3xl">
+      <Dialog open={isGeneratingLog || !!deploymentLogContent} onOpenChange={(isOpen) => { if (!isOpen) { setDeploymentLogContent(null); setIsGeneratingLog(false); }}}>
+        <DialogContent className="max-w-3xl bg-black border-gray-700">
           <DialogHeader>
-            <DialogTitle>Live Deployment Log: {publishedDomain}</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-white font-mono">Live Deployment Log: {publishedDomain}</DialogTitle>
+            <DialogDescription className="text-gray-400 font-mono">
               This is a visualization of the backend deployment process. Your site is now live, but global propagation can take 5-10 minutes.
             </DialogDescription>
           </DialogHeader>
-          {deploymentVideoUrl && (
-            <div className="relative aspect-video w-full overflow-hidden rounded-lg border mt-4">
-              <video controls autoPlay loop className="w-full h-full bg-black">
-                <source src={deploymentVideoUrl} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+           {isGeneratingLog ? (
+            <div className="flex flex-col items-center justify-center h-48 text-green-400 font-mono">
+              <Loader2 className="h-8 w-8 animate-spin" />
+              <p className="mt-4">Contacting AI... Generating deployment sequence...</p>
             </div>
+          ) : (
+            deploymentLogContent && <Typewriter text={deploymentLogContent} />
           )}
         </DialogContent>
       </Dialog>
