@@ -238,7 +238,7 @@ Page speed literally changes everything. If you run an online store, you NEED th
   },
   {
     slug: 'infrastructure-as-income',
-    title: 'Infrastructure as Income',
+    title: 'Guide: Infrastructure as Income',
     description: 'Learn how to turn essential web hosting into a reliable daily income stream.',
     image: 'strategy-1',
     content: `
@@ -257,7 +257,7 @@ Page speed literally changes everything. If you run an online store, you NEED th
   },
   {
     slug: 'roadmap-to-10-referrals',
-    title: 'Roadmap to 10 Referrals (75% Bump)',
+    title: 'Guide: Roadmap to 10 Referrals (75% Bump)',
     description: 'A step-by-step guide to reaching 10 active referrals and unlocking the 75% commission tier.',
     image: 'strategy-2',
     content: `
@@ -273,7 +273,7 @@ Page speed literally changes everything. If you run an online store, you NEED th
   },
   {
     slug: 'ai-content-velocity',
-    title: 'AI Content Velocity',
+    title: 'Guide: AI Content Velocity',
     description: 'Master the art of rapid content creation using the AI Studio to dominate your niche.',
     image: 'strategy-3',
     content: `
@@ -290,7 +290,7 @@ Page speed literally changes everything. If you run an online store, you NEED th
   },
   {
     slug: 'nvme-edge-seo-advantage',
-    title: 'NVMe Edge SEO Advantage',
+    title: 'Guide: NVMe Edge SEO Advantage',
     description: 'Discover how sub-second load times give your sites a powerful ranking advantage on Google.',
     image: 'strategy-4',
     content: `
@@ -308,7 +308,7 @@ Page speed literally changes everything. If you run an online store, you NEED th
   },
   {
     slug: 'daily-paypal-cashflow',
-    title: 'Daily PayPal Cashflow Management',
+    title: 'Guide: Daily PayPal Cashflow Management',
     description: 'Strategies for managing and reinvesting your daily payouts to accelerate growth.',
     image: 'strategy-5',
     content: `
@@ -326,7 +326,7 @@ Page speed literally changes everything. If you run an online store, you NEED th
   },
   {
     slug: 'one-click-niche-site-scaling',
-    title: '1-Click Niche Site Scaling',
+    title: 'Guide: 1-Click Niche Site Scaling',
     description: 'A look into the future of affiliate marketing: deploying entire niche sites with a single click.',
     image: 'strategy-6',
     content: `
@@ -355,6 +355,7 @@ export type PricingTier = {
 };
 
 const starterGuides = [
+  'Guide: Connecting Your Custom Domain',
   'Guide: Infrastructure as Income',
   'Guide: Facebook Ads Playbook',
 ];
