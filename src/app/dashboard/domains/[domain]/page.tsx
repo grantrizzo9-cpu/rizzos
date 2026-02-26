@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2 } from 'lucide-react';
+import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2, Clock } from 'lucide-react';
 import { useDomains, type DnsRecord } from "@/contexts/domains-provider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from "@/hooks/use-toast";
@@ -207,11 +207,18 @@ export default function ManageDomainPage() {
                         </div>
                     </div>
                      <div>
-                        <h3 className="font-semibold text-lg mb-2">Step 2: Check DNS Propagation</h3>
+                        <h3 className="font-semibold text-lg mb-2">Step 2: Wait for DNS Propagation</h3>
                         <p className="text-muted-foreground mb-4">
-                            After adding the records, it can take some time (from a few minutes to an hour) for the changes to take effect globally. You can use a trusted third-party tool like DNS Checker to see the live status of your domain's propagation around the world.
+                           After adding the records, it can take time (from a few minutes to several hours) for the changes to take effect globally. Clicking "Verify DNS" too soon might show errors even if your setup is correct.
                         </p>
-                        <Button asChild variant="outline">
+                         <Alert>
+                            <Clock className="h-4 w-4" />
+                            <AlertTitle>Be Patient!</AlertTitle>
+                            <AlertDescription>
+                                DNS is not instant. If you just saved your records, please wait at least 30-60 minutes before clicking "Verify DNS". You can use a third-party tool like DNS Checker to see the live status of your domain's propagation around the world.
+                            </AlertDescription>
+                        </Alert>
+                        <Button asChild variant="outline" className="mt-4">
                             <a href={`https://dnschecker.org/#A/${domain.name}`} target="_blank" rel="noopener noreferrer">
                                 Check DNS Status with dnschecker.org <ExternalLink className="ml-2"/>
                             </a>
