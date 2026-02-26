@@ -144,7 +144,7 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
       router.push('/dashboard/upgrade');
 
     } else { // Login mode
-      if (email.toLowerCase() === 'admin@hostproai.com') {
+      if (email.toLowerCase() === 'rentapog@gmail.com') {
           signIn(); // Special case for admin login
           router.push('/dashboard');
       } else {

@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
@@ -34,9 +35,9 @@ const friendsAndFamilyEmails = [
 // Mock default user
 const defaultMockUser: User = {
   uid: 'mock-admin-user-123',
-  email: 'admin@hostproai.com',
-  displayName: 'Host Pro Ai Admin',
-  username: 'hostproai',
+  email: 'rentapog@gmail.com',
+  displayName: 'Admin',
+  username: 'platform_admin',
   isPaid: true,
   plan: 'Diamond',
   referrer: null,
