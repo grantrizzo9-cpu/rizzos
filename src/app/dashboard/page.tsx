@@ -58,7 +58,8 @@ const chartConfig = {
 };
 
 function AdminDashboard() {
-  const { referrals: platformReferrals } = useReferrals();
+  const { referrals: platformReferrals, activateReferral } = useReferrals();
+  const { toast } = useToast();
   const pendingActivationsCount = platformReferrals.filter(r => r.status === 'pending').length;
 
   const activatedReferrals = platformReferrals.filter(r => r.status === 'activated');
@@ -95,6 +96,13 @@ function AdminDashboard() {
   const totalUsers = new Set(platformReferrals.map(r => r.email)).size + 1; // +1 for admin
   const totalAffiliates = new Set(platformReferrals.map(r => r.affiliate)).size;
 
+  const handleActivate = (email: string, plan: string) => {
+    activateReferral(email, plan);
+    toast({
+        title: "User Activated",
+        description: `The account for ${email} has been successfully activated.`,
+    });
+  };
 
   return (
     <div className="space-y-8">
@@ -233,6 +241,7 @@ function AdminDashboard() {
                 <TableHead>Affiliate</TableHead>
                 <TableHead>Plan</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead className="text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -247,17 +256,22 @@ function AdminDashboard() {
                       {referral.status}
                     </Badge>
                   </TableCell>
+                  <TableCell className="text-right">
+                      {referral.status === 'pending' && (
+                          <Button
+                              size="sm"
+                              onClick={() => handleActivate(referral.email, referral.plan)}
+                          >
+                              Activate
+                          </Button>
+                      )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
-
-      <div className="pt-8 mt-8 border-t">
-        <h2 className="text-2xl font-bold font-headline mb-4">Friends &amp; Family View</h2>
-        <FriendsAndFamilyDashboard />
-      </div>
     </div>
   );
 }
