@@ -35,6 +35,7 @@ export default function ManageDomainPage() {
     const [isVerifying, setIsVerifying] = useState(false);
     const [selectedWebsite, setSelectedWebsite] = useState<string>('');
     const [isDeploying, setIsDeploying] = useState(false);
+    const [deploymentInitiated, setDeploymentInitiated] = useState(false);
     
     const domain = getDomainById(domainId);
 
@@ -74,11 +75,18 @@ export default function ManageDomainPage() {
             return;
         }
         setIsDeploying(true);
+        setDeploymentInitiated(true);
+
+        deployWebsiteToDomain(domain.id, selectedWebsite);
+
+        toast({ 
+            title: "Deployment Initiated", 
+            description: `We've started linking your website to ${domain.name}. It may take a few minutes for changes to go live.` 
+        });
+
         setTimeout(() => {
-            deployWebsiteToDomain(domain.id, selectedWebsite);
-            toast({ title: "Deployment Successful!", description: `Website successfully linked to ${domain.name}.` });
             setIsDeploying(false);
-        }, 1000);
+        }, 3000);
     };
     
     const allRecordsFound = domain.dnsRecords.every(r => r.status === 'found');
@@ -169,7 +177,7 @@ export default function ManageDomainPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col sm:flex-row gap-4 max-w-lg">
-                        <Select onValueChange={setSelectedWebsite} defaultValue={selectedWebsite} disabled={!allRecordsFound}>
+                        <Select onValueChange={setSelectedWebsite} defaultValue={selectedWebsite} disabled={!allRecordsFound || isDeploying}>
                             <SelectTrigger>
                                 <SelectValue placeholder={loadingWebsites ? "Loading websites..." : "Select a generated website"} />
                             </SelectTrigger>
@@ -189,19 +197,25 @@ export default function ManageDomainPage() {
                         </Select>
                         <Button onClick={handleDeploy} disabled={!allRecordsFound || !selectedWebsite || isDeploying}>
                            {isDeploying ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Globe className="mr-2"/> }
-                            Deploy
+                           {isDeploying ? 'Deploying...' : 'Deploy'}
                         </Button>
                     </div>
                 </CardContent>
-                <CardFooter>
-                    {domain.deployedWebsiteId && (
+                <CardFooter className="flex-col items-start gap-4 pt-6">
+                    {deploymentInitiated && (
                          <Alert variant="default">
                             <Info className="h-4 w-4" />
-                            <AlertTitle>Live Website</AlertTitle>
+                            <AlertTitle>Deployment Initiated. What's next?</AlertTitle>
                             <AlertDescription>
-                               Website <span className="font-mono text-xs">{domain.deployedWebsiteId}</span> is currently deployed to this domain. Re-deploying will overwrite the current site.
+                                It can take <strong>5-10 minutes</strong> for your site to become live at <a href={`http://${domain.name}`} target="_blank" rel="noopener noreferrer" className="font-bold underline">{domain.name}</a>.
+                                If you still see an error after 10 minutes, please re-verify your DNS settings.
                             </AlertDescription>
                         </Alert>
+                    )}
+                    {domain.deployedWebsiteId && (
+                         <div className="text-sm text-muted-foreground">
+                           Currently, website <span className="font-mono text-xs">{domain.deployedWebsiteId}</span> is linked to this domain. Re-deploying will link a different site.
+                         </div>
                     )}
                 </CardFooter>
             </Card>
