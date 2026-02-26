@@ -7,7 +7,12 @@ export default async function Page() {
     const headersList = headers();
     // In a real environment, you might check x-forwarded-host as well.
     // For Firebase App Hosting, 'host' should be reliable.
-    const domain = headersList.get('host')?.split(':')[0] || '';
+    let domain = headersList.get('host')?.split(':')[0] || '';
+    
+    // Strip 'www.' from the beginning of the domain for lookup
+    if (domain.startsWith('www.')) {
+        domain = domain.substring(4);
+    }
     
     // We check for localhost to ensure the marketing page works in local dev.
     if (domain === 'localhost') {
