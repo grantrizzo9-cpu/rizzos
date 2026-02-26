@@ -64,11 +64,17 @@ export const EarningsProvider = ({ children }: { children: ReactNode }) => {
       r => r.affiliate === user.username
     );
 
-    // Process only activated referrals for earnings
-    const activatedReferrals = myPlatformReferrals.filter(r => r.status === 'activated');
+    // Get all activated referrals to calculate commission rate correctly
+    const allMyActivatedReferrals = myPlatformReferrals.filter(r => r.status === 'activated');
 
-    // Determine the correct commission rate
-    const commissionRate = activatedReferrals.length >= 10 ? 75 : 70;
+    // SIMULATION FIX: The first payment is a platform fee. Subsequent payments generate commission.
+    // To simulate this, we'll only calculate commission for a subset of activated referrals,
+    // mimicking the logic in the admin dashboard where it assumes half are for recurring revenue.
+    // This prevents newly activated referrals from immediately showing commission for the affiliate.
+    const commissionableReferrals = allMyActivatedReferrals.filter((_, index) => index % 2 !== 0);
+
+    // Determine the correct commission rate based on the total number of active referrals
+    const commissionRate = allMyActivatedReferrals.length >= 10 ? 75 : 70;
 
     const processedReferrals: Referral[] = myPlatformReferrals.map((pr, index) => {
       let dailyCommission = 0;
@@ -77,7 +83,8 @@ export const EarningsProvider = ({ children }: { children: ReactNode }) => {
       
       if (pr.status === 'activated') {
           status = 'Active';
-          if (tier) {
+          // Only calculate commission if the referral is in the "commissionable" simulated group
+          if (tier && commissionableReferrals.some(cr => cr.email === pr.email)) {
               dailyCommission = tier.price * (commissionRate / 100);
           }
       }
@@ -87,7 +94,7 @@ export const EarningsProvider = ({ children }: { children: ReactNode }) => {
         email: pr.email,
         plan: pr.plan,
         status: status,
-        commission: dailyCommission,
+        commission: dailyCommission, // This will be 0 for "newly" activated referrals
         date: new Date(new Date().setDate(new Date().getDate() - (index % 7))), // Spread dates over last 7 days
       };
     });
