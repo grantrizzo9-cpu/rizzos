@@ -205,6 +205,14 @@ export default function ManageDomainPage() {
                                </div>
                            ))}
                         </div>
+                        <Alert variant="destructive" className="mt-4">
+                            <AlertCircle className="h-4 w-4" />
+                            <AlertTitle>Important Tip!</AlertTitle>
+                            <AlertDescription>
+                                <p>If your `www` CNAME record isn't working, it's likely because a conflicting `A` record for `www` already exists. Most registrars create this automatically.</p>
+                                <p className="mt-2 font-bold">You must delete any `A` record with the host `www` before the `CNAME` record will work correctly.</p>
+                            </AlertDescription>
+                        </Alert>
                         <Alert variant="default" className="mt-4">
                             <Info className="h-4 w-4" />
                             <AlertTitle>Why are there three records?</AlertTitle>
