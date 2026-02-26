@@ -23,6 +23,7 @@ interface AuthContextType {
   signOut: () => void;
   activateAccount: (planName: string) => void;
   updateUser: (data: Partial<User>) => void;
+  updateUserDetails: (email: string, data: Partial<User>) => void;
   allUsers: User[];
   setFamilyStatus: (email: string, isFamily: boolean) => void;
 }
@@ -194,8 +195,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loadAllUsers();
   };
 
+  const updateUserDetails = (email: string, data: Partial<User>) => {
+    if (!email) return;
+    const db = getMockUserDB();
+    const updatedDb = db.map(u => {
+        if (u.email === email) {
+            const updatedUser = { ...u, ...data };
+            // If the user being edited is the currently logged-in user, update their session too
+            if (user && user.email === email) {
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+                setUser(updatedUser);
+            }
+            return updatedUser;
+        }
+        return u;
+    });
+    saveMockUserDB(updatedDb);
+    loadAllUsers(); // This will refresh the `allUsers` state in components.
+  };
 
-  const value = { user, loading, signIn, signOut, activateAccount, updateUser, allUsers, setFamilyStatus };
+  const value = { user, loading, signIn, signOut, activateAccount, updateUser, updateUserDetails, allUsers, setFamilyStatus };
 
   return (
     <AuthContext.Provider value={value}>

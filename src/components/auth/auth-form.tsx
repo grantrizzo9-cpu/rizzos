@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -9,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
 import { themes } from '@/lib/data';
+import { useToast } from '@/hooks/use-toast';
 
 type AuthFormProps = {
   mode: 'login' | 'signup';
@@ -73,6 +75,7 @@ const addUserToDB = (user: MockUser) => {
 export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
   const { signIn } = useAuth();
   const { addReferral } = useReferrals();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -124,7 +127,7 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
           username: username,
           isPaid: false,
           plan: undefined,
-          isFriendAndFamily: false, // All new users start as standard users
+          isFriendAndFamily: false,
           referrer: effectiveReferrer,
       };
       
@@ -153,6 +156,13 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
           setIsLoading(false);
       }
     }
+  };
+
+  const handleForgotPassword = () => {
+    toast({
+      title: "Forgot Password",
+      description: "In a real app, a password reset link would be sent to your email address.",
+    });
   };
 
   return (
@@ -205,6 +215,18 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
                 disabled={isLoading}
               />
             </div>
+            {mode === 'login' && (
+              <div className="flex items-center justify-end pt-2">
+                <Button
+                  type="button"
+                  variant="link"
+                  className="p-0 h-auto text-sm font-medium"
+                  onClick={handleForgotPassword}
+                >
+                  Forgot password?
+                </Button>
+              </div>
+            )}
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full" disabled={isLoading}>
