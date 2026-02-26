@@ -38,7 +38,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/components/auth/auth-provider';
 import { useDomains } from '@/contexts/domains-provider';
-import { Loader2, Wand2, Eye, UploadCloud } from 'lucide-react';
+import { Loader2, Wand2, Eye, UploadCloud, Globe } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
@@ -56,9 +56,11 @@ export default function WebsiteBuilderPage() {
   const [generatedHtml, setGeneratedHtml] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
+  const [selectedDomain, setSelectedDomain] = useState<string>('');
+  const [publishedDomain, setPublishedDomain] = useState<string>('');
   const { toast } = useToast();
   const { user } = useAuth();
-  const { domains } = useDomains();
+  const { domains, deployWebsiteToDomain } = useDomains();
   const verifiedDomains = domains.filter(d => d.status === 'verified');
 
 
@@ -83,21 +85,19 @@ export default function WebsiteBuilderPage() {
     setIsLoading(true);
     setGeneratedHtml(null);
     setIsPublished(false);
+    setPublishedDomain('');
     try {
-      // 1. Generate the JSON content from the AI
       const jsonContent = await generateWebsiteJson({
         niche: values.niche,
         username: user.username,
         domainName: values.domainName,
       });
 
-      // 2. Find the selected theme
       const selectedTheme = themes.find(t => t.name === values.themeName);
       if (!selectedTheme) {
         throw new Error('Selected theme not found.');
       }
 
-      // 3. Generate the final HTML
       const html = generateHtmlForWebsite(
         jsonContent,
         selectedTheme,
@@ -116,23 +116,36 @@ export default function WebsiteBuilderPage() {
     }
   }
 
-  const handlePublish = async () => {
+  const handlePublishAndDeploy = async () => {
     if (!generatedHtml || !user?.uid) {
       toast({ title: 'Error', description: 'No website content to publish.', variant: 'destructive'});
       return;
     }
+    if (!selectedDomain) {
+      toast({ title: 'Error', description: 'Please select a domain to publish to.', variant: 'destructive'});
+      return;
+    }
     setIsLoading(true);
+    setIsPublished(false);
     try {
       const selectedThemeName = form.getValues('themeName');
       const websiteId = await saveWebsite(user.uid, generatedHtml, selectedThemeName);
+      
+      deployWebsiteToDomain(selectedDomain, websiteId);
+
+      const domainObject = domains.find(d => d.id === selectedDomain);
+      if (domainObject) {
+        setPublishedDomain(domainObject.name);
+      }
+
       setIsPublished(true);
       toast({
         title: 'Website Published!',
-        description: `Your new site is saved with ID: ${websiteId}`,
+        description: `Your new site is now live on ${domainObject?.name || 'your domain'}.`,
       });
     } catch (error) {
        console.error('Error publishing website:', error);
-       toast({ title: 'Error Publishing', description: 'Could not save website to database.', variant: 'destructive'});
+       toast({ title: 'Error Publishing', description: 'Could not save and deploy the website.', variant: 'destructive'});
     } finally {
         setIsLoading(false);
     }
@@ -141,7 +154,7 @@ export default function WebsiteBuilderPage() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-      <Card className="lg:col-span-2">
+      <Card className="lg:col-span-2 h-fit">
         <CardHeader>
           <CardTitle>1-Click Website Generator</CardTitle>
           <CardDescription>
@@ -245,16 +258,10 @@ export default function WebsiteBuilderPage() {
           {generatedHtml && (
             <div className="flex flex-col flex-grow space-y-4">
               <Tabs defaultValue="preview" className="w-full flex-grow flex flex-col">
-                <div className="flex justify-between items-center">
-                    <TabsList>
-                        <TabsTrigger value="preview"><Eye className="mr-2"/>Preview</TabsTrigger>
-                        <TabsTrigger value="html">{'</>'}</TabsTrigger>
-                    </TabsList>
-                    <Button onClick={handlePublish} disabled={isLoading || isPublished} size="sm">
-                        {isLoading && generatedHtml ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UploadCloud className="mr-2 h-4 w-4" />}
-                        {isPublished ? 'Published' : 'Publish'}
-                    </Button>
-                </div>
+                <TabsList>
+                    <TabsTrigger value="preview"><Eye className="mr-2"/>Preview</TabsTrigger>
+                    <TabsTrigger value="html">{'</>'}</TabsTrigger>
+                </TabsList>
                 <TabsContent value="preview" className="flex-grow mt-4">
                   <iframe
                     srcDoc={generatedHtml}
@@ -269,12 +276,34 @@ export default function WebsiteBuilderPage() {
                     </pre>
                 </TabsContent>
               </Tabs>
-               {isPublished && (
+               
+               <div className="border-t pt-4 space-y-4">
+                 <h3 className="font-semibold">Publish to Domain</h3>
+                 <div className="flex flex-col sm:flex-row gap-4">
+                    <Select onValueChange={setSelectedDomain} value={selectedDomain} disabled={verifiedDomains.length === 0}>
+                        <SelectTrigger>
+                            <SelectValue placeholder={verifiedDomains.length === 0 ? "No verified domains" : "Select a verified domain"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {verifiedDomains.map(domain => (
+                                <SelectItem key={domain.id} value={domain.id}>{domain.name}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Button onClick={handlePublishAndDeploy} disabled={isLoading || !selectedDomain}>
+                        {isLoading && generatedHtml ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Globe className="mr-2 h-4 w-4" />}
+                        Publish to Domain
+                    </Button>
+                 </div>
+                 {verifiedDomains.length === 0 && <FormDescription>You must add and verify a domain in the 'Hosting' section before you can publish.</FormDescription>}
+               </div>
+               
+               {isPublished && publishedDomain && (
                  <Alert>
                     <UploadCloud className="h-4 w-4" />
-                    <AlertTitle>Site Saved!</AlertTitle>
+                    <AlertTitle>Site is Live!</AlertTitle>
                     <AlertDescription>
-                        Your website has been saved. You can access it from your dashboard in the future. (Feature coming soon).
+                        Your website has been successfully published to <a href={`http://${publishedDomain}`} target="_blank" rel="noopener noreferrer" className="font-bold underline">{publishedDomain}</a>.
                     </AlertDescription>
                 </Alert>
                )}
