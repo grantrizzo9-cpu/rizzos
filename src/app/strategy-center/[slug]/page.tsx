@@ -31,6 +31,16 @@ export default function ArticlePage() {
       const cnameValue = `your-username.hostproai.com`;
       const cnameHtml = `<code class="bg-muted p-1 rounded font-mono">${cnameValue}</code>`;
       content = content.replace(/\[USER_CNAME_VALUE\]/g, cnameHtml);
+
+      const dnsCnameImage = PlaceHolderImages.find(img => img.id === 'dns-cname');
+      const imageUrl = dnsCnameImage ? dnsCnameImage.imageUrl : 'https://placehold.co/800x300/e2e8f0/2d3748/png?text=Image%20Not%20Found';
+
+      const imageHtml = `
+       <div class="my-4 p-2 border border-border rounded-lg bg-muted">
+            <img src="${imageUrl}" alt="DNS CNAME record example" class="rounded-md w-full" data-ai-hint="dns cname"/>
+            <p class="text-xs text-center p-2 text-muted-foreground">Example of adding a CNAME record for your domain.</p>
+       </div>`;
+      content = content.replace(/\[DNS_IMAGE_PLACEHOLDER\]/g, imageHtml);
     }
     
     return content;

@@ -42,10 +42,7 @@ export const strategyArticles: Article[] = [
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 3: Adding the 'CNAME' Record</h3>
       <p class="mb-4">In the same DNS management panel, you will add a CNAME record. Set the host/name to 'www' and point it to your unique CNAME value from above.</p>
       
-       <div class="my-4 p-2 border border-border rounded-lg bg-muted">
-            <img src="https://images.unsplash.com/photo-1585184381599-f316a3a4a753?q=80&w=1080&auto=format&fit=crop" alt="DNS settings example" class="rounded-md w-full" data-ai-hint="dns settings"/>
-            <p class="text-xs text-center p-2 text-muted-foreground">Example of DNS settings panel at a domain registrar.</p>
-       </div>
+      [DNS_IMAGE_PLACEHOLDER]
 
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 4: Wait for Propagation & Verify</h3>
       <p class="mb-4">DNS changes can take some time to propagate across the internet. Once you've completed the steps above, go to the <a href="/dashboard/domains" class="font-bold text-primary hover:underline">Hosting</a> page in your dashboard and use the verifier tool to check if your domain is fully connected.</p>
