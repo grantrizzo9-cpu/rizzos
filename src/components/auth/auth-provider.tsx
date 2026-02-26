@@ -111,7 +111,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             ...userToSignIn, 
             isPaid: isNewUser ? false : userToSignIn.isPaid ?? true, 
             isFriendAndFamily: false,
-            referrer: referrerUsername || null,
+            referrer: referrerUsername ?? userToSignIn.referrer ?? null,
         };
       }
     } else {
