@@ -1,6 +1,7 @@
 
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from 'next/navigation';
@@ -134,7 +135,9 @@ export function HomePageClient() {
 
   return (
     <>
-      <Header />
+      <Suspense>
+        <Header />
+      </Suspense>
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-20 md:py-32 lg:py-40 bg-background">
@@ -352,7 +355,9 @@ export function HomePageClient() {
         </section>
 
       </main>
-      <Footer />
+      <Suspense>
+        <Footer />
+      </Suspense>
     </>
   );
 }

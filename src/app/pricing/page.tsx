@@ -1,6 +1,7 @@
 
 "use client";
 
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
@@ -56,7 +57,9 @@ export default function PricingPage() {
 
   return (
     <>
-      <Header />
+      <Suspense>
+        <Header />
+      </Suspense>
       <main className="flex-1">
         <section className="container px-4 sm:px-6 py-12 md:py-24">
           <div className="mx-auto mb-12 max-w-3xl text-center">
@@ -110,7 +113,9 @@ export default function PricingPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <Suspense>
+        <Footer />
+      </Suspense>
     </>
   );
 }

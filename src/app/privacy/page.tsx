@@ -1,13 +1,16 @@
 
 'use client';
 
+import { Suspense } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
 export default function PrivacyPage() {
   return (
     <>
-      <Header />
+      <Suspense>
+        <Header />
+      </Suspense>
       <main className="flex-1">
         <div className="container max-w-4xl px-4 sm:px-6 py-12 md:py-24">
           <h1 className="font-headline text-4xl font-bold mb-8 text-accent">Privacy Policy</h1>
@@ -31,7 +34,9 @@ export default function PrivacyPage() {
           </div>
         </div>
       </main>
-      <Footer />
+      <Suspense>
+        <Footer />
+      </Suspense>
     </>
   );
 }

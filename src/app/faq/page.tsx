@@ -1,6 +1,7 @@
 
 'use client';
 
+import { Suspense } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import {
@@ -13,7 +14,9 @@ import {
 export default function FAQPage() {
   return (
     <>
-      <Header />
+      <Suspense>
+        <Header />
+      </Suspense>
       <main className="flex-1">
         <div className="container max-w-3xl px-4 sm:px-6 py-12 md:py-24">
           <div className="text-center mb-12">
@@ -60,7 +63,9 @@ export default function FAQPage() {
           </Accordion>
         </div>
       </main>
-      <Footer />
+      <Suspense>
+        <Footer />
+      </Suspense>
     </>
   );
 }
