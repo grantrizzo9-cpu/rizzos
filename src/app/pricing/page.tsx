@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Suspense } from "react";
@@ -36,12 +35,12 @@ const getAffiliatePlanIndex = (username: string | undefined | null): number => {
     return planIndex > -1 ? planIndex : pricingTiers.length - 1;
 };
 
-const PricingContent = () => {
+export default function PricingPage() {
     const { user } = useAuth();
     const searchParams = useSearchParams();
     const ref = searchParams.get('ref');
     const signupHref = ref ? `/signup?ref=${ref}` : '/signup';
-
+    
     let visibleTiers: PricingTier[] = pricingTiers;
 
     // If a user is not logged in, we check for a referral code to filter plans.
@@ -54,7 +53,12 @@ const PricingContent = () => {
     // filtering is primarily for new, prospective customers.
 
 
-    return (
+  return (
+    <>
+      <Suspense>
+        <Header />
+      </Suspense>
+      <main className="flex-1">
         <section className="container px-4 sm:px-6 py-12 md:py-24">
             <div className="mx-auto mb-12 max-w-3xl text-center">
                 <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl">
@@ -106,19 +110,6 @@ const PricingContent = () => {
                 <p><strong>Commission Structure:</strong> All plans start at a 70% recurring daily commission rate. <br /> Automatically upgrade to <strong>75%</strong> upon reaching 10 active referrals.</p>
             </div>
         </section>
-    );
-}
-
-export default function PricingPage() {
-  return (
-    <>
-      <Suspense>
-        <Header />
-      </Suspense>
-      <main className="flex-1">
-        <Suspense>
-            <PricingContent />
-        </Suspense>
       </main>
       <Suspense>
         <Footer />
