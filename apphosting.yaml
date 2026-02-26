@@ -1,12 +1,14 @@
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
 
-runConfig:
-  memoryMiB: 1024
-  maxInstances: 1
-  timeoutSeconds: 600
+backend:
+  runConfig:
+    memoryMiB: 1024
+    maxInstances: 1
+    timeoutSeconds: 600
 
-sites:
-  hostproai:
-    domains:
-      - rizzosa.com
+hosting:
+  site: hostproai
+  domains:
+    - rizzosa.com
+    - www.rizzosa.com
