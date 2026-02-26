@@ -1,7 +1,5 @@
-
 'use client';
 
-import { Suspense } from "react";
 import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -51,9 +49,7 @@ export default function ArticlePage() {
 
   return (
     <>
-      <Suspense>
-        <Header />
-      </Suspense>
+      <Header />
       <main className="flex-1">
         <article className="container max-w-4xl px-4 sm:px-6 py-12 md:py-24">
           <div className="space-y-4 text-center">
@@ -92,9 +88,7 @@ export default function ArticlePage() {
           )}
         </article>
       </main>
-      <Suspense>
-        <Footer />
-      </Suspense>
+      <Footer />
     </>
   );
 }
