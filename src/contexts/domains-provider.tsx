@@ -121,6 +121,7 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
   }, [domains]);
 
   // This is a mock verification. In a real app, this would be a backend call.
+  // This now always succeeds to avoid confusing the user, who should use a real DNS checker.
   const verifyDomainDns = useCallback(async (domainId: string) => {
     const domain = domains.find(d => d.id === domainId);
     if (!domain) return;
@@ -130,17 +131,14 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
     
     await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
 
-    // Simulate some records failing for demonstration
+    // Simulate a successful verification since the user will use a real DNS checker.
     const updatedRecords = domain.dnsRecords.map(record => {
-      const isFound = Math.random() > 0.3; // 70% chance of success
-      return { ...record, status: isFound ? 'found' : 'missing' } as DnsRecord;
+      return { ...record, status: 'found' } as DnsRecord;
     });
-
-    const allVerified = updatedRecords.every(r => r.status === 'found');
 
     setDomains(prev => prev.map(d => 
         d.id === domainId 
-        ? { ...d, dnsRecords: updatedRecords, status: allVerified ? 'verified' : 'error' } 
+        ? { ...d, dnsRecords: updatedRecords, status: 'verified' } 
         : d
     ));
 
