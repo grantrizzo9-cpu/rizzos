@@ -38,7 +38,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/components/auth/auth-provider';
 import { useDomains } from '@/contexts/domains-provider';
-import { Loader2, Wand2, Eye, UploadCloud, Globe } from 'lucide-react';
+import { Loader2, Wand2, Eye, Info, Globe } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
@@ -55,7 +55,8 @@ type FormValues = z.infer<typeof formSchema>;
 export default function WebsiteBuilderPage() {
   const [generatedHtml, setGeneratedHtml] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isPublished, setIsPublished] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [deploymentInitiated, setDeploymentInitiated] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>('');
   const [publishedDomain, setPublishedDomain] = useState<string>('');
   const { toast } = useToast();
@@ -84,7 +85,7 @@ export default function WebsiteBuilderPage() {
     }
     setIsLoading(true);
     setGeneratedHtml(null);
-    setIsPublished(false);
+    setDeploymentInitiated(false);
     setPublishedDomain('');
     try {
       const jsonContent = await generateWebsiteJson({
@@ -125,8 +126,8 @@ export default function WebsiteBuilderPage() {
       toast({ title: 'Error', description: 'Please select a domain to publish to.', variant: 'destructive'});
       return;
     }
-    setIsLoading(true);
-    setIsPublished(false);
+    setIsPublishing(true);
+    setDeploymentInitiated(false);
     try {
       const selectedThemeName = form.getValues('themeName');
       const websiteId = await saveWebsite(user.uid, generatedHtml, selectedThemeName);
@@ -138,16 +139,16 @@ export default function WebsiteBuilderPage() {
         setPublishedDomain(domainObject.name);
       }
 
-      setIsPublished(true);
+      setDeploymentInitiated(true);
       toast({
-        title: 'Website Published!',
-        description: `Your new site is now live on ${domainObject?.name || 'your domain'}.`,
+        title: 'Deployment Initiated',
+        description: `We've started linking your website to ${domainObject?.name}. It may take a few minutes for changes to go live.`,
       });
     } catch (error) {
        console.error('Error publishing website:', error);
        toast({ title: 'Error Publishing', description: 'Could not save and deploy the website.', variant: 'destructive'});
     } finally {
-        setIsLoading(false);
+        setIsPublishing(false);
     }
   };
 
@@ -290,20 +291,21 @@ export default function WebsiteBuilderPage() {
                             ))}
                         </SelectContent>
                     </Select>
-                    <Button onClick={handlePublishAndDeploy} disabled={isLoading || !selectedDomain}>
-                        {isLoading && generatedHtml ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Globe className="mr-2 h-4 w-4" />}
+                    <Button onClick={handlePublishAndDeploy} disabled={isPublishing || !selectedDomain}>
+                        {isPublishing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Globe className="mr-2 h-4 w-4" />}
                         Publish to Domain
                     </Button>
                  </div>
                  {verifiedDomains.length === 0 && <FormDescription>You must add and verify a domain in the 'Hosting' section before you can publish.</FormDescription>}
                </div>
                
-               {isPublished && publishedDomain && (
+               {deploymentInitiated && publishedDomain && (
                  <Alert>
-                    <UploadCloud className="h-4 w-4" />
-                    <AlertTitle>Site is Live!</AlertTitle>
+                    <Info className="h-4 w-4" />
+                    <AlertTitle>Deployment Initiated. What's next?</AlertTitle>
                     <AlertDescription>
-                        Your website has been successfully published to <a href={`http://${publishedDomain}`} target="_blank" rel="noopener noreferrer" className="font-bold underline">{publishedDomain}</a>.
+                        It can take <strong>5-10 minutes</strong> for your site to become live at <a href={`http://${publishedDomain}`} target="_blank" rel="noopener noreferrer" className="font-bold underline">{publishedDomain}</a>.
+                        If you still see an error after 10 minutes, please re-verify your DNS settings in the 'Hosting' section.
                     </AlertDescription>
                 </Alert>
                )}
