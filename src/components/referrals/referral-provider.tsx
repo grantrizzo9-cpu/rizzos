@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { platformReferrals as initialReferrals } from '@/lib/mock-data';
 
 export interface PlatformReferral {
@@ -19,11 +19,28 @@ interface ReferralContextType {
 
 const ReferralContext = createContext<ReferralContextType | undefined>(undefined);
 
-// No more local storage persistence to avoid caching issues.
-// State will be re-initialized from mock-data on every page load/hot-reload.
+const REFERRALS_LOCAL_STORAGE_KEY = 'platform_referrals';
+
 
 export const ReferralProvider = ({ children }: { children: ReactNode }) => {
-  const [referrals, setReferrals] = useState<PlatformReferral[]>(initialReferrals);
+  const [referrals, setReferrals] = useState<PlatformReferral[]>([]);
+
+  // Load from local storage on mount
+  useEffect(() => {
+    try {
+      const storedReferrals = localStorage.getItem(REFERRALS_LOCAL_STORAGE_KEY);
+      if (storedReferrals) {
+        setReferrals(JSON.parse(storedReferrals));
+      } else {
+        // If nothing in storage, initialize with mock data and save it
+        localStorage.setItem(REFERRALS_LOCAL_STORAGE_KEY, JSON.stringify(initialReferrals));
+        setReferrals(initialReferrals);
+      }
+    } catch (error) {
+      console.error("Failed to load referrals from local storage:", error);
+      setReferrals(initialReferrals);
+    }
+  }, []);
 
   const addReferral = useCallback((newReferralData: Omit<PlatformReferral, 'plan' | 'status'>) => {
     const newReferral: PlatformReferral = {
@@ -31,15 +48,30 @@ export const ReferralProvider = ({ children }: { children: ReactNode }) => {
       plan: 'Starter', // Default plan for new signups
       status: 'pending',
     };
-    setReferrals(prev => [newReferral, ...prev.filter(r => r.email !== newReferral.email)]);
+    
+    setReferrals(prev => {
+        const updatedReferrals = [newReferral, ...prev.filter(r => r.email !== newReferral.email)];
+        try {
+            localStorage.setItem(REFERRALS_LOCAL_STORAGE_KEY, JSON.stringify(updatedReferrals));
+        } catch (error) {
+            console.error("Failed to save referrals to local storage:", error);
+        }
+        return updatedReferrals;
+    });
   }, []);
   
   const activateReferral = useCallback((email: string, planName: string) => {
-    setReferrals(currentReferrals =>
-        currentReferrals.map(r =>
+    setReferrals(prev => {
+        const updatedReferrals = prev.map(r =>
             r.email === email ? { ...r, status: 'activated', plan: planName } : r
-        )
-    );
+        );
+        try {
+            localStorage.setItem(REFERRALS_LOCAL_STORAGE_KEY, JSON.stringify(updatedReferrals));
+        } catch (error) {
+            console.error("Failed to save referrals to local storage:", error);
+        }
+        return updatedReferrals;
+    });
   }, []);
 
 
