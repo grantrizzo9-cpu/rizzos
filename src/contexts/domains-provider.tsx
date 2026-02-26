@@ -85,16 +85,17 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
   }, [user?.uid]);
 
 
-  const getCnameValue = useCallback(() => {
-    return user?.username ? `${user.username}.hostproai.com` : '';
-  }, [user?.username]);
+  const getCnameValue = useCallback((domainName: string) => {
+    // The CNAME should point back to the root domain.
+    return domainName;
+  }, []);
 
   const addDomain = useCallback((domainName: string) => {
     if (!domainName || domains.some(d => d.name === domainName)) {
       return;
     }
 
-    const cnameValue = getCnameValue();
+    const cnameValue = getCnameValue(domainName);
     if (!cnameValue) return;
 
     const newDomain: Domain = {
@@ -120,8 +121,6 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
     return domains.find(d => d.id === domainId);
   }, [domains]);
 
-  // This is a mock verification. In a real app, this would be a backend call.
-  // This now always succeeds to avoid confusing the user, who should use a real DNS checker.
   const verifyDomainDns = useCallback(async (domainId: string) => {
     const domain = domains.find(d => d.id === domainId);
     if (!domain) return;
