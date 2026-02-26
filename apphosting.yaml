@@ -8,6 +8,7 @@ backend:
     timeoutSeconds: 600
 
 hosting:
+  site: studio-9195964548-d846f
   customDomains:
     - rizzosa.com
     - www.rizzosa.com
