@@ -2,15 +2,10 @@
 import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/google-genai';
 
-const geminiApiKey = process.env.GEMINI_API_KEY;
-
-if (!geminiApiKey) {
-    console.warn("GEMINI_API_KEY is not set in the environment. AI features will be disabled, but the site will continue to run.");
-}
-
-// The googleAI() plugin will find the key from the environment if the apiKey property is omitted.
-// Passing 'undefined' instead of '{}' allows the plugin to use its default key-finding behavior.
-const googleAiPlugin = googleAI(geminiApiKey ? { apiKey: geminiApiKey } : undefined);
+// The googleAI() plugin will automatically use the service account credentials
+// available in the App Hosting environment. An API key is not required for authentication
+// in this production environment, as it relies on the service account's IAM permissions.
+const googleAiPlugin = googleAI();
 
 export const ai = genkit({
   plugins: [googleAiPlugin],
