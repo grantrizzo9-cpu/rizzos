@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
@@ -35,7 +34,7 @@ const friendsAndFamilyEmails = [
 // Mock default user
 const defaultMockUser: User = {
   uid: 'mock-admin-user-123',
-  email: 'rentapog@gmail.com',
+  email: 'admin@hostproai.com',
   displayName: 'Host Pro Ai Admin',
   username: 'hostproai',
   isPaid: true,
@@ -71,15 +70,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // --- PRE-SEED MOCK DATA FOR TESTING ---
     const db = getMockUserDB();
-    const rentarizUserExists = db.some(u => u.email === 'rentariz@example.com');
+    const rentarizUserExists = db.some(u => u.email === 'rentariz@gmail.com');
     if (!rentarizUserExists) {
         const rentarizUser: User = {
             uid: 'mock-rentariz-user-456',
-            email: 'rentariz@example.com',
+            email: 'rentariz@gmail.com',
             displayName: 'Rentariz',
             username: 'rentariz',
             isPaid: true,
-            plan: 'Enterprise',
+            plan: 'Diamond',
             isFriendAndFamily: false,
             referrer: null,
         };
@@ -107,17 +106,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (isFriend) {
           userToSet = { ...userToSignIn, isPaid: true, plan: 'Diamond', isFriendAndFamily: true, referrer: null };
       } else {
+        const existingUser = getMockUserDB().find(u => u.email === userToSignIn.email);
+
         userToSet = { 
             ...userToSignIn, 
-            isPaid: isNewUser ? false : userToSignIn.isPaid ?? true, 
+            isPaid: isNewUser ? false : userToSignIn.isPaid ?? false, 
             isFriendAndFamily: false,
-            referrer: referrerUsername ?? userToSignIn.referrer ?? null,
+            // When signing in, preserve the referrer from the DB if it exists.
+            referrer: existingUser?.referrer ?? referrerUsername ?? userToSignIn.referrer ?? null,
         };
       }
     } else {
+      // This is the special admin login case
       userToSet = defaultMockUser;
     }
     
+    // Save updated user to mock DB as well
+    if (userToSet.email) {
+      const db = getMockUserDB();
+      const userIndex = db.findIndex(u => u.email === userToSet.email);
+      if (userIndex > -1) {
+        db[userIndex] = userToSet;
+      } else {
+        db.push(userToSet);
+      }
+      saveMockUserDB(db);
+    }
+
     localStorage.setItem('authed', 'true');
     localStorage.setItem('user', JSON.stringify(userToSet));
     setUser(userToSet);
@@ -137,6 +152,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const updatedUser = { ...user, isPaid: true, plan: planName };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
+       // Also update the mock DB
+      const db = getMockUserDB();
+      const userIndex = db.findIndex(u => u.email === user.email);
+      if (userIndex > -1) {
+        db[userIndex] = updatedUser;
+        saveMockUserDB(db);
+      }
     }
   };
 
@@ -145,6 +167,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const updatedUser = { ...user, ...data };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
+      // Also update the mock DB
+      const db = getMockUserDB();
+      const userIndex = db.findIndex(u => u.email === user.email);
+      if (userIndex > -1) {
+        db[userIndex] = updatedUser;
+        saveMockUserDB(db);
+      }
     }
   };
 

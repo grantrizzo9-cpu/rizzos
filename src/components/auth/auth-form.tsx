@@ -131,18 +131,20 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
       
       addUserToDB(newUser);
 
-      addReferral({
-          referredUser: username,
-          email: email,
-          affiliate: referrer || 'hostproai',
-      });
+      if(referrer) {
+        addReferral({
+            referredUser: username,
+            email: email,
+            affiliate: referrer,
+        });
+      }
 
       // The `as any` cast is necessary because MockUser is defined locally.
       signIn(newUser as any, true, referrer);
       router.push('/dashboard/upgrade');
 
     } else { // Login mode
-      if (email.toLowerCase() === 'rentapog@gmail.com') {
+      if (email.toLowerCase() === 'admin@hostproai.com') {
           signIn(); // Special case for admin login
           router.push('/dashboard');
       } else {

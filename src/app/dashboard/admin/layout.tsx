@@ -15,12 +15,12 @@ export default function AdminLayout({
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && user?.email !== 'rentapog@gmail.com') {
+    if (!loading && user?.email !== 'admin@hostproai.com') {
       router.replace('/dashboard');
     }
   }, [user, loading, router]);
   
-  if (loading || user?.email !== 'rentapog@gmail.com') {
+  if (loading || user?.email !== 'admin@hostproai.com') {
     return null; // or a loading spinner
   }
 
