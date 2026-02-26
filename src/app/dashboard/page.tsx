@@ -53,11 +53,11 @@ const chartConfig = {
 };
 
 function AdminDashboard() {
-  const { allUsers, toggleFamilyStatus } = useAuth();
+  const { allUsers, setFamilyStatus } = useAuth();
   const { toast } = useToast();
 
   const handleActivate = (email: string, displayName: string) => {
-    toggleFamilyStatus(email);
+    setFamilyStatus(email, true);
     toast({
         title: "Family Member Activated!",
         description: `${displayName} has been granted free Diamond plan access.`,
@@ -97,7 +97,7 @@ function AdminDashboard() {
                   <TableCell>{user.email}</TableCell>
                   <TableCell>
                     <Badge variant={user.isFriendAndFamily ? 'default' : 'secondary'}>
-                      {user.isFriendAndFamily ? 'Family' : 'Standard'}
+                      {user.isFriendAndFamily ? 'Family' : (user.isPaid ? 'Active' : 'Pending')}
                     </Badge>
                   </TableCell>
                   <TableCell className="font-mono text-xs">{user.referrer || 'Direct'}</TableCell>
@@ -140,7 +140,7 @@ function FriendsAndFamilyDashboard() {
   );
 }
 
-function PendingFamilyCard() {
+function PendingActivationCard() {
     return (
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
@@ -149,14 +149,19 @@ function PendingFamilyCard() {
             Account Pending Activation
           </CardTitle>
           <CardDescription>
-            Welcome! An administrator needs to manually activate your account.
+            Welcome! An administrator needs to manually activate your account for free access.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <p>
-            Please notify the platform owner that you have registered. Once activated, you will be granted full, free access to all features.
+            Please notify the platform owner that you have registered. Once they activate you, you will be granted full, free access to all features. If you prefer not to wait, you can choose to pay for a plan yourself.
           </p>
         </CardContent>
+         <CardFooter>
+            <Button asChild className="w-full">
+            <Link href="/dashboard/upgrade">Choose a Plan & Pay Now</Link>
+            </Button>
+        </CardFooter>
       </Card>
     );
   }
@@ -385,14 +390,13 @@ export default function DashboardOverviewPage() {
 
   // Handle "Family" users
   if (user?.isFriendAndFamily) {
-    // If family and activated, show the special dashboard
+    // This is correct now. They are paid (for free) and family.
     return <FriendsAndFamilyDashboard />;
   }
   
   // Handle regular users
   if (!user?.isPaid) {
-    // If not family and not paid, show activation card.
-    // This is also the default for new signups who aren't family.
+    // This now correctly captures all new, non-family signups
     return <ActivationCard />;
   }
   

@@ -23,7 +23,7 @@ interface AuthContextType {
   activateAccount: (planName: string) => void;
   updateUser: (data: Partial<User>) => void;
   allUsers: User[];
-  toggleFamilyStatus: (email: string) => void;
+  setFamilyStatus: (email: string, isFamily: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -174,17 +174,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const toggleFamilyStatus = (email: string) => {
+  const setFamilyStatus = (email: string, isFamily: boolean) => {
     if (!email) return;
     const db = getMockUserDB();
     const updatedDb = db.map(u => {
         if (u.email === email) {
-            const isNowFamily = !u.isFriendAndFamily;
             return {
                 ...u,
-                isFriendAndFamily: isNowFamily,
-                isPaid: isNowFamily, // isPaid is true if they are family (free access)
-                plan: isNowFamily ? 'Diamond' : undefined,
+                isFriendAndFamily: isFamily,
+                isPaid: isFamily, // isPaid is true if they are family (free access)
+                plan: isFamily ? 'Diamond' : undefined,
             };
         }
         return u;
@@ -194,7 +193,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
 
-  const value = { user, loading, signIn, signOut, activateAccount, updateUser, allUsers, toggleFamilyStatus };
+  const value = { user, loading, signIn, signOut, activateAccount, updateUser, allUsers, setFamilyStatus };
 
   return (
     <AuthContext.Provider value={value}>

@@ -9,11 +9,11 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/components/auth/auth-provider';
 
 export default function AdminFamilyPage() {
-    const { allUsers, toggleFamilyStatus } = useAuth();
+    const { allUsers, setFamilyStatus } = useAuth();
     const { toast } = useToast();
 
     const handleDeactivate = (email: string, displayName: string) => {
-        toggleFamilyStatus(email);
+        setFamilyStatus(email, false);
         toast({
             title: "Family Status Revoked",
             description: `The account for ${displayName} no longer has free family access.`,
