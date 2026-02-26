@@ -37,12 +37,38 @@ const getDocs = async (collectionRef: { path: string }) => {
     };
 };
 
+const getDoc = async (docRef: { path: string }) => {
+    const parts = docRef.path.split('/');
+    const docId = parts.pop();
+    const collectionPath = parts.join('/');
+    const collectionData = getDbForPath(collectionPath);
+    const doc = collectionData.find((d: any) => d.id === docId);
+    return {
+        exists: () => !!doc,
+        data: () => doc,
+    };
+};
+
+const setDoc = async (docRef: { path: string }, data: any) => {
+    const parts = docRef.path.split('/');
+    const docId = parts.pop();
+    const collectionPath = parts.join('/');
+    let collectionData = getDbForPath(collectionPath);
+    const existingIndex = collectionData.findIndex((d: any) => d.id === docId);
+    if (existingIndex > -1) {
+        collectionData[existingIndex] = { ...collectionData[existingIndex], ...data, id: docId };
+    } else {
+        collectionData.push({ id: docId, ...data });
+    }
+    setDbForPath(collectionPath, collectionData);
+};
+
+
 const addDoc = async (collectionRef: { path: string }, data: any) => {
     const collectionData = getDbForPath(collectionRef.path);
     const id = `mock_id_${Date.now()}`;
     collectionData.push({ id, ...data });
     setDbForPath(collectionRef.path, collectionData);
-    console.log("Mock Firestore: Document added to", collectionRef.path, { id, ...data });
     return { id };
 };
 
@@ -54,7 +80,6 @@ const deleteDoc = async (docRef: { path: string }) => {
     let collectionData = getDbForPath(collectionPath);
     collectionData = collectionData.filter((doc: any) => doc.id !== docId);
     setDbForPath(collectionPath, collectionData);
-    console.log("Mock Firestore: Document deleted from", docRef.path);
 };
 
 
@@ -64,26 +89,7 @@ const doc = (db: any, ...pathSegments: string[]) => {
 
 const serverTimestamp = () => new Date().toISOString();
 
-
-export async function saveWebsite(userId: string, htmlContent: string, themeName: string): Promise<string> {
-    if (!userId) {
-        throw new Error("User ID is required to save a website.");
-    }
-    
-    // In a real app, you would get the db instance from your firebase setup
-    const db = {}; // Mock db object
-
-    const websitesCollectionRef = collection(db, `/users/${userId}/websites`);
-    
-    const docRef = await addDoc(websitesCollectionRef, {
-        htmlContent,
-        themeName,
-        createdAt: serverTimestamp(),
-    });
-
-    return docRef.id;
-}
-
+// --- Website Management ---
 
 export interface SavedWebsite {
     id: string;
@@ -92,23 +98,62 @@ export interface SavedWebsite {
     createdAt: string;
 }
 
-export async function getWebsites(userId: string): Promise<SavedWebsite[]> {
-    if (!userId) {
-        return [];
-    }
+export async function saveWebsite(userId: string, htmlContent: string, themeName: string): Promise<string> {
+    if (!userId) throw new Error("User ID is required to save a website.");
     const db = {}; // Mock db object
+    const websitesCollectionRef = collection(db, `/users/${userId}/websites`);
+    const docRef = await addDoc(websitesCollectionRef, {
+        htmlContent,
+        themeName,
+        createdAt: serverTimestamp(),
+    });
+    return docRef.id;
+}
+
+export async function getWebsites(userId: string): Promise<SavedWebsite[]> {
+    if (!userId) return [];
+    const db = {};
     const websitesCollectionRef = collection(db, `/users/${userId}/websites`);
     const snapshot = await getDocs(websitesCollectionRef);
     const websites = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as SavedWebsite));
-    // Sort by most recent first
     return websites.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
 export async function deleteWebsite(userId: string, websiteId: string): Promise<void> {
-    if (!userId || !websiteId) {
-        throw new Error("User ID and Website ID are required.");
-    }
-    const db = {}; // Mock db object
+    if (!userId || !websiteId) throw new Error("User ID and Website ID are required.");
+    const db = {};
     const websiteDocRef = doc(db, `/users/${userId}/websites`, websiteId);
     await deleteDoc(websiteDocRef);
+}
+
+
+// --- Domain and Hosting Management ---
+
+export async function setDomainMapping(domainName: string, websiteId: string, userId: string): Promise<void> {
+    const db = {};
+    const mappingRef = doc(db, 'domains', domainName);
+    await setDoc(mappingRef, { userId, websiteId });
+}
+
+export async function getWebsiteForDomain(domainName: string): Promise<SavedWebsite | null> {
+    const db = {};
+    const mappingRef = doc(db, 'domains', domainName);
+    const mappingSnap = await getDoc(mappingRef);
+
+    if (!mappingSnap.exists()) {
+        console.log(`No domain mapping found for ${domainName}`);
+        return null;
+    }
+
+    const { userId, websiteId } = mappingSnap.data();
+    
+    const websiteRef = doc(db, 'users', userId, 'websites', websiteId);
+    const websiteSnap = await getDoc(websiteRef);
+
+    if (!websiteSnap.exists()) {
+        console.log(`Website ${websiteId} not found for user ${userId}`);
+        return null;
+    }
+    
+    return { id: websiteSnap.data().id, ...websiteSnap.data() } as SavedWebsite;
 }

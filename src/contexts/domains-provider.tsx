@@ -1,7 +1,7 @@
 
 'use client';
 
-import { getWebsites, type SavedWebsite } from '@/lib/firestore';
+import { getWebsites, setDomainMapping, type SavedWebsite } from '@/lib/firestore';
 import { useAuth } from '@/components/auth/auth-provider';
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 
@@ -147,12 +147,20 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
   }, [domains]);
 
   const deployWebsiteToDomain = useCallback((domainId: string, websiteId: string) => {
+    if (!user?.uid) return;
+    const domain = domains.find(d => d.id === domainId);
+    if (!domain) return;
+    
+    // Create the public mapping in Firestore
+    setDomainMapping(domain.name, websiteId, user.uid);
+    
+    // Update local state to reflect the deployment
     setDomains(prev => prev.map(d => 
       d.id === domainId 
       ? { ...d, deployedWebsiteId: websiteId } 
       : d
     ));
-  }, []);
+  }, [domains, user?.uid]);
 
   const value = {
     domains,
