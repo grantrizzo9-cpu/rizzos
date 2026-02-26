@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -110,6 +109,8 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     if (mode === 'signup') {
+      const effectiveReferrer = referrer || 'hostproai';
+      
       const existingUser = findUserByEmail(email);
       if (existingUser) {
           alert("User with this email already exists. Please log in.");
@@ -125,22 +126,20 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
           username: username,
           isPaid: false,
           plan: undefined,
-          isFriendAndFamily: false,
-          referrer: referrer || null,
+          isFriendAndFamily: true,
+          referrer: effectiveReferrer,
       };
       
       addUserToDB(newUser);
 
-      if(referrer) {
-        addReferral({
-            referredUser: username,
-            email: email,
-            affiliate: referrer,
-        });
-      }
+      addReferral({
+          referredUser: username,
+          email: email,
+          affiliate: effectiveReferrer,
+      });
 
       // The `as any` cast is necessary because MockUser is defined locally.
-      signIn(newUser as any, true, referrer);
+      signIn(newUser as any, true, effectiveReferrer);
       router.push('/dashboard/upgrade');
 
     } else { // Login mode
