@@ -3,7 +3,3 @@
 
 runConfig:
   maxInstances: 1
-
-customDomains:
-  - rizzosa.com
-  - www.rizzosa.com
