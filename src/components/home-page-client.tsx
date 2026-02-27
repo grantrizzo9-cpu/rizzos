@@ -16,8 +16,8 @@ import { Footer } from "@/components/layout/footer";
 const whyPartnerFeatures = [
   {
     icon: DollarSign,
-    title: "Generous 70-75% Commissions",
-    description: "Start at a 70% recurring commission rate. Refer 10 active customers to permanently unlock our top-tier 75% rate.",
+    title: "Generous 65-70% Commissions",
+    description: "Start at a 65% recurring commission rate. Refer 25 active customers to permanently unlock our top-tier 70% rate.",
   },
   {
     icon: WalletCards,
@@ -56,8 +56,8 @@ const incomePathSteps = [
         description: "Share your unique affiliate link. Your daily plan cost is covered by the platform's 30% share from just two referrals on the same plan as you, putting you in profit mode.",
     },
     {
-        title: "Earn 70-75% Recurring Daily Profit",
-        description: "You earn 70% of every recurring daily payment from all your referrals. After 10 referrals, this increases to 75%. Payouts are sent automatically to your payment provider.",
+        title: "Earn 65-70% Recurring Daily Profit",
+        description: "You earn 65% of every recurring daily payment from all your referrals. After 25 referrals, this increases to 70%. Payouts are sent automatically to your payment provider.",
     },
 ];
 
@@ -140,7 +140,7 @@ export function HomePageClient() {
         <section className="w-full py-20 md:py-32 lg:py-40 bg-background">
           <div className="container px-4 sm:px-6 mx-auto text-center">
             <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-foreground">
-              Earn 70%-75% Daily Commissions with<br/> <span className="text-primary">AI-Powered Hosting</span>
+              Earn 65%-70% Daily Commissions with<br/> <span className="text-primary">AI-Powered Hosting</span>
             </h1>
             <p className="mx-auto mt-6 max-w-[700px] text-lg text-muted-foreground md:text-xl">
               Get started today and build a reliable daily income stream. Our automated system handles everything.

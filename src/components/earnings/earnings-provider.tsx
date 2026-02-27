@@ -74,7 +74,7 @@ export const EarningsProvider = ({ children }: { children: ReactNode }) => {
     const commissionableReferrals = allMyActivatedReferrals.filter((_, index) => index % 2 !== 0);
 
     // Determine the correct commission rate based on the total number of active referrals
-    const commissionRate = allMyActivatedReferrals.length >= 10 ? 75 : 70;
+    const commissionRate = allMyActivatedReferrals.length >= 25 ? 70 : 65;
 
     const processedReferrals: Referral[] = myPlatformReferrals.map((pr, index) => {
       let dailyCommission = 0;

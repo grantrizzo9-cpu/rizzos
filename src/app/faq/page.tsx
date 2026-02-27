@@ -27,7 +27,7 @@ export default function FAQPage() {
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-lg">How do the daily payments work?</AccordionTrigger>
               <AccordionContent className="text-base text-muted-foreground">
-                Our payment system is designed for speed and transparency. At the end of each 24-hour cycle, our system calculates the recurring commissions you've earned from all your active referrals. We then automatically send your 70% or 75% commission directly to the payout account you have on file. There's no minimum payout threshold.
+                Our payment system is designed for speed and transparency. At the end of each 24-hour cycle, our system calculates the recurring commissions you've earned from all your active referrals. We then automatically send your 65% or 70% commission directly to the payout account you have on file. There's no minimum payout threshold.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
@@ -49,9 +49,9 @@ export default function FAQPage() {
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-5">
-              <AccordionTrigger className="text-lg">How does the commission bump to 75% work?</AccordionTrigger>
+              <AccordionTrigger className="text-lg">How does the commission bump to 70% work?</AccordionTrigger>
               <AccordionContent className="text-base text-muted-foreground">
-                It's simple and automatic. All members start at a generous 70% recurring daily commission rate. Once you reach the milestone of having 10 active referrals, our system automatically upgrades your account to the 75% commission tier. This is a permanent upgrade for the lifetime of your account, significantly boosting your daily income.
+                It's simple and automatic. All members start at a generous 65% recurring daily commission rate. Once you reach the milestone of having 25 active referrals, our system automatically upgrades your account to the 70% commission tier. This is a permanent upgrade for the lifetime of your account, significantly boosting your daily income.
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-6">

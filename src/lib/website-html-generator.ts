@@ -187,9 +187,9 @@ export function generateHtmlForWebsite(
                     <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-80 mb-12">Our entire model is built to make you profitable. We pay more, and we pay faster than anyone else. Here’s exactly how you earn.</p>
                     <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         <div class="bg-background p-8 rounded-lg border border-border text-left">
-                            <div class="text-5xl font-extrabold text-primary mb-4">70-75%</div>
+                            <div class="text-5xl font-extrabold text-primary mb-4">65-70%</div>
                             <h3 class="text-xl font-bold mb-2">Recurring Daily Commissions</h3>
-                            <p class="opacity-70">You start at an industry-leading 70% recurring daily commission. After just 10 referrals, you’re automatically bumped to 75% for life. You earn this on every payment, from every referral, every single day.</p>
+                            <p class="opacity-70">You start at a generous 65% recurring daily commission. After 25 referrals, you’re automatically bumped to 70% for life. You earn this on every payment, from every referral, every single day.</p>
                         </div>
                         <div class="bg-background p-8 rounded-lg border border-border text-left">
                             <div class="text-5xl font-extrabold text-primary mb-4">24hrs</div>
