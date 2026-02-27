@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2, Info, ShieldCheck } from 'lucide-react';
+import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2, Info, Hourglass } from 'lucide-react';
 import { useDomains, type DnsRecord } from "@/contexts/domains-provider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from "@/hooks/use-toast";
@@ -179,12 +179,13 @@ export default function ManageDomainPage() {
                         </Alert>
                     ) : (
                          <Alert>
-                            <ShieldCheck className="h-4 w-4 text-primary" />
-                            <AlertTitle>DNS Verified! SSL Certificate is Provisioning.</AlertTitle>
+                            <Hourglass className="h-4 w-4" />
+                            <AlertTitle>Step Complete: DNS Verified. Now Awaiting SSL Activation.</AlertTitle>
                             <AlertDescription>
-                                <p>Excellent! Your domain is correctly pointing to our servers. The final step is now happening automatically.</p>
-                                <p className="mt-2">A free SSL certificate is being created and installed for <strong>{domain.name}</strong> across our global network. This process can take anywhere from 30 minutes to a few hours.</p>
-                                <p className="mt-2">During this time, it is <strong>normal</strong> to see a "Not Secure" warning in your browser. Please be patient. You can use the "Check SSL Status" button to monitor its progress. Once the SSL is active, your site will be fully secure.</p>
+                                <p>Your domain's DNS records are correct. The system is now automatically provisioning a free SSL certificate for <strong>{domain.name}</strong>.</p>
+                                <p className="mt-2"><strong>This is not instant and can take several hours.</strong></p>
+                                <p className="mt-2">During this time, it is normal to see a "Not Secure" warning in your browser. This is expected behavior while the certificate is being issued and propagated globally.</p>
+                                <p className="mt-2">You can use the "Check SSL Status" button on this page to monitor its progress. Once it shows as valid, your site will be fully secure and you can proceed with deploying a website.</p>
                             </AlertDescription>
                         </Alert>
                     )}
@@ -237,7 +238,7 @@ export default function ManageDomainPage() {
             <Card>
                 <CardHeader>
                     <CardTitle className="font-headline flex items-center gap-2"><Link2 />Step 3: Deploy a Website</CardTitle>
-                    <CardDescription>Once your domain status is 'verified', select a generated website from your collection to make it live.</CardDescription>
+                    <CardDescription>Once your domain status shows as 'Awaiting SSL', you can select a generated website from your collection to make it live.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {!allRecordsFound && (
@@ -260,10 +261,10 @@ export default function ManageDomainPage() {
                     )}
                      {allRecordsFound && generatedWebsites.length > 0 && (
                         <Alert className="mb-6 border-primary text-primary-foreground">
-                            <ShieldCheck className="h-4 w-4 text-primary" />
+                            <CheckCircle2 className="h-4 w-4 text-primary" />
                             <AlertTitle className="font-bold text-primary">Final Step: Deploy Your Site</AlertTitle>
                             <AlertDescription className="text-primary-foreground/90">
-                                Your DNS is connected! Now, choose a website from the dropdown below and click 'Deploy' to make it live on the internet.
+                                Your DNS is connected! Now, choose a website from the dropdown below and click 'Deploy' to make it live on the internet. Note that it will only be secure once the SSL certificate is fully active.
                             </AlertDescription>
                         </Alert>
                     )}

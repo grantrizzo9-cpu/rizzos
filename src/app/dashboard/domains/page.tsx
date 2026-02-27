@@ -33,12 +33,12 @@ export default function HostingPage() {
         }
     };
     
-    const getStatusVariant = (status: Domain['status']) => {
+    const getStatusVariant = (status: Domain['status']): 'default' | 'secondary' | 'destructive' | 'outline' => {
         switch (status) {
             case 'verified':
-                return 'default';
+                return 'secondary'; // Gray for 'waiting' status
             case 'pending':
-                return 'secondary';
+                return 'destructive'; // Red for 'action required'
             case 'error':
                 return 'destructive';
             default:
@@ -92,7 +92,9 @@ export default function HostingPage() {
                                             </Link>
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant={getStatusVariant(domain.status)}>{domain.status}</Badge>
+                                            <Badge variant={getStatusVariant(domain.status)}>
+                                                {domain.status === 'pending' ? 'Action Required' : 'Awaiting SSL'}
+                                            </Badge>
                                         </TableCell>
                                         <TableCell className="text-right space-x-2">
                                             <Button variant="outline" size="sm" asChild>
