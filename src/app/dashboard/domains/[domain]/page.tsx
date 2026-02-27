@@ -158,8 +158,8 @@ export default function ManageDomainPage() {
                             <CardDescription>Follow the steps below to connect your domain.</CardDescription>
                         </div>
                          <Button asChild variant="outline">
-                            <a href={`https://dnschecker.org/#A/${domain.name}`} target="_blank" rel="noopener noreferrer">
-                                Check DNS Status <ExternalLink className="ml-2"/>
+                            <a href={`https://www.sslshopper.com/ssl-checker.html#hostname=${domain.name}`} target="_blank" rel="noopener noreferrer">
+                                Check SSL Status <ExternalLink className="ml-2"/>
                             </a>
                         </Button>
                     </div>
@@ -167,14 +167,14 @@ export default function ManageDomainPage() {
                 <CardContent className="space-y-6">
                      <Alert variant="default">
                         <Clock className="h-4 w-4" />
-                        <AlertTitle>Connecting Your Domain: What to Expect</AlertTitle>
+                        <AlertTitle>Connecting Your Domain: The Final Steps</AlertTitle>
                         <AlertDescription>
-                            <p>After you configure your DNS records, two things need to happen automatically. This can take time.</p>
-                            <ul className="list-disc list-inside mt-2 space-y-1">
-                                <li><strong>DNS Propagation (up to a few hours):</strong> Your new DNS settings need to spread across the internet. During this time, you will see a <strong>"Site Not Found"</strong> error. This is normal.</li>
-                                <li><strong>SSL Certificate Provisioning (up to an hour):</strong> After your DNS propagates, we automatically install a free SSL certificate. Until this is complete, your site may show a <strong>"Not Secure"</strong> warning. This is also normal.</li>
-                            </ul>
-                            <p className="mt-2 font-semibold">Please be patient. These messages will disappear on their own once the automated setup is complete.</p>
+                             <p className="mb-3">You are seeing the <strong>"Site Not Found"</strong> page, which is a <strong>good sign!</strong> It means your DNS records are pointed correctly and our servers are now working to secure your domain. This process is automatic but can take some time.</p>
+                            <div className="space-y-2 font-mono text-xs">
+                                <p>1. DNS Propagation: <span className="font-sans font-semibold text-green-600">✅ COMPLETE</span></p>
+                                <p>2. SSL Certificate: <span className="font-sans font-semibold text-yellow-600">⏳ IN PROGRESS</span></p>
+                            </div>
+                            <p className="mt-3">During the "IN PROGRESS" step, your site will show <strong>"Site Not Found"</strong> or <strong>"Not Secure"</strong>. This is normal and will resolve on its own, usually within an hour. Please be patient.</p>
                         </AlertDescription>
                     </Alert>
 
