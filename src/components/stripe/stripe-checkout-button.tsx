@@ -45,9 +45,9 @@ export function StripeCheckoutButton({ tier }: { tier: PricingTier }) {
 
             // Redirect the user to the Stripe Payment Link at the top level
             if (window.top) {
-              window.top.location.href = url.toString();
+              window.top.location.assign(url.toString());
             } else {
-              window.location.href = url.toString();
+              window.location.assign(url.toString());
             }
 
         } catch (error) {
