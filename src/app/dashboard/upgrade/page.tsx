@@ -1,12 +1,17 @@
 
 "use client";
 
+import { useEffect } from "react";
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, ArrowUpCircle } from "lucide-react";
 import { pricingTiers, type PricingTier } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/auth/auth-provider";
-import { PayPalCheckoutButton } from "@/components/paypal/paypal-checkout-button";
+import { StripeCheckoutButton } from "@/components/stripe/stripe-checkout-button";
+import { verifyStripeSession } from "@/ai/flows/verify-stripe-session-flow";
+import { useToast } from "@/hooks/use-toast";
+
 
 // Mock function to get affiliate's plan index. In a real app, this would be a DB lookup.
 const getAffiliatePlanIndex = (username: string | undefined | null): number => {
@@ -31,8 +36,39 @@ const getAffiliatePlanIndex = (username: string | undefined | null): number => {
 };
 
 export default function UpgradePage() {
-  const { user } = useAuth();
-  
+  const { user, activateAccount } = useAuth();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { toast } = useToast();
+
+   useEffect(() => {
+    const sessionId = searchParams.get('session_id');
+    // Only proceed if payment was successful, user exists, is not yet paid, and we have a session ID.
+    if (searchParams.get('payment_success') === 'true' && user && !user.isPaid && sessionId) {
+        
+        verifyStripeSession({ sessionId })
+            .then(sessionInfo => {
+                if (sessionInfo.status === 'paid' && sessionInfo.userId === user.uid && sessionInfo.planName) {
+                    activateAccount(sessionInfo.planName);
+                    toast({
+                        title: "Account Activated!",
+                        description: `Your ${sessionInfo.planName} plan is now active. Welcome aboard!`,
+                    });
+                    // Redirect to a guide page after successful activation.
+                    router.replace('/dashboard/strategy-center/connecting-your-domain');
+                } else {
+                     toast({ title: "Payment verification failed.", description: "There was an issue confirming your payment with Stripe.", variant: "destructive" });
+                     router.replace('/dashboard/upgrade');
+                }
+            })
+            .catch(err => {
+                 console.error("Stripe verification error:", err);
+                 toast({ title: "An error occurred during payment verification.", description: "Please contact support if you believe this is an error.", variant: "destructive" });
+                 router.replace('/dashboard/upgrade');
+            });
+    }
+  }, [searchParams, user, activateAccount, router, toast]);
+
   if (!user) {
     return null; // Or a loading spinner
   }
@@ -100,7 +136,7 @@ export default function UpgradePage() {
                     </CardContent>
                     <CardFooter>
                       <div className="w-full">
-                        {user && <PayPalCheckoutButton tier={tier} />}
+                        {user && <StripeCheckoutButton tier={tier} />}
                       </div>
                     </CardFooter>
                   </Card>

@@ -13,16 +13,19 @@ export default function PayoutsPage() {
       <Card>
         <CardHeader>
           <CardTitle className="font-headline text-2xl flex items-center gap-2"><Wallet/>Payout Settings</CardTitle>
-          <CardDescription>Configure your payout details to receive daily commissions. Payouts are processed automatically every 24 hours via our payment provider.</CardDescription>
+          <CardDescription>Configure your payout details to receive daily commissions. Payouts are processed automatically every 24 hours via Stripe Connect.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-2 max-w-md">
-            <Label htmlFor="payout-email">Payout Email</Label>
-            <Input id="payout-email" type="email" placeholder="your-payout-provider@email.com" defaultValue="affiliate@ai-host.com" />
+          <div className="grid gap-4 max-w-md">
+             <div>
+                <Label htmlFor="payout-email">Payout Method</Label>
+                <p className="text-sm text-muted-foreground">Connect your Stripe account to enable automated daily payouts. This is a one-time setup.</p>
+             </div>
+             <Button disabled>Connect with Stripe (Coming Soon)</Button>
           </div>
         </CardContent>
         <CardFooter>
-          <Button>Save Settings</Button>
+            <p className="text-xs text-muted-foreground">Rizzos Ai uses Stripe Connect to manage payouts securely.</p>
         </CardFooter>
       </Card>
 
