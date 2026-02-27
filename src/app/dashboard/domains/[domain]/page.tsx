@@ -181,7 +181,7 @@ export default function ManageDomainPage() {
                     <div>
                         <h3 className="font-semibold text-lg mb-2">Step 1: Configure Your DNS Records</h3>
                         <p className="text-muted-foreground mb-4">
-                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the records shown below. <strong>Important:</strong> Your Firebase project may also require unique `TXT` and `CNAME` records for verification and SSL provisioning. Please check your Firebase project's App Hosting settings and add any additional records shown there.
+                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the records shown below. <strong>Important:</strong> Our system will automatically generate all necessary records for you, including unique verification codes required for your SSL certificate. Ensure you copy all provided records exactly as they appear.
                         </p>
                         <div className="space-y-3 rounded-lg bg-muted p-4 border">
                            {domain.dnsRecords.map((record, index) => (
