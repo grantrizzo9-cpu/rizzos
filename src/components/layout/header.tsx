@@ -10,7 +10,6 @@ import { useAuth } from '@/components/auth/auth-provider';
 
 const navLinks = [
   { href: '/pricing', label: 'Pricing' },
-  { href: '/strategy-center', label: 'Strategy Center' },
 ];
 
 export function Header() {
