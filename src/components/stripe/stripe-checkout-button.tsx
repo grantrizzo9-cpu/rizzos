@@ -28,6 +28,17 @@ export function StripeCheckoutButton({ tier }: { tier: PricingTier }) {
         }
         setIsLoading(true);
 
+        if (tier.stripePriceId.startsWith('replace_with_real_')) {
+            toast({
+                title: "Stripe Price ID Not Configured",
+                description: `This plan's Price ID is a placeholder. You need to create a Product in your Stripe dashboard and update the ID for the "${tier.name}" plan in the file 'src/lib/site.ts'.`,
+                variant: "destructive",
+                duration: 15000,
+            });
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const { sessionId } = await createCheckoutSession({
                 priceId: tier.stripePriceId,

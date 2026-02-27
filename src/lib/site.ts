@@ -199,7 +199,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Starter',
     price: 9.95,
     description: 'For marketers starting their journey.',
-    stripePriceId: 'price_starter_activation_fee', // Replace with your actual Stripe Price ID
+    stripePriceId: 'replace_with_real_starter_price_id',
     features: [
       '1 Hosted Site',
       'NVMe Edge Storage',
@@ -213,7 +213,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Bronze',
     price: 29.95,
     description: 'For marketers expanding their portfolio.',
-    stripePriceId: 'price_bronze_activation_fee', // Replace with your actual Stripe Price ID
+    stripePriceId: 'replace_with_real_bronze_price_id',
     features: [
       '5 Hosted Sites',
       'NVMe Edge Storage',
@@ -227,7 +227,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Silver',
     price: 49.95,
     description: 'For marketers expanding their portfolio.',
-    stripePriceId: 'price_silver_activation_fee', // Replace with your actual Stripe Price ID
+    stripePriceId: 'replace_with_real_silver_price_id',
     features: [
       '15 Hosted Sites',
       'NVMe Edge Storage',
@@ -242,7 +242,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Gold',
     price: 99.95,
     description: 'For serious marketers scaling their operations.',
-    stripePriceId: 'price_gold_activation_fee', // Replace with your actual Stripe Price ID
+    stripePriceId: 'replace_with_real_gold_price_id',
     features: [
       '50 Hosted Sites',
       'NVMe Edge Storage',
@@ -258,7 +258,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Platinum',
     price: 199.95,
     description: 'For affiliate teams managing multiple brands.',
-    stripePriceId: 'price_platinum_activation_fee', // Replace with your actual Stripe Price ID
+    stripePriceId: 'replace_with_real_platinum_price_id',
     features: [
       '150 Hosted Sites',
       'NVMe Edge Storage',
@@ -273,7 +273,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Diamond',
     price: 499.00,
     description: 'For agencies and large-scale businesses.',
-    stripePriceId: 'price_diamond_activation_fee', // Replace with your actual Stripe Price ID
+    stripePriceId: 'replace_with_real_diamond_price_id',
     features: [
       'Unlimited Hosted Sites',
       'NVMe Edge Storage',
