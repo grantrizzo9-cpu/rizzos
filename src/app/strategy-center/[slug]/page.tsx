@@ -1,4 +1,13 @@
 
+import { strategyArticles } from "@/lib/site";
+
+export async function generateStaticParams() {
+  // This tells Next.js which slugs to build at build time.
+  return strategyArticles.map((article) => ({
+    slug: article.slug,
+  }));
+}
+
 'use client';
 
 import { notFound, useParams } from "next/navigation";
@@ -6,7 +15,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { ArrowRight } from "lucide-react";
-import { strategyArticles } from "@/lib/site";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
