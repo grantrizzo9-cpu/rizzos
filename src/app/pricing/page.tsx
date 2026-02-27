@@ -7,7 +7,9 @@ import { PricingClientPage } from './pricing-client-page';
 export default function PricingPage() {
   return (
     <>
-      <Header />
+      <Suspense fallback={<div className="h-14" />}>
+        <Header />
+      </Suspense>
       <main className="flex-1">
         <section className="container px-4 sm:px-6 py-12 md:py-24">
             <div className="mx-auto mb-12 max-w-3xl text-center">
@@ -28,7 +30,9 @@ export default function PricingPage() {
             </div>
         </section>
       </main>
-      <Footer />
+      <Suspense fallback={<div className="h-24" />}>
+        <Footer />
+      </Suspense>
     </>
   );
 }
