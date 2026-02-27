@@ -16,7 +16,8 @@ const getAffiliatePlanIndex = (username: string | undefined | null): number => {
     }
 
     const mockAffiliates: { [key: string]: string } = {
-        'hostproai': 'Premium',
+        'hostproai': 'Diamond',
+        'premium_user': 'Premium',
         'pro_user': 'Pro',
     };
 

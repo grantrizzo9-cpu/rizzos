@@ -45,7 +45,7 @@ export const ReferralProvider = ({ children }: { children: ReactNode }) => {
   const addReferral = useCallback((newReferralData: Omit<PlatformReferral, 'plan' | 'status'>) => {
     const newReferral: PlatformReferral = {
       ...newReferralData,
-      plan: 'Starter', // Default plan for new signups
+      plan: 'Pro', // Default plan for new signups
       status: 'pending',
     };
     

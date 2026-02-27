@@ -44,12 +44,9 @@ const chartConfig = {
     label: 'Referrals',
     color: 'hsl(var(--destructive))',
   },
-  Starter: { label: 'Starter', color: 'hsl(var(--chart-1))' },
-  Bronze: { label: 'Bronze', color: 'hsl(var(--chart-2))' },
-  Silver: { label: 'Silver', color: 'hsl(var(--chart-3))' },
-  Gold: { label: 'Gold', color: 'hsl(var(--chart-4))' },
-  Platinum: { label: 'Platinum', color: 'hsl(var(--chart-5))' },
-  Diamond: { label: 'Diamond', color: 'hsl(var(--chart-2))' }, // Re-use color
+  Pro: { label: 'Pro', color: 'hsl(var(--chart-1))' },
+  Premium: { label: 'Premium', color: 'hsl(var(--chart-2))' },
+  Diamond: { label: 'Diamond', color: 'hsl(var(--chart-3))' },
 };
 
 function AdminDashboard() {
