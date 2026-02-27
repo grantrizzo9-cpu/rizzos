@@ -1,4 +1,3 @@
-
 'use client';
 
 import { strategyArticles } from "@/lib/site";
