@@ -169,19 +169,19 @@ export default function ManageDomainPage() {
                         <Clock className="h-4 w-4" />
                         <AlertTitle>Connecting Your Domain: The Final Steps</AlertTitle>
                         <AlertDescription>
-                             <p className="mb-3">You are seeing the <strong>"Site Not Found"</strong> page, which is a <strong>good sign!</strong> It means your DNS records are pointed correctly and our servers are now working to secure your domain. This process is automatic but can take some time.</p>
+                             <p className="mb-3">If you are seeing a <strong>"Site Not Found"</strong> page on your domain, that is a <strong>good sign!</strong> It means your DNS records are pointed correctly and our servers are now working to secure your domain. This process is automatic but can take some time.</p>
                             <div className="space-y-2 font-mono text-xs">
                                 <p>1. DNS Propagation: <span className="font-sans font-semibold text-green-600">✅ COMPLETE</span></p>
                                 <p>2. SSL Certificate: <span className="font-sans font-semibold text-yellow-600">⏳ IN PROGRESS</span></p>
                             </div>
-                            <p className="mt-3">During the "IN PROGRESS" step, your site will show <strong>"Site Not Found"</strong> or <strong>"Not Secure"</strong>. This is normal and will resolve on its own, usually within an hour. Please be patient.</p>
+                            <p className="mt-3">During the "IN PROGRESS" step, your site may show <strong>"Site Not Found"</strong> or <strong>"Not Secure"</strong>. This is normal and will resolve on its own, usually within an hour. Please be patient.</p>
                         </AlertDescription>
                     </Alert>
 
                     <div>
                         <h3 className="font-semibold text-lg mb-2">Step 1: Configure Your DNS Records</h3>
                         <p className="text-muted-foreground mb-4">
-                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the following <strong>three</strong> DNS records. Use '@' for the root domain if your registrar requires it. The "Verify DNS" button here is a simulator for your convenience; the real check happens on the global internet.
+                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the records shown below. <strong>Important:</strong> Your Firebase project may also require unique `TXT` and `CNAME` records for verification and SSL provisioning. Please check your Firebase project's App Hosting settings and add any additional records shown there.
                         </p>
                         <div className="space-y-3 rounded-lg bg-muted p-4 border">
                            {domain.dnsRecords.map((record, index) => (

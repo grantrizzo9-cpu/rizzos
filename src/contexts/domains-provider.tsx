@@ -35,7 +35,7 @@ interface DomainsContextType {
 }
 
 // --- Constants ---
-const A_RECORD_VALUES = ['199.36.158.100', '199.36.158.101'];
+const A_RECORD_VALUES = ['35.219.200.7'];
 const DOMAINS_LOCAL_STORAGE_KEY = 'user_domains';
 
 // --- Context ---
@@ -95,9 +95,6 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    const cnameValue = getCnameValue(domainName);
-    if (!cnameValue) return;
-
     const newDomain: Domain = {
       id: `domain_${Date.now()}`,
       name: domainName,
@@ -105,13 +102,12 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
       deployedWebsiteId: null,
       dnsRecords: [
         { type: 'A', host: '@', value: A_RECORD_VALUES[0], status: 'verifying' },
-        { type: 'A', host: '@', value: A_RECORD_VALUES[1], status: 'verifying' },
-        { type: 'CNAME', host: 'www', value: cnameValue, status: 'verifying' },
+        { type: 'CNAME', host: 'www', value: domainName, status: 'verifying' },
       ],
     };
 
     setDomains(prev => [...prev, newDomain]);
-  }, [domains, getCnameValue]);
+  }, [domains]);
 
   const deleteDomain = useCallback((domainId: string) => {
     setDomains(prev => prev.filter(d => d.id !== domainId));
