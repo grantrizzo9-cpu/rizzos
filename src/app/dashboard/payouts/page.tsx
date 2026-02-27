@@ -13,12 +13,12 @@ export default function PayoutsPage() {
       <Card>
         <CardHeader>
           <CardTitle className="font-headline text-2xl flex items-center gap-2"><Wallet/>Payout Settings</CardTitle>
-          <CardDescription>Configure your payout details to receive daily commissions. Payouts are processed automatically every 24 hours.</CardDescription>
+          <CardDescription>Configure your payout details to receive daily commissions. Payouts are processed automatically every 24 hours via our payment provider.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-2 max-w-md">
-            <Label htmlFor="paypal-email">PayPal Email</Label>
-            <Input id="paypal-email" type="email" placeholder="your-paypal@email.com" defaultValue="affiliate@ai-host.com" />
+            <Label htmlFor="payout-email">Payout Email</Label>
+            <Input id="payout-email" type="email" placeholder="your-payout-provider@email.com" defaultValue="affiliate@ai-host.com" />
           </div>
         </CardContent>
         <CardFooter>

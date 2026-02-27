@@ -2,7 +2,6 @@
 'use client';
 
 import { AuthProvider } from '@/components/auth/auth-provider';
-import { PayPalProvider } from '@/components/paypal/paypal-provider';
 import { EarningsProvider } from '@/components/earnings/earnings-provider';
 import { ReferralProvider } from '@/components/referrals/referral-provider';
 import { DomainsProvider } from '@/contexts/domains-provider';
@@ -11,7 +10,6 @@ import { ReactNode } from 'react';
 
 export function ClientProviders({ children }: { children: ReactNode }) {
   return (
-    <PayPalProvider>
       <AuthProvider>
         <ReferralProvider>
           <DomainsProvider>
@@ -24,6 +22,5 @@ export function ClientProviders({ children }: { children: ReactNode }) {
           </DomainsProvider>
         </ReferralProvider>
       </AuthProvider>
-    </PayPalProvider>
   );
 }

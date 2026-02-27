@@ -27,7 +27,7 @@ export default function FAQPage() {
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-lg">How do the daily payments work?</AccordionTrigger>
               <AccordionContent className="text-base text-muted-foreground">
-                Our daily payment system is designed for maximum velocity. Every 24 hours, our system calculates the recurring commissions you've earned from all your active referrals in the previous period. We then automatically send your 70% or 75% commission directly to the PayPal email address you have on file. There's no minimum payout threshold. You earn it today, you get it tomorrow. This allows you to immediately reinvest your earnings back into your business.
+                Our daily payment system is designed for maximum velocity. Every 24 hours, our system calculates the recurring commissions you've earned from all your active referrals in the previous period. We then automatically send your 70% or 75% commission directly to the payout email address you have on file. There's no minimum payout threshold. You earn it today, you get it tomorrow. This allows you to immediately reinvest your earnings back into your business.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">

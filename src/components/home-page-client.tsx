@@ -21,8 +21,8 @@ const whyPartnerFeatures = [
   },
   {
     icon: WalletCards,
-    title: "Daily PayPal Payouts",
-    description: "No more waiting for your money. We pay out your commissions every single day directly to your PayPal account. No minimums.",
+    title: "Daily Payouts",
+    description: "No more waiting for your money. We pay out your commissions every single day directly to your configured payout provider. No minimums.",
   },
   {
     icon: Users,
@@ -57,7 +57,7 @@ const incomePathSteps = [
     },
     {
         title: "Earn 70-75% Daily Profit",
-        description: "You earn 70% of every recurring daily payment from all your referrals. After 10 referrals, this increases to 75%. Payouts are sent automatically to your PayPal every day.",
+        description: "You earn 70% of every recurring daily payment from all your referrals. After 10 referrals, this increases to 75%. Payouts are sent automatically to your payment provider every day.",
     },
 ];
 
@@ -107,7 +107,7 @@ const faqs = [
   },
   {
     question: "How and when do I get paid?",
-    answer: "We process all commission payouts daily. All your earned commissions from recurring payments are automatically sent to the PayPal account you have on file. There are no minimum payout thresholds.",
+    answer: "We process all commission payouts daily. All your earned commissions from recurring payments are automatically sent to the payout account you have on file. There are no minimum payout thresholds.",
   },
   {
     question: "What am I selling?",
