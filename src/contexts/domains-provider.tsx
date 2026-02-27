@@ -9,7 +9,7 @@ import React, { createContext, useContext, useState, ReactNode, useCallback, use
 export type DomainStatus = 'verified' | 'pending' | 'error';
 
 export interface DnsRecord {
-  type: 'A' | 'CNAME';
+  type: 'A' | 'CNAME' | 'TXT';
   host: string;
   value: string;
   status: 'verifying' | 'missing' | 'found';
@@ -91,10 +91,15 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
     
     domainName = domainName.toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0];
 
-    // Simulate a unique verification CNAME record from the hosting provider, matching the user's example structure
+    // Simulate unique verification records from the hosting provider.
     const randomHex = (size: number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-    const verificationHost = `_acme-challenge_${randomHex(12)}`;
-    const verificationValue = `${randomHex(8)}-${randomHex(4)}-${randomHex(4)}-${randomHex(4)}-${randomHex(12)}.authorize.certificatemanager.goog.`;
+    
+    // For the _acme-challenge CNAME for SSL
+    const acmeChallengeHost = `_acme-challenge_${randomHex(12)}`;
+    const acmeChallengeValue = `${randomHex(8)}-${randomHex(4)}-${randomHex(4)}-${randomHex(4)}-${randomHex(12)}.authorize.certificatemanager.goog.`;
+
+    // For the fah-claim TXT record for Firebase App Hosting verification
+    const fahClaimValue = `fah-claim=002-02-${randomHex(8)}-${randomHex(4)}-${randomHex(4)}-${randomHex(4)}-${randomHex(12)}`;
 
 
     const newDomain: Domain = {
@@ -105,7 +110,8 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
       dnsRecords: [
         { type: 'A', host: '@', value: '35.219.200.7', status: 'verifying' },
         { type: 'CNAME', host: 'www', value: domainName, status: 'verifying' },
-        { type: 'CNAME', host: verificationHost, value: verificationValue, status: 'verifying' }
+        { type: 'CNAME', host: acmeChallengeHost, value: acmeChallengeValue, status: 'verifying' },
+        { type: 'TXT', host: '@', value: fahClaimValue, status: 'verifying' }
       ],
     };
 
