@@ -19,23 +19,21 @@ export const strategyArticles: Article[] = [
       
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 1: The Required DNS Records</h3>
       <p class="mb-4">You will need to add the following records at your domain registrar. These records tell the internet where to find your website hosted on our servers.</p>
-      <ul class="list-disc list-inside mb-4 space-y-2">
-        <li><strong>Two 'A' Records:</strong> These point your root domain (e.g., <code>your-domain.com</code>) to our servers' IP addresses.</li>
-        <li><strong>One 'CNAME' Record:</strong> This points the 'www' version of your domain (e.g., <code>www.your-domain.com</code>) to your root domain. This is a standard practice to ensure both addresses work.</li>
-      </ul>
-      <p class="mb-4">Here are the exact values you will need:</p>
+      
+      <p class="mb-4">Here are the exact values you will need to enter into your domain registrar's DNS settings:</p>
       <ul class="list-none mb-4 space-y-2 bg-muted p-4 rounded-lg">
-          <li><strong>A Record 1:</strong> Host: @, Value: 199.36.158.100</li>
-          <li><strong>A Record 2:</strong> Host: @, Value: 199.36.158.101</li>
-          <li><strong>CNAME Record:</strong> Host: www, Value: @</li>
+          <li><strong>Type:</strong> A, <strong>Host:</strong> @, <strong>Value:</strong> 199.36.158.100</li>
+          <li><strong>Type:</strong> A, <strong>Host:</strong> @, <strong>Value:</strong> 199.36.158.101</li>
+          <li><strong>Type:</strong> CNAME, <strong>Host:</strong> www, <strong>Value:</strong> @</li>
       </ul>
+      <p class="mb-4 text-sm opacity-80">Note: Some registrars use your full domain name (e.g., <code>your-domain.com</code>) instead of '@' for the host or value. Both are correct.</p>
 
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 2: Adding the 'A' Records</h3>
-       <p class="mb-4">Log in to your domain registrar (e.g., GoDaddy, Namecheap) and navigate to the DNS management section. Create two 'A' records with the host/name set to '@' (or your root domain) and point them to the IP addresses provided above.</p>
+       <p class="mb-4">Log in to your domain registrar (e.g., GoDaddy, Namecheap) and navigate to the DNS management section. Create two 'A' records. For both, set the host/name to '@'. Point the first record's value to 199.36.158.100 and the second to 199.36.158.101.</p>
 
 
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 3: Adding the 'CNAME' Record</h3>
-      <p class="mb-4">In the same DNS management panel, you will add a CNAME record. Set the host/name to 'www' and point it to the value shown above. Most registrars use '@' to represent the root domain.</p>
+      <p class="mb-4">In the same DNS management panel, you will add a CNAME record. Set the host/name to 'www' and point the value to '@'.</p>
       
       [DNS_IMAGE_PLACEHOLDER]
 
