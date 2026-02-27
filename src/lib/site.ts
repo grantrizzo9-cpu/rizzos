@@ -231,7 +231,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Diamond',
     price: 19.99,
     description: 'For elite agencies requiring white-labeling and API access.',
-    stripePaymentLink: '',
+    stripePaymentLink: 'https://buy.stripe.com/test_4gM8wQd2O23i6CX2U59k408',
     features: [
       'Unlimited Hosted Sites',
       'NVMe Edge Storage',
