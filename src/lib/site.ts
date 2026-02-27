@@ -186,7 +186,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Starter',
     price: 2.99,
     description: 'Essential tools for those starting their affiliate marketing journey.',
-    stripePaymentLink: 'https://buy.stripe.com/test_bIYg1S3se1Ze4iA144',
+    stripePaymentLink: 'https://buy.stripe.com/test_5kQ8wQaUGfU8gdxcuF9k406',
     features: [
       '5 Hosted Sites',
       'NVMe Edge Storage',
@@ -199,7 +199,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Pro',
     price: 4.99,
     description: 'For serious marketers ready to scale their content and earnings.',
-    stripePaymentLink: 'https://buy.stripe.com/test_aEUcPKd8S9rCgyIeUY',
+    stripePaymentLink: 'https://buy.stripe.com/test_fZuaEY6Eq37m0ez2U59k407',
     features: [
       '25 Hosted Sites',
       'NVMe Edge Storage',
@@ -214,7 +214,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Premium',
     price: 9.99,
     description: 'The ultimate suite for agencies and large-scale affiliate businesses.',
-    stripePaymentLink: 'https://buy.stripe.com/test_8wM4gAgcUgJUeCOfZ3',
+    stripePaymentLink: 'https://buy.stripe.com/test_bJe7sMfaWdM06CX3Y99k400',
     features: [
       'Unlimited Hosted Sites',
       'NVMe Edge Storage',
