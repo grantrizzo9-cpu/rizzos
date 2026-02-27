@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2, Clock, Info, ShieldCheck } from 'lucide-react';
+import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2, Info, ShieldCheck } from 'lucide-react';
 import { useDomains, type DnsRecord } from "@/contexts/domains-provider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from "@/hooks/use-toast";
@@ -139,7 +139,7 @@ export default function ManageDomainPage() {
         }
     };
     
-    const allRecordsFound = domain.dnsRecords.every(r => r.status === 'found');
+    const allRecordsFound = domain.status === 'verified';
 
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
@@ -165,30 +165,41 @@ export default function ManageDomainPage() {
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                     <Alert variant={allRecordsFound ? "default" : "destructive"}>
-                        <ShieldCheck className="h-4 w-4" />
-                        <AlertTitle>SSL Certificate Status: Provisioning</AlertTitle>
-                        <AlertDescription>
-                             <p>Great news! Your DNS records are correctly pointed to our servers, and your site is now online. The "Not Secure" warning you are seeing is a normal and temporary part of this process.</p>
-                             <p className="mt-2">Our system is now automatically provisioning a free SSL certificate for your domain. This can take anywhere from a few minutes to a few hours. Once complete, your site will load securely over HTTPS and the warning will disappear. No further action is needed from you.</p>
-                        </AlertDescription>
-                    </Alert>
+                    {!allRecordsFound ? (
+                        <Alert variant="destructive">
+                            <AlertCircle className="h-4 w-4" />
+                            <AlertTitle>Action Required: Connect Your Domain</AlertTitle>
+                            <AlertDescription>
+                                Your domain is not yet connected. Add all the required DNS records at your domain provider (e.g., GoDaddy, Namecheap), then click the verification button below. It can take some time for DNS changes to propagate.
+                            </AlertDescription>
+                        </Alert>
+                    ) : (
+                         <Alert>
+                            <ShieldCheck className="h-4 w-4" />
+                            <AlertTitle>Domain Connected! SSL is Provisioning.</AlertTitle>
+                            <AlertDescription>
+                                 <p>Great news! Your DNS records are correctly configured. If you are seeing a "Not Secure" warning in your browser, please be patient.</p>
+                                 <p className="mt-2">A free SSL certificate is being provisioned automatically. This process can take up to a few hours. Once complete, your site will be secure.</p>
+                            </AlertDescription>
+                        </Alert>
+                    )}
+
 
                     <div>
-                        <h3 className="font-semibold text-lg mb-2">Step 1: Configure Your DNS Records</h3>
+                        <h3 className="font-semibold text-lg mb-2">Step 1: Add DNS Records</h3>
                         <p className="text-muted-foreground mb-4">
-                            Log in to your domain registrar (e.g., GoDaddy, Namecheap) and add the records shown below. <strong>Important:</strong> Our system will automatically generate all necessary records for you, including unique verification codes required for your SSL certificate. Ensure you copy all provided records exactly as they appear.
+                            Log in to your domain registrar and add the following records exactly as they appear. One of the CNAME records is a unique verification code for your SSL certificate.
                         </p>
                         <div className="space-y-3 rounded-lg bg-muted p-4 border">
                            {domain.dnsRecords.map((record, index) => (
                                <div key={index}>
-                                   <div className="flex items-center justify-between font-mono text-sm">
-                                        <div>
-                                            <p className="font-bold">{record.type} Record ({index + 1}/{domain.dnsRecords.length}):</p>
-                                            <p><strong>Host:</strong> {record.host}</p>
-                                            <p><strong>Value:</strong> {record.value}</p>
+                                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between font-mono text-sm">
+                                        <div className="break-all">
+                                            <p className="font-bold">{record.type} Record:</p>
+                                            <p><strong className="text-muted-foreground font-medium">Host:</strong> {record.host}</p>
+                                            <p><strong className="text-muted-foreground font-medium">Value:</strong> {record.value}</p>
                                         </div>
-                                        <div className="flex items-center gap-2 text-xs font-sans">
+                                        <div className="flex items-center gap-2 text-xs font-sans mt-2 sm:mt-0 sm:ml-4 flex-shrink-0">
                                             {getStatusIcon(record.status)}
                                             <span className="capitalize">{record.status}</span>
                                         </div>
@@ -199,14 +210,14 @@ export default function ManageDomainPage() {
                         </div>
                     </div>
                      <div>
-                        <h3 className="font-semibold text-lg mb-2">Step 2: Verify and Deploy</h3>
+                        <h3 className="font-semibold text-lg mb-2">Step 2: Verify Configuration</h3>
                          <p className="text-muted-foreground mb-4">
-                           Once you've confirmed your DNS is propagating with an external tool, you can deploy a website. The simulated "Verify" button below will turn green to enable the "Deploy" button.
+                           After adding the records in your registrar, click the button below to check the connection. Note: DNS changes can sometimes take time to propagate across the internet.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Button variant="outline" onClick={handleVerify} disabled={isVerifying}>
                                 {isVerifying ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <RefreshCw className="mr-2"/>}
-                                 Simulate DNS Verification
+                                 {isVerifying ? 'Verifying...' : 'Verify DNS Records'}
                             </Button>
                         </div>
                     </div>
@@ -216,10 +227,28 @@ export default function ManageDomainPage() {
             <Card>
                 <CardHeader>
                     <CardTitle className="font-headline flex items-center gap-2"><Link2 />Step 3: Deploy a Website</CardTitle>
-                    <CardDescription>Once your domain is verified (the 'Deploy' button is enabled), select a generated website from your collection to deploy to this domain.</CardDescription>
+                    <CardDescription>Once your domain is verified, select a generated website from your collection to make it live.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {allRecordsFound && (
+                    {!allRecordsFound && (
+                        <Alert variant="destructive" className="mb-6">
+                            <AlertCircle className="h-4 w-4" />
+                            <AlertTitle>Verification Pending</AlertTitle>
+                            <AlertDescription>
+                                You must successfully verify your DNS configuration in Step 2 before you can deploy a website.
+                            </AlertDescription>
+                        </Alert>
+                    )}
+                    {allRecordsFound && !loadingWebsites && generatedWebsites.length === 0 && (
+                        <Alert className="mb-6">
+                            <Info className="h-4 w-4" />
+                            <AlertTitle>No Websites Found</AlertTitle>
+                            <AlertDescription>
+                                You haven't created any websites yet. Go to the <Link href="/dashboard/ai-content/website" className="font-bold hover:underline">AI Website Builder</Link> to generate one.
+                            </AlertDescription>
+                        </Alert>
+                    )}
+                     {allRecordsFound && generatedWebsites.length > 0 && (
                         <Alert className="mb-6 border-primary text-primary-foreground">
                             <Info className="h-4 w-4 text-primary" />
                             <AlertTitle className="font-bold text-primary">Final Step: Deploy Your Site</AlertTitle>
@@ -229,7 +258,7 @@ export default function ManageDomainPage() {
                         </Alert>
                     )}
                     <div className="flex flex-col sm:flex-row gap-4 max-w-lg">
-                        <Select onValueChange={setSelectedWebsite} defaultValue={selectedWebsite} disabled={!allRecordsFound || isDeploying}>
+                        <Select onValueChange={setSelectedWebsite} defaultValue={selectedWebsite} disabled={!allRecordsFound || isDeploying || loadingWebsites || generatedWebsites.length === 0}>
                             <SelectTrigger>
                                 <SelectValue placeholder={loadingWebsites ? "Loading websites..." : "Select a generated website"} />
                             </SelectTrigger>

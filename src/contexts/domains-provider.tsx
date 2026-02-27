@@ -35,7 +35,6 @@ interface DomainsContextType {
 }
 
 // --- Constants ---
-const A_RECORD_VALUES = ['35.219.200.7'];
 const DOMAINS_LOCAL_STORAGE_KEY = 'user_domains';
 
 // --- Context ---
@@ -85,15 +84,18 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
   }, [user?.uid]);
 
 
-  const getCnameValue = useCallback((domainName: string) => {
-    // The CNAME should point back to the root domain.
-    return domainName;
-  }, []);
-
   const addDomain = useCallback((domainName: string) => {
     if (!domainName || domains.some(d => d.name === domainName)) {
       return;
     }
+    
+    domainName = domainName.toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0];
+
+    // Simulate a unique verification CNAME record from the hosting provider
+    const uniqueIdPart1 = Math.random().toString(36).substring(2, 10);
+    const verificationHost = `_acme-challenge.${uniqueIdPart1}`;
+    const verificationValue = `${Math.random().toString(36).substring(2, 15)}.authorize.certificatemanager.goog.`;
+
 
     const newDomain: Domain = {
       id: `domain_${Date.now()}`,
@@ -101,8 +103,9 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
       status: 'pending',
       deployedWebsiteId: null,
       dnsRecords: [
-        { type: 'A', host: '@', value: A_RECORD_VALUES[0], status: 'verifying' },
+        { type: 'A', host: '@', value: '35.219.200.7', status: 'verifying' },
         { type: 'CNAME', host: 'www', value: domainName, status: 'verifying' },
+        { type: 'CNAME', host: verificationHost, value: verificationValue, status: 'verifying' }
       ],
     };
 
