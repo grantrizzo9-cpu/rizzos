@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2, Clock, Info } from 'lucide-react';
+import { Globe, ArrowLeft, ExternalLink, RefreshCw, CheckCircle2, AlertCircle, Loader2, Link2, Clock, Info, ShieldCheck } from 'lucide-react';
 import { useDomains, type DnsRecord } from "@/contexts/domains-provider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from "@/hooks/use-toast";
@@ -165,16 +165,12 @@ export default function ManageDomainPage() {
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                     <Alert variant="default">
-                        <Clock className="h-4 w-4" />
-                        <AlertTitle>Connecting Your Domain: The Final Steps</AlertTitle>
+                     <Alert variant={allRecordsFound ? "default" : "destructive"}>
+                        <ShieldCheck className="h-4 w-4" />
+                        <AlertTitle>SSL Certificate Status: Provisioning</AlertTitle>
                         <AlertDescription>
-                             <p className="mb-3">If you are seeing a <strong>"Site Not Found"</strong> page on your domain, that is a <strong>good sign!</strong> It means your DNS records are pointed correctly and our servers are now working to secure your domain. This process is automatic but can take some time.</p>
-                            <div className="space-y-2 font-mono text-xs">
-                                <p>1. DNS Propagation: <span className="font-sans font-semibold text-green-600">✅ COMPLETE</span></p>
-                                <p>2. SSL Certificate: <span className="font-sans font-semibold text-yellow-600">⏳ IN PROGRESS</span></p>
-                            </div>
-                            <p className="mt-3">During the "IN PROGRESS" step, your site may show <strong>"Site Not Found"</strong> or <strong>"Not Secure"</strong>. This is normal and will resolve on its own, usually within an hour. Please be patient.</p>
+                             <p>Great news! Your DNS records are correctly pointed to our servers, and your site is now online. The "Not Secure" warning you are seeing is a normal and temporary part of this process.</p>
+                             <p className="mt-2">Our system is now automatically provisioning a free SSL certificate for your domain. This can take anywhere from a few minutes to a few hours. Once complete, your site will load securely over HTTPS and the warning will disappear. No further action is needed from you.</p>
                         </AlertDescription>
                     </Alert>
 
