@@ -223,11 +223,11 @@ export default function ManageDomainPage() {
                     <CardDescription>Once your domain is verified (the 'Deploy' button is enabled), select a generated website from your collection to deploy to this domain.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {allRecordsFound && !domain.deployedWebsiteId && (
-                        <Alert className="mb-6">
-                            <Info className="h-4 w-4" />
-                            <AlertTitle className="font-bold">Final Step: Deploy Your Site</AlertTitle>
-                            <AlertDescription>
+                    {allRecordsFound && (
+                        <Alert className="mb-6 border-primary text-primary-foreground">
+                            <Info className="h-4 w-4 text-primary" />
+                            <AlertTitle className="font-bold text-primary">Final Step: Deploy Your Site</AlertTitle>
+                            <AlertDescription className="text-primary-foreground/90">
                                 Your DNS is connected! Now, choose a website from the dropdown below and click 'Deploy' to make it live on the internet.
                             </AlertDescription>
                         </Alert>
@@ -287,9 +287,3 @@ export default function ManageDomainPage() {
         </div>
     );
 }
-
-    
-
-    
-
-    
