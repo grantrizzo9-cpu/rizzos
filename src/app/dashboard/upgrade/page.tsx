@@ -23,14 +23,11 @@ const getAffiliatePlanIndex = (username: string | undefined | null): number => {
     // Mock affiliate plans.
     const mockAffiliates: { [key: string]: string } = {
         'hostproai': 'Diamond',
-        'starter_user': 'Starter',
-        'bronze_user': 'Bronze',
-        'silver_user': 'Silver',
-        'gold_user': 'Gold',
-        'platinum_user': 'Platinum',
+        'premium_user': 'Premium',
+        'pro_user': 'Pro',
     };
 
-    const planName = mockAffiliates[username.toLowerCase()] || 'Gold'; // Default if affiliate not in mock list
+    const planName = mockAffiliates[username.toLowerCase()] || 'Pro'; // Default if affiliate not in mock list
     const planIndex = pricingTiers.findIndex(t => t.name === planName);
     return planIndex > -1 ? planIndex : pricingTiers.length - 1;
 };
@@ -120,7 +117,7 @@ export default function UpgradePage() {
                       <CardTitle className="font-headline text-2xl">{tier.name}</CardTitle>
                       <div className="flex items-baseline gap-2">
                         <span className="text-4xl font-bold tracking-tighter">${tier.price.toFixed(2)}</span>
-                        <span className="text-muted-foreground">/ month (AUD)</span>
+                        <span className="text-muted-foreground">/ day (AUD)</span>
                       </div>
                       <CardDescription>{tier.description}</CardDescription>
                     </CardHeader>
@@ -156,7 +153,7 @@ export default function UpgradePage() {
             )
         )}
         <div className="mt-12 text-center text-muted-foreground">
-            <p><strong>Commission Structure:</strong> All plans start at a 70% recurring monthly commission rate. <br /> Automatically upgrade to <strong>75%</strong> upon reaching 10 active referrals.</p>
+            <p><strong>Commission Structure:</strong> All plans start at a 65% recurring daily commission rate. <br /> Automatically upgrade to <strong>70%</strong> upon reaching 25 active referrals.</p>
         </div>
     </div>
   );
