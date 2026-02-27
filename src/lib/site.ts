@@ -160,7 +160,7 @@ export type PricingTier = {
   description: string;
   features: string[];
   isPopular?: boolean;
-  stripePriceId: string;
+  stripePaymentLink: string;
 };
 
 const starterGuides = [
@@ -199,7 +199,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Starter',
     price: 9.95,
     description: 'For marketers starting their journey.',
-    stripePriceId: 'replace_with_real_starter_price_id',
+    stripePaymentLink: 'https://buy.stripe.com/test_bJe7sMfaWdM06CX3Y99k400',
     features: [
       '1 Hosted Site',
       'NVMe Edge Storage',
@@ -213,7 +213,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Bronze',
     price: 29.95,
     description: 'For marketers expanding their portfolio.',
-    stripePriceId: 'replace_with_real_bronze_price_id',
+    stripePaymentLink: 'https://buy.stripe.com/test_bJeaEY2oa23i0ez52d9k401',
     features: [
       '5 Hosted Sites',
       'NVMe Edge Storage',
@@ -227,7 +227,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Silver',
     price: 49.95,
     description: 'For marketers expanding their portfolio.',
-    stripePriceId: 'replace_with_real_silver_price_id',
+    stripePaymentLink: 'https://buy.stripe.com/test_14A5kE6Eq9vK1iD66h9k402',
     features: [
       '15 Hosted Sites',
       'NVMe Edge Storage',
@@ -242,7 +242,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Gold',
     price: 99.95,
     description: 'For serious marketers scaling their operations.',
-    stripePriceId: 'replace_with_real_gold_price_id',
+    stripePaymentLink: 'https://buy.stripe.com/test_5kQ4gA1k60Zef9teCN9k403',
     features: [
       '50 Hosted Sites',
       'NVMe Edge Storage',
@@ -258,7 +258,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Platinum',
     price: 199.95,
     description: 'For affiliate teams managing multiple brands.',
-    stripePriceId: 'replace_with_real_platinum_price_id',
+    stripePaymentLink: 'https://buy.stripe.com/test_dRm3cw8My23i3qL9it9k404',
     features: [
       '150 Hosted Sites',
       'NVMe Edge Storage',
@@ -273,7 +273,7 @@ export const pricingTiers: PricingTier[] = [
     name: 'Diamond',
     price: 499.00,
     description: 'For agencies and large-scale businesses.',
-    stripePriceId: 'replace_with_real_diamond_price_id',
+    stripePaymentLink: 'https://buy.stripe.com/test_7sY6oI9QC7nCe5pcuF9k405',
     features: [
       'Unlimited Hosted Sites',
       'NVMe Edge Storage',

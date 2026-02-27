@@ -1,20 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
 import { useAuth } from '@/components/auth/auth-provider';
 import { useToast } from '@/hooks/use-toast';
 import { type PricingTier } from '@/lib/site';
-import { createCheckoutSession } from '@/ai/flows/create-stripe-checkout-flow';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
-    throw new Error('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY environment variable not set.');
-}
-
-// Load Stripe outside of component to avoid reloading on every render
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 export function StripeCheckoutButton({ tier }: { tier: PricingTier }) {
     const { user } = useAuth();
@@ -28,35 +20,18 @@ export function StripeCheckoutButton({ tier }: { tier: PricingTier }) {
         }
         setIsLoading(true);
 
-        if (tier.stripePriceId.startsWith('replace_with_real_')) {
-            toast({
-                title: "Stripe Price ID Not Configured",
-                description: `This plan's Price ID is a placeholder. You need to create a Product in your Stripe dashboard and update the ID for the "${tier.name}" plan in the file 'src/lib/site.ts'.`,
-                variant: "destructive",
-                duration: 15000,
-            });
-            setIsLoading(false);
-            return;
-        }
-
         try {
-            const { sessionId } = await createCheckoutSession({
-                priceId: tier.stripePriceId,
-                userId: user.uid,
-                userEmail: user.email,
-                planName: tier.name,
-            });
+            // Construct the URL with parameters
+            const url = new URL(tier.stripePaymentLink);
+            url.searchParams.append('client_reference_id', user.uid);
+            url.searchParams.append('customer_email', user.email);
+            // Add metadata
+            url.searchParams.append('metadata[planName]', tier.name);
+            url.searchParams.append('metadata[userId]', user.uid);
 
-            const stripe = await stripePromise;
-            if (!stripe) {
-                throw new Error("Stripe.js failed to load.");
-            }
+            // Redirect the user to the Stripe Payment Link
+            window.location.href = url.toString();
 
-            const { error } = await stripe.redirectToCheckout({ sessionId });
-
-            if (error) {
-                throw new Error(error.message);
-            }
         } catch (error) {
             console.error("Stripe checkout error:", error);
             toast({

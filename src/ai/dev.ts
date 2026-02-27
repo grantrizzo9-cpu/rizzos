@@ -10,5 +10,4 @@ import '@/ai/flows/generate-video-script.ts';
 import '@/ai/flows/generate-deployment-video.ts';
 import '@/ai/flows/generate-video-from-prompt.ts';
 import '@/ai/flows/describe-video-flow.ts';
-import '@/ai/flows/create-stripe-checkout-flow.ts';
 import '@/ai/flows/verify-stripe-session-flow.ts';
