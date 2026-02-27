@@ -12,13 +12,6 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useAuth } from "@/components/auth/auth-provider";
 import { Button } from "@/components/ui/button";
 
-export async function generateStaticParams() {
-  // This tells Next.js which slugs to build at build time.
-  return strategyArticles.map((article) => ({
-    slug: article.slug,
-  }));
-}
-
 export default function ArticlePage() {
   const params = useParams();
   const slug = typeof params.slug === 'string' ? params.slug : '';
