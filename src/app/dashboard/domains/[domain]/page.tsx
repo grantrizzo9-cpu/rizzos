@@ -179,11 +179,12 @@ export default function ManageDomainPage() {
                         </Alert>
                     ) : (
                          <Alert>
-                            <Info className="h-4 w-4" />
-                            <AlertTitle>DNS Connected! SSL is Provisioning.</AlertTitle>
+                            <ShieldCheck className="h-4 w-4 text-primary" />
+                            <AlertTitle>DNS Verified! SSL Certificate is Provisioning.</AlertTitle>
                             <AlertDescription>
-                                 <p>Great news! Our system has confirmed your DNS records. If you see a "Not Secure" warning in your browser, please be patient.</p>
-                                 <p className="mt-2">A free SSL certificate is being provisioned automatically. This can take up to a few hours. You can use the "Check SSL Status" button above to monitor its progress.</p>
+                                <p>Excellent! Your domain is correctly pointing to our servers. The final step is now happening automatically.</p>
+                                <p className="mt-2">A free SSL certificate is being created and installed for <strong>{domain.name}</strong> across our global network. This process can take anywhere from 30 minutes to a few hours.</p>
+                                <p className="mt-2">During this time, it is <strong>normal</strong> to see a "Not Secure" warning in your browser. Please be patient. You can use the "Check SSL Status" button to monitor its progress. Once the SSL is active, your site will be fully secure.</p>
                             </AlertDescription>
                         </Alert>
                     )}
