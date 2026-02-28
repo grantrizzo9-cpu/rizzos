@@ -11,6 +11,7 @@ import { useAuth } from '@/components/auth/auth-provider';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const navLinks = [
+  { href: '/', label: 'Home' },
   { href: '/blog', label: 'Blog' },
   { href: '/pricing', label: 'Pricing' },
 ];
