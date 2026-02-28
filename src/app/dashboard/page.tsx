@@ -242,7 +242,7 @@ function UserDashboard() {
   const { referrals, dailyEarnings, monthlyReferrals, totalEarnings, activeReferrals } =
     useEarnings();
 
-  const commissionRate = activeReferrals >= 25 ? 75 : 70;
+  const commissionRate = activeReferrals >= 10 ? 75 : 70;
 
   const affiliateLink = user?.username ? `https://rizzosai.com/?ref=${user.username}` : '';
 
@@ -291,7 +291,7 @@ function UserDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{activeReferrals}</div>
-            <p className="text-xs text-muted-foreground">Next target: 25 for 75% rate</p>
+            <p className="text-xs text-muted-foreground">Next target: 10 for 75% rate</p>
           </CardContent>
         </Card>
         <Card>
@@ -302,8 +302,8 @@ function UserDashboard() {
           <CardContent>
             <div className="text-2xl font-bold">{commissionRate}%</div>
             <p className="text-xs text-muted-foreground">
-              {25 - activeReferrals > 0
-                ? `${25 - activeReferrals} more referrals to next tier`
+              {10 - activeReferrals > 0
+                ? `${10 - activeReferrals} more referrals to next tier`
                 : 'Top tier unlocked!'}
             </p>
           </CardContent>

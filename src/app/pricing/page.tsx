@@ -26,7 +26,7 @@ export default function PricingPage() {
             </Suspense>
 
             <div className="mt-12 text-center text-muted-foreground">
-                <p><strong>Commission Structure:</strong> All plans start at a 70% recurring daily commission rate. <br /> Automatically upgrade to <strong>75%</strong> upon reaching 25 active referrals.</p>
+                <p><strong>Commission Structure:</strong> All plans start at a 70% recurring daily commission rate. <br /> Automatically upgrade to <strong>75%</strong> upon reaching 10 active referrals.</p>
             </div>
         </section>
       </main>

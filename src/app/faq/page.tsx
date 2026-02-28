@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     question: "How do the daily payments work?",
-    answer: "Our payment system is designed for speed and transparency. At the end of each 24-hour cycle, our system calculates the recurring commissions you've earned from all your active referrals. We then automatically send your 70% commission (rising to 75% after 25 referrals) directly to the payout account you have on file. There's no minimum payout threshold."
+    answer: "Our payment system is designed for speed and transparency. At the end of each 24-hour cycle, our system calculates the recurring commissions you've earned from all your active referrals. We then automatically send your 70% commission (rising to 75% after 10 referrals) directly to the payout account you have on file. There's no minimum payout threshold."
   },
   {
     question: "What can I do in my affiliate dashboard?",
@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     question: "How does the commission bump to 75% work?",
-    answer: "It's simple and automatic. All members start at a generous 70% recurring daily commission rate. Once you reach the milestone of having 25 active referrals, our system automatically upgrades your account to the 75% commission tier. This is a permanent upgrade for the lifetime of your account, significantly boosting your daily income."
+    answer: "It's simple and automatic. All members start at a generous 70% recurring daily commission rate. Once you reach the milestone of having 10 active referrals, our system automatically upgrades your account to the 75% commission tier. This is a permanent upgrade for the lifetime of your account, significantly boosting your daily income."
   },
   {
     question: "Is there a limit to how much I can earn?",

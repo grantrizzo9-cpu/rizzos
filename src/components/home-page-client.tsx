@@ -17,7 +17,7 @@ const whyPartnerFeatures = [
   {
     icon: DollarSign,
     title: "Generous 70-75% Commissions",
-    description: "Start at a 70% recurring commission rate. Refer 25 active customers to permanently unlock our top-tier 75% rate.",
+    description: "Start at a 70% recurring commission rate. Refer 10 active customers to permanently unlock our top-tier 75% rate.",
   },
   {
     icon: WalletCards,
@@ -57,7 +57,7 @@ const incomePathSteps = [
     },
     {
         title: "Earn 70-75% Recurring Daily Profit",
-        description: "You earn 70% of every recurring daily payment from all your referrals. After 25 referrals, this increases to 75%. Payouts are sent automatically to your payment provider.",
+        description: "You earn 70% of every recurring daily payment from all your referrals. After 10 referrals, this increases to 75%. Payouts are sent automatically to your payment provider.",
     },
 ];
 
@@ -115,7 +115,7 @@ const faqs = [
   },
   {
     question: "How and when do I get paid?",
-    answer: "We process all commission payouts on a reliable daily schedule. All your earned commissions (70%, rising to 75% after 25 referrals) from recurring payments are automatically sent to the payout account you have on file. There are no minimum payout thresholds.",
+    answer: "We process all commission payouts on a reliable daily schedule. All your earned commissions (70%, rising to 75% after 10 referrals) from recurring payments are automatically sent to the payout account you have on file. There are no minimum payout thresholds.",
   },
   {
     question: "What am I selling?",
