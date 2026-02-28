@@ -1,8 +1,8 @@
-
 "use client";
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/icons/logo';
 import { cn } from '@/lib/utils';
@@ -18,6 +18,11 @@ export function Header() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { user, loading } = useAuth();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const ref = searchParams.get('ref');
   
@@ -58,7 +63,7 @@ export function Header() {
           </nav>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2">
-          {loading ? (
+          {(!isMounted || loading) ? (
              <div className="flex items-center gap-2">
                 <Skeleton className="h-10 w-20" />
                 <Skeleton className="h-10 w-24" />
