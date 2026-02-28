@@ -108,8 +108,7 @@ export const DomainsProvider = ({ children }: { children: ReactNode }) => {
       status: 'pending',
       deployedWebsiteId: null,
       dnsRecords: [
-        { type: 'A', host: '@', value: '199.36.158.100', status: 'verifying' },
-        { type: 'A', host: '@', value: '199.36.158.101', status: 'verifying' },
+        { type: 'A', host: '@', value: '35.219.200.7', status: 'verifying' },
         { type: 'CNAME', host: 'www', value: '@', status: 'verifying' },
         { type: 'CNAME', host: acmeChallengeHost, value: acmeChallengeValue, status: 'verifying' },
         { type: 'TXT', host: '@', value: fahClaimValue, status: 'verifying' }

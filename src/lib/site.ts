@@ -22,14 +22,13 @@ export const strategyArticles: Article[] = [
       
       <p class="mb-4">Here are the exact values you will need to enter into your domain registrar's DNS settings:</p>
       <ul class="list-none mb-4 space-y-2 bg-muted p-4 rounded-lg">
-          <li><strong>Type:</strong> A, <strong>Host:</strong> @, <strong>Value:</strong> 199.36.158.100</li>
-          <li><strong>Type:</strong> A, <strong>Host:</strong> @, <strong>Value:</strong> 199.36.158.101</li>
+          <li><strong>Type:</strong> A, <strong>Host:</strong> @, <strong>Value:</strong> 35.219.200.7</li>
           <li><strong>Type:</strong> CNAME, <strong>Host:</strong> www, <strong>Value:</strong> @</li>
       </ul>
       <p class="mb-4 text-sm opacity-80">Note: Some registrars use your full domain name (e.g., <code>your-domain.com</code>) instead of '@' for the host or value. Both are correct.</p>
 
-      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 2: Adding the 'A' Records</h3>
-       <p class="mb-4">Log in to your domain registrar (e.g., GoDaddy, Namecheap) and navigate to the DNS management section. Create two 'A' records. For both, set the host/name to '@'. Point the first record's value to 199.36.158.100 and the second to 199.36.158.101.</p>
+      <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 2: Adding the 'A' Record</h3>
+       <p class="mb-4">Log in to your domain registrar (e.g., GoDaddy, Namecheap) and navigate to the DNS management section. Create a new 'A' record. Set the host/name to '@' and point the record's value to 35.219.200.7.</p>
 
 
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 3: Adding the 'CNAME' Record</h3>
