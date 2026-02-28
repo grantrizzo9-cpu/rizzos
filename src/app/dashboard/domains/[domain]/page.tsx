@@ -253,7 +253,7 @@ export default function ManageDomainPage() {
                     <CardDescription>Once your domain status shows as 'Awaiting SSL', you can select a generated website from your collection to make it live.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {!allRecordsFound && (
+                     {!allRecordsFound && (
                         <Alert variant="destructive" className="mb-6">
                             <AlertCircle className="h-4 w-4" />
                             <AlertTitle>Verification Pending</AlertTitle>
@@ -262,24 +262,38 @@ export default function ManageDomainPage() {
                             </AlertDescription>
                         </Alert>
                     )}
+                    {allRecordsFound && !domain.deployedWebsiteId && (
+                         <Alert variant="default" className="mb-6 border-amber-500">
+                            <Hourglass className="h-4 w-4 text-amber-600" />
+                            <AlertTitle className="font-bold text-amber-700">Next Step: Deploy Your Site</AlertTitle>
+                            <AlertDescription className="text-amber-900 dark:text-amber-200">
+                                You're seeing a "Site Not Found" page because you haven't linked a website to this domain yet.
+                                Your DNS is connected correctly, but our servers don't know which of your sites to show.
+                                <br/><br/>
+                                Please choose a website from the dropdown below and click 'Deploy' to make it live.
+                            </AlertDescription>
+                        </Alert>
+                    )}
+                     {allRecordsFound && domain.deployedWebsiteId && (
+                         <Alert className="mb-6 border-green-500/50">
+                            <CheckCircle2 className="h-4 w-4 text-green-500" />
+                            <AlertTitle className="text-green-600">Site Deployed!</AlertTitle>
+                            <AlertDescription>
+                                A website is now linked to this domain. You can deploy a different site below to replace it, or visit your live site. <br/>Note: SSL activation and global propagation can still take several hours.
+                            </AlertDescription>
+                        </Alert>
+                    )}
+                    
                     {allRecordsFound && !loadingWebsites && generatedWebsites.length === 0 && (
                         <Alert className="mb-6">
                             <Info className="h-4 w-4" />
                             <AlertTitle>No Websites Found</AlertTitle>
                             <AlertDescription>
-                                You haven't created any websites yet. Go to the <Link href="/dashboard/ai-content/website" className="font-bold hover:underline">AI Website Builder</Link> to generate one.
+                                You haven't created any websites yet. Go to the <Link href="/dashboard/ai-content/website" className="font-bold hover:underline">AI Website Builder</Link> to generate one before you can deploy.
                             </AlertDescription>
                         </Alert>
                     )}
-                     {allRecordsFound && generatedWebsites.length > 0 && (
-                        <Alert className="mb-6 border-primary text-primary-foreground">
-                            <CheckCircle2 className="h-4 w-4 text-primary" />
-                            <AlertTitle className="font-bold text-primary">Final Step: Deploy Your Site</AlertTitle>
-                            <AlertDescription className="text-primary-foreground/90">
-                                Your DNS is connected! Now, choose a website from the dropdown below and click 'Deploy' to make it live on the internet. Note that it will only be secure once the SSL certificate is fully active.
-                            </AlertDescription>
-                        </Alert>
-                    )}
+                    
                     <div className="flex flex-col sm:flex-row gap-4 max-w-lg">
                         <Select onValueChange={setSelectedWebsite} defaultValue={selectedWebsite} disabled={!allRecordsFound || isDeploying || loadingWebsites || generatedWebsites.length === 0}>
                             <SelectTrigger>
