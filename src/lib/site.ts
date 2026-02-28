@@ -18,9 +18,9 @@ export const strategyArticles: Article[] = [
       <p class="mb-4">Once you\'ve activated your Rizzos Ai account, the next crucial step is to give your website a professional address with a custom domain name (e.g., <code>www.your-domain.com</code>). This guide will walk you through the entire process, from purchasing a domain to configuring it to work with our system. Following these steps will make your site live to the world on your own branded address.</p>
       
       <h3 class="font-headline text-xl font-bold mt-6 mb-2 text-accent">Step 1: The Required DNS Records</h3>
-      <p class="mb-4">You will need to add the following records at your domain registrar. These records tell the internet where to find your website hosted on our servers.</p>
+      <p class="mb-4">You will need to add the following records at your domain registrar. These records tell the internet where to find your website hosted on our servers. You can find the exact, unique records for your specific domain on the Hosting page in your dashboard.</p>
       
-      <p class="mb-4">Here are the exact values you will need to enter into your domain registrar's DNS settings:</p>
+      <p class="mb-4">Here are the values you will typically need to enter into your domain registrar's DNS settings:</p>
       <ul class="list-none mb-4 space-y-2 bg-muted p-4 rounded-lg">
           <li><strong>Type:</strong> A, <strong>Host:</strong> @, <strong>Value:</strong> 35.219.200.7</li>
           <li><strong>Type:</strong> CNAME, <strong>Host:</strong> www, <strong>Value:</strong> @</li>
