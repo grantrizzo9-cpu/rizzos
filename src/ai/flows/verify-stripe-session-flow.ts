@@ -5,10 +5,13 @@ import { z } from 'zod';
 import Stripe from 'stripe';
 
 if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY environment variable not set.');
+  // In a real app, you'd want to handle this more gracefully,
+  // perhaps by disabling payment features and logging a critical error.
+  console.error('STRIPE_SECRET_KEY environment variable not set.');
 }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Initialize Stripe only if the key exists.
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 
 const VerifyStripeSessionInputSchema = z.object({
   sessionId: z.string().describe('The ID of the Stripe Checkout Session to verify.'),
@@ -33,17 +36,16 @@ const verifyStripeSessionFlow = ai.defineFlow(
     outputSchema: VerifyStripeSessionOutputSchema,
   },
   async ({ sessionId }) => {
-    const session = await stripe.checkout.sessions.retrieve(sessionId, {
-        expand: ['line_items.data.price.product'],
-    });
-
-    let planName: string | null = null;
-    if (session.line_items && session.line_items.data && session.line_items.data.length > 0) {
-        const product = session.line_items.data[0].price?.product;
-        if (typeof product === 'object' && product !== null && 'name' in product) {
-            planName = product.name as string;
-        }
+    if (!stripe) {
+      throw new Error('Stripe is not configured on the server.');
     }
+
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    // This is the robust fix: Get the planName directly from the metadata
+    // that we passed into the URL from the checkout button. This is much
+    // more reliable than trying to parse the line_items.
+    const planName = session.metadata?.planName || null;
 
     return {
         status: session.payment_status,
