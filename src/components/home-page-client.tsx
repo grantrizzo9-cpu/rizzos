@@ -325,10 +325,10 @@ export function HomePageClient() {
               <h2 className="font-headline text-4xl font-bold mb-4">Frequently Asked Questions</h2>
               <p className="text-lg text-muted-foreground">Have questions? We have answers.</p>
             </div>
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion type="multiple" className="w-full">
               {faqs.map((faq, index) => (
                 <AccordionItem value={`item-${index}`} key={index}>
-                  <AccordionTrigger className="text-lg">{faq.question}</AccordionTrigger>
+                  <AccordionTrigger className="text-lg text-left hover:no-underline">{faq.question}</AccordionTrigger>
                   <AccordionContent className="text-base text-muted-foreground">
                     {faq.answer}
                   </AccordionContent>

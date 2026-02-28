@@ -3,6 +3,12 @@
 import { Suspense } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const faqs = [
   {
@@ -44,14 +50,16 @@ export default function FAQPage() {
             <h1 className="font-headline text-4xl font-bold mb-4 text-accent">Frequently Asked Questions</h1>
             <p className="text-lg text-muted-foreground">Have questions? We have answers. Here are some of the most common queries we receive.</p>
           </div>
-          <div className="w-full space-y-8">
+          <Accordion type="multiple" className="w-full">
             {faqs.map((faq, index) => (
-              <div key={index} className="border-b pb-8 last:border-b-0 last:pb-0">
-                <h3 className="text-xl font-medium text-foreground">{faq.question}</h3>
-                <p className="mt-2 text-base text-muted-foreground">{faq.answer}</p>
-              </div>
+              <AccordionItem value={`item-${index}`} key={index}>
+                <AccordionTrigger className="text-lg text-left hover:no-underline">{faq.question}</AccordionTrigger>
+                <AccordionContent className="text-base text-muted-foreground">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </div>
       </main>
       <Suspense>
