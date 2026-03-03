@@ -157,8 +157,8 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
       // The `as any` cast is necessary because MockUser is defined locally.
       signIn(newUser as any, true, effectiveReferrer);
       // Use a hard navigation to ensure all state is correctly loaded on the next page.
-      // As requested, redirect new users to the domain connection guide.
-      window.location.assign('/dashboard/strategy-center/connecting-your-domain');
+      // Redirect new users to the main dashboard
+      window.location.assign('/dashboard');
 
     } else { // Login mode
       const existingUser = findUserByEmail(email);
