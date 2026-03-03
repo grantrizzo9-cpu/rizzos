@@ -14,7 +14,7 @@ export const blogArticles: BlogArticle[] = [
     slug: 'ai-revolution-in-web-hosting',
     title: 'The AI Revolution in Web Hosting: What It Means for Affiliates',
     description: 'Discover how AI-powered hosting is changing the game, offering a stickier, higher-converting product for affiliate marketers.',
-    image: 'strategy-3',
+    image: 'ai-datacenter',
     author: 'Rizzos Ai Team',
     date: 'August 5, 2024',
     content: `
@@ -43,7 +43,7 @@ export const blogArticles: BlogArticle[] = [
     slug: 'power-of-daily-commissions',
     title: 'Unlocking Financial Freedom: The Power of Daily Recurring Commissions',
     description: 'Move beyond the 30-day payout cycle. Learn how daily payments revolutionize cash flow and accelerate your business growth.',
-    image: 'strategy-5',
+    image: 'daily-commissions',
     author: 'Rizzos Ai Team',
     date: 'August 4, 2024',
     content: `
@@ -105,7 +105,7 @@ export const blogArticles: BlogArticle[] = [
     slug: 'automate-your-affiliate-empire',
     title: 'Automate Your Empire: The Future of Affiliate Marketing is AI',
     description: 'Shift from being a "doer" to a "strategist." Learn how the integrated AI tools in Rizzos Ai can automate 90% of your marketing workflow.',
-    image: 'strategy-1',
+    image: 'automate-empire',
     author: 'Rizzos Ai Team',
     date: 'August 1, 2024',
     content: `
@@ -132,7 +132,7 @@ export const blogArticles: BlogArticle[] = [
     slug: 'guide-to-choosing-affiliate-niches',
     title: 'The Art of the Niche: A Guide to Choosing Profitable Affiliate Topics',
     description: 'Your most important decision is your first one. Learn the data-driven process for identifying and validating profitable affiliate niches.',
-    image: 'strategy-2',
+    image: 'niche-selection',
     author: 'Rizzos Ai Team',
     date: 'July 30, 2024',
     content: `
@@ -206,7 +206,7 @@ export const blogArticles: BlogArticle[] = [
     slug: 'seo-basics-for-affiliates',
     title: 'SEO 101: The Affiliate Marketer\'s Guide to Getting Free Traffic',
     description: 'Master the fundamentals of Search Engine Optimization and build a sustainable source of high-converting organic traffic for your affiliate sites.',
-    image: 'strategy-4',
+    image: 'seo-guide',
     author: 'Rizzos Ai Team',
     date: 'July 28, 2024',
     content: `
@@ -253,7 +253,7 @@ export const blogArticles: BlogArticle[] = [
     slug: 'page-speed-and-conversions',
     title: 'Why Every Millisecond Matters: Page Speed and Its Impact on Conversions',
     description: 'Go beyond SEO. Learn how a fast website directly impacts user psychology, reduces bounce rates, and increases your affiliate conversion rates.',
-    image: 'strategy-1',
+    image: 'page-speed',
     author: 'Rizzos Ai Team',
     date: 'July 27, 2024',
     content: `
@@ -292,7 +292,7 @@ export const blogArticles: BlogArticle[] = [
     slug: 'building-your-affiliate-brand',
     title: 'Beyond the Link: Building a Powerful Personal Brand as an Affiliate',
     description: 'Move from being a faceless promoter to a trusted authority in your niche. Learn the principles of building a personal brand that attracts followers and drives sales.',
-    image: 'strategy-6',
+    image: 'affiliate-brand',
     author: 'Rizzos Ai Team',
     date: 'July 26, 2024',
     content: `

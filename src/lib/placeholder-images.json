@@ -89,6 +89,48 @@
       "description": "Example of adding a CNAME record",
       "imageUrl": "https://placehold.co/800x300/e2e8f0/2d3748/png?text=For%20'www',%20add%20CNAME%20record%0Apointing%20to%20%40",
       "imageHint": "dns cname"
+    },
+    {
+      "id": "ai-datacenter",
+      "description": "AI-powered web hosting infrastructure and data center visualization",
+      "imageUrl": "https://www.bing.com/images/create/the-ai-revolution-in-web-hosting3a-what-it-means-fo/1-69a74a02d4da495285c6b2405dd91f7a?id=yV2eFtR3ZbRNl9bySwG2ww%3d%3d&view=detailv2&idpp=genimg&thId=OIG2.5._yaqNREZtTDFK8jl4h&mdl=0&edt=0&ar=1&skey=PKit4a4JYAsEdeAxcweNuCeBEJLfskU0mASnmRS8n18&FORM=GCRIDP",
+      "imageHint": "ai hosting datacenter"
+    },
+    {
+      "id": "daily-commissions",
+      "description": "Financial growth and daily recurring commissions visualization",
+      "imageUrl": "https://th.bing.com/th/id/OIG1.kVYuLD4hAND90jeJQNv6?w=270&h=270&c=6&r=0&o=5&dpr=1.5&pid=ImgGn",
+      "imageHint": "daily income"
+    },
+    {
+      "id": "automate-empire",
+      "description": "AI automation and empire building visualization",
+      "imageUrl": "https://th.bing.com/th/id/OIG2.G7LUBTaAUy6.dus2X4jo?w=270&h=270&c=6&r=0&o=5&dpr=1.5&pid=ImgGn",
+      "imageHint": "ai automation empire"
+    },
+    {
+      "id": "niche-selection",
+      "description": "Guide to choosing profitable affiliate niches visualization",
+      "imageUrl": "https://th.bing.com/th/id/OIG4.lvglfPUwVgySXuXH7mNo?w=270&h=270&c=6&r=0&o=5&dpr=1.5&pid=ImgGn",
+      "imageHint": "niche selection guide"
+    },
+    {
+      "id": "seo-guide",
+      "description": "SEO fundamentals and free organic traffic visualization",
+      "imageUrl": "https://th.bing.com/th/id/OIG2.34XLqMsXAaghycdF1BdV?w=270&h=270&c=6&r=0&o=5&dpr=1.5&pid=ImgGn",
+      "imageHint": "seo organic traffic"
+    },
+    {
+      "id": "page-speed",
+      "description": "Page speed impact on conversions visualization",
+      "imageUrl": "https://th.bing.com/th/id/OIG2.yXihWPg.UYMSYiE4ORZU?w=270&h=270&c=6&r=0&o=5&dpr=1.5&pid=ImgGn",
+      "imageHint": "page speed conversions"
+    },
+    {
+      "id": "affiliate-brand",
+      "description": "Building a powerful personal brand as an affiliate marketer",
+      "imageUrl": "https://th.bing.com/th/id/OIG3.9Rv3icyhpGxabzcGgZcW?w=270&h=270&c=6&r=0&o=5&dpr=1.5&pid=ImgGn",
+      "imageHint": "personal brand authority"
     }
   ]
 }
