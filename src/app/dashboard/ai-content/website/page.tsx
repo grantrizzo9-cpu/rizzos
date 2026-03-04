@@ -48,6 +48,7 @@ import { useAuth } from '@/components/auth/auth-provider';
 import { useDomains } from '@/contexts/domains-provider';
 import { Loader2, Wand2, Eye, Globe } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { WebsiteBuilderAdvanced } from '@/components/hosting/website-builder-advanced';
 
 
 // --- Typewriter Component for Deployment Log ---
@@ -97,6 +98,7 @@ export default function WebsiteBuilderPage() {
   
   const [isGeneratingLog, setIsGeneratingLog] = useState(false);
   const [deploymentLogContent, setDeploymentLogContent] = useState<string | null>(null);
+  const [builderType, setBuilderType] = useState<'quick' | 'advanced'>('quick');
 
   const { toast } = useToast();
   const { user } = useAuth();
@@ -196,113 +198,220 @@ export default function WebsiteBuilderPage() {
     }
   };
 
+  const handleAdvancedGenerate = async (options: any) => {
+    if (!user?.uid) {
+      toast({
+        title: 'Error',
+        description: 'You must be logged in to generate a website.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      const themeName = 'Advanced Builder';
+      await saveWebsite(user.uid, options.htmlContent, themeName);
+      
+      setGeneratedHtml(options.htmlContent);
+      
+      toast({
+        title: 'Success!',
+        description: 'Your unique website has been generated and saved.',
+      });
+    } catch (error) {
+      console.error('Error in advanced generation:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to save your website. Please try again.',
+        variant: 'destructive',
+      });
+    }
+  };
+
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        <Card className="lg:col-span-2 h-fit">
-          <CardHeader>
-            <CardTitle>1-Click Website Generator</CardTitle>
-            <CardDescription>
-              Generate a complete, themed affiliate site with your referral link built-in.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="niche"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Niche Topic</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., 'Cold brew coffee makers'" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="domainName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Domain Name (Optional)</FormLabel>
-                       <Select onValueChange={field.onChange} defaultValue={field.value} disabled={verifiedDomains.length === 0}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a verified domain" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {verifiedDomains.map(domain => (
-                            <SelectItem key={domain.id} value={domain.name}>
-                              {domain.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormDescription>
-                          Use one of your verified domains for branding. If left blank, a fictional brand will be created.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="themeName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Visual Theme</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a theme" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {themes.map(theme => (
-                            <SelectItem key={theme.name} value={theme.name}>
-                              {theme.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" disabled={isLoading} className="w-full">
-                  {isLoading && !generatedHtml ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <Wand2 className="mr-2 h-4 w-4" />
-                  )}
-                  Generate Website
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
+      <Tabs value={builderType} onValueChange={(v: any) => setBuilderType(v)} className="w-full">
+        <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsTrigger value="quick">Quick Builder</TabsTrigger>
+          <TabsTrigger value="advanced">Advanced Builder</TabsTrigger>
+        </TabsList>
 
-        <Card className="lg:col-span-3 min-h-[700px] flex flex-col">
-          <CardHeader>
-            <CardTitle>Generated Website</CardTitle>
-            <CardDescription>Your AI-generated website preview will appear here.</CardDescription>
-          </CardHeader>
-          <CardContent className="flex-grow flex flex-col">
-            {isLoading && !generatedHtml && (
-              <div className="flex items-center justify-center h-full">
-                <div className="text-center space-y-2">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
-                  <p className="text-muted-foreground">Generating content & building your site...</p>
-                </div>
-              </div>
-            )}
-            {generatedHtml && (
-              <div className="flex flex-col flex-grow space-y-4">
+        <TabsContent value="quick">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            <Card className="lg:col-span-2 h-fit">
+              <CardHeader>
+                <CardTitle>1-Click Website Generator</CardTitle>
+                <CardDescription>
+                  Generate a complete, themed affiliate site with your referral link built-in.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <FormField
+                      control={form.control}
+                      name="niche"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Niche Topic</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., 'Cold brew coffee makers'" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="domainName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Domain Name (Optional)</FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value} disabled={verifiedDomains.length === 0}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a verified domain" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {verifiedDomains.map(domain => (
+                                <SelectItem key={domain.id} value={domain.name}>
+                                  {domain.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormDescription>
+                              Use one of your verified domains for branding. If left blank, a fictional brand will be created.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="themeName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Visual Theme</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a theme" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {themes.map(theme => (
+                                <SelectItem key={theme.name} value={theme.name}>
+                                  {theme.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" disabled={isLoading} className="w-full">
+                      {isLoading && !generatedHtml ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        <Wand2 className="mr-2 h-4 w-4" />
+                      )}
+                      Generate Website
+                    </Button>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+
+            <Card className="lg:col-span-3 min-h-[700px] flex flex-col">
+              <CardHeader>
+                <CardTitle>Generated Website</CardTitle>
+                <CardDescription>Your AI-generated website preview will appear here.</CardDescription>
+              </CardHeader>
+              <CardContent className="flex-grow flex flex-col">
+                {isLoading && !generatedHtml && (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="text-center space-y-2">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
+                      <p className="text-muted-foreground">Generating content & building your site...</p>
+                    </div>
+                  </div>
+                )}
+                {generatedHtml && (
+                  <div className="flex flex-col flex-grow space-y-4">
+                    <Tabs defaultValue="preview" className="w-full flex-grow flex flex-col">
+                      <TabsList>
+                          <TabsTrigger value="preview"><Eye className="mr-2"/>Preview</TabsTrigger>
+                          <TabsTrigger value="html">{'</>'}</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="preview" className="flex-grow mt-4">
+                        <iframe
+                          srcDoc={generatedHtml}
+                          className="w-full h-full border rounded-md bg-white"
+                          title="Generated Website Preview"
+                          sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin"
+                        />
+                      </TabsContent>
+                      <TabsContent value="html" className="relative mt-4 flex-grow">
+                           <pre className="bg-muted text-muted-foreground rounded-lg p-4 text-xs overflow-auto h-full max-h-[700px]">
+                              <code>{generatedHtml}</code>
+                          </pre>
+                      </TabsContent>
+                    </Tabs>
+                     
+                     <div className="border-t pt-4 space-y-4">
+                       <h3 className="font-semibold">Publish & View Deployment</h3>
+                       <div className="flex flex-col sm:flex-row gap-4">
+                          <Select onValueChange={setSelectedDomain} value={selectedDomain} disabled={verifiedDomains.length === 0}>
+                              <SelectTrigger>
+                                  <SelectValue placeholder={verifiedDomains.length === 0 ? "No verified domains" : "Select a verified domain"} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                  {verifiedDomains.map(domain => (
+                                      <SelectItem key={domain.id} value={domain.id}>{domain.name}</SelectItem>
+                                  ))}
+                              </SelectContent>
+                          </Select>
+                          <Button onClick={handlePublishAndDeploy} disabled={isPublishing || !selectedDomain}>
+                              {isPublishing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Globe className="mr-2 h-4 w-4" />}
+                              {isPublishing ? 'Deploying...' : 'Publish & View Log'}
+                          </Button>
+                       </div>
+                       {verifiedDomains.length === 0 && <FormDescription>You must add and verify a domain in the 'Hosting' section before you can publish.</FormDescription>}
+                     </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="advanced" className="space-y-6">
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle>Advanced Website Builder</CardTitle>
+              <CardDescription>
+                Create highly customized, unique websites with full control over colors, content length, and layout. Perfect for creating distinct affiliate sites.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <WebsiteBuilderAdvanced 
+                onGenerate={handleAdvancedGenerate}
+                isGenerating={isLoading}
+              />
+            </CardContent>
+          </Card>
+
+          {generatedHtml && (
+            <Card className="min-h-[700px] flex flex-col">
+              <CardHeader>
+                <CardTitle>Website Preview</CardTitle>
+                <CardDescription>Your customized website with email capture and affiliate section.</CardDescription>
+              </CardHeader>
+              <CardContent className="flex-grow flex flex-col">
                 <Tabs defaultValue="preview" className="w-full flex-grow flex flex-col">
                   <TabsList>
                       <TabsTrigger value="preview"><Eye className="mr-2"/>Preview</TabsTrigger>
@@ -312,7 +421,7 @@ export default function WebsiteBuilderPage() {
                     <iframe
                       srcDoc={generatedHtml}
                       className="w-full h-full border rounded-md bg-white"
-                      title="Generated Website Preview"
+                      title="Website Preview"
                       sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin"
                     />
                   </TabsContent>
@@ -322,32 +431,11 @@ export default function WebsiteBuilderPage() {
                       </pre>
                   </TabsContent>
                 </Tabs>
-                 
-                 <div className="border-t pt-4 space-y-4">
-                   <h3 className="font-semibold">Publish & View Deployment</h3>
-                   <div className="flex flex-col sm:flex-row gap-4">
-                      <Select onValueChange={setSelectedDomain} value={selectedDomain} disabled={verifiedDomains.length === 0}>
-                          <SelectTrigger>
-                              <SelectValue placeholder={verifiedDomains.length === 0 ? "No verified domains" : "Select a verified domain"} />
-                          </SelectTrigger>
-                          <SelectContent>
-                              {verifiedDomains.map(domain => (
-                                  <SelectItem key={domain.id} value={domain.id}>{domain.name}</SelectItem>
-                              ))}
-                          </SelectContent>
-                      </Select>
-                      <Button onClick={handlePublishAndDeploy} disabled={isPublishing || !selectedDomain}>
-                          {isPublishing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Globe className="mr-2 h-4 w-4" />}
-                          {isPublishing ? 'Deploying...' : 'Publish & View Log'}
-                      </Button>
-                   </div>
-                   {verifiedDomains.length === 0 && <FormDescription>You must add and verify a domain in the 'Hosting' section before you can publish.</FormDescription>}
-                 </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+      </Tabs>
 
       <Dialog open={isGeneratingLog || !!deploymentLogContent} onOpenChange={(isOpen) => { if (!isOpen) { setDeploymentLogContent(null); setIsGeneratingLog(false); }}}>
         <DialogContent className="max-w-3xl bg-black border-gray-700">
