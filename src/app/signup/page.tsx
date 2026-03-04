@@ -1,5 +1,6 @@
 import { AuthForm } from '@/components/auth/auth-form';
 
-export default function SignupPage({ searchParams }: { searchParams: { ref?: string, theme?: string } }) {
-  return <AuthForm mode="signup" referrer={searchParams?.ref} themeName={searchParams?.theme} />;
+export default async function SignupPage({ searchParams }: { searchParams: Promise<{ ref?: string, theme?: string }> }) {
+  const params = await searchParams;
+  return <AuthForm mode="signup" referrer={params?.ref} themeName={params?.theme} />;
 }

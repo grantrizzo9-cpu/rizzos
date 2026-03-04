@@ -143,7 +143,7 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
       // Track affiliate referral (if user came from an affiliate link)
       if (effectiveReferrer && effectiveReferrer !== 'hostproai') {
         try {
-          await fetch('/api/affiliate/track-referral', {
+          const trackingResponse = await fetch('/api/affiliate/track-referral', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -152,24 +152,25 @@ export function AuthForm({ mode, referrer, themeName }: AuthFormProps) {
               newUserUsername: username,
             }),
           });
+          
+          if (!trackingResponse.ok) {
+            const errorData = await trackingResponse.json();
+            console.error('Affiliate tracking API error:', trackingResponse.status, errorData);
+          } else {
+            console.log('✓ Affiliate referral tracked successfully');
+          }
         } catch (error) {
           console.error('Failed to track affiliate referral:', error);
         }
       }
 
-      // Send welcome email and subscribe to list
-      try {
-        const emailResult = await handleUserSignup(email, username);
-        if (!emailResult.success) {
-          console.warn('Failed to send welcome email:', emailResult.error);
-          toast({
-            title: "Note",
-            description: "Account created! Welcome email may take a moment to arrive.",
-          });
-        }
-      } catch (error) {
+      // Send welcome email and subscribe to list (don't wait, don't block)
+      handleUserSignup(email, username).catch((error) => {
         console.error('Error sending welcome email:', error);
-      }
+      });
+      
+      // Continue immediately - don't wait for email to complete
+      console.log('✓ Signup form completed, redirecting to dashboard');
 
       // The `as any` cast is necessary because MockUser is defined locally.
       signIn(newUser as any, true, effectiveReferrer);
