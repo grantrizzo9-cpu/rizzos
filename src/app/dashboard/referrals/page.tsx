@@ -5,10 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useEarnings } from "@/components/earnings/earnings-provider";
+import { useAuth } from "@/components/auth/auth-provider";
+import { AffiliateReferralsCard } from "@/components/affiliate/affiliate-referrals-card";
 import { Users } from "lucide-react";
 
 export default function ReferralsPage() {
   const { referrals } = useEarnings();
+  const { user } = useAuth();
 
   return (
     <div className="space-y-8">
@@ -46,6 +49,9 @@ export default function ReferralsPage() {
             )}
         </CardContent>
       </Card>
+
+      {/* Affiliate Program Referrals */}
+      {user?.username && <AffiliateReferralsCard username={user.username} />}
     </div>
   );
 }

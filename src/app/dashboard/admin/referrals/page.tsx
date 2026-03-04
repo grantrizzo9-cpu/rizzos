@@ -1,239 +1,150 @@
-'use client';
+import { db } from '@/lib/firebase-admin';
+import { formatDistanceToNow } from 'date-fns';
 
-import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, AlertTriangle } from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-
-interface AdminReferral {
-  id: string;
-  affiliateUsername: string;
-  newUserUsername: string;
-  newUserEmail: string;
-  createdAt: string;
-  referralCountForAffiliate: number;
+interface AffiliateData {
+  username: string;
+  referralCount: number;
+  lastReferralAt?: Date;
+  createdAt?: Date;
 }
 
-export default function AdminReferralsPage() {
-  const [referrals, setReferrals] = useState<AdminReferral[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filterAffiliate, setFilterAffiliate] = useState<string>('all');
-  const [affiliates, setAffiliates] = useState<string[]>([]);
+async function getAffiliates(): Promise<AffiliateData[]> {
+  try {
+    const snapshot = await db.collection('affiliates').get();
+    const affiliates: AffiliateData[] = [];
 
-  useEffect(() => {
-    const fetchReferrals = async () => {
-      try {
-        const response = await fetch('/api/admin/get-all-referrals');
-        const data = await response.json();
-        if (data.success) {
-          setReferrals(data.referrals);
-          // Extract unique affiliates
-          const uniqueAffiliates = [...new Set(data.referrals.map((r: AdminReferral) => r.affiliateUsername))];
-          setAffiliates(uniqueAffiliates.sort());
-        }
-      } catch (error) {
-        console.error('Error fetching referrals:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      affiliates.push({
+        username: doc.id,
+        referralCount: data.referralCount || 0,
+        lastReferralAt: data.lastReferralAt?.toDate(),
+        createdAt: data.createdAt?.toDate(),
+      });
+    });
 
-    fetchReferrals();
-  }, []);
+    // Sort by referral count descending
+    return affiliates.sort((a, b) => (b.referralCount || 0) - (a.referralCount || 0));
+  } catch (error) {
+    console.error('Failed to fetch affiliates:', error);
+    return [];
+  }
+}
 
-  const filteredReferrals = filterAffiliate === 'all'
-    ? referrals
-    : referrals.filter(r => r.affiliateUsername === filterAffiliate);
+export default async function AdminAffiliatesPage() {
+  const affiliates = await getAffiliates();
 
-  // Get affiliates with 2+ referrals (profitable)
-  const profitableAffiliates = affiliates.filter(affiliate => {
-    const count = referrals.filter(r => r.affiliateUsername === affiliate).length;
-    return count >= 2;
-  });
-
-  // Get affiliates with exactly 2 referrals (newly profitable)
-  const newlyProfitable = affiliates.filter(affiliate => {
-    const count = referrals.filter(r => r.affiliateUsername === affiliate).length;
-    return count === 2;
-  });
-
-  // Get affiliates with 1 referral (at-risk for chargeback)
-  const atRiskAffiliates = affiliates.filter(affiliate => {
-    const count = referrals.filter(r => r.affiliateUsername === affiliate).length;
-    return count === 1;
-  });
+  const profitableAffiliates = affiliates.filter((a) => (a.referralCount || 0) >= 2);
+  const riskAffiliates = affiliates.filter((a) => (a.referralCount || 0) === 1);
+  const topAffiliates = affiliates.slice(0, 5);
 
   return (
     <div className="space-y-6">
-      {/* Risk Overview */}
-      <Card className="border-red-200 bg-red-50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-red-900">
-            <AlertTriangle className="w-5 h-5" />
-            Chargeback Risk Summary
-          </CardTitle>
-          <CardDescription className="text-red-700">
-            Affiliates at 1 referral are unprofitable and at risk for chargebacks
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <p className="text-sm text-red-700">At-Risk (1 Referral)</p>
-              <p className="text-3xl font-bold text-red-900">{atRiskAffiliates.length}</p>
-              <p className="text-xs text-red-700 mt-1">
-                {atRiskAffiliates.length > 0 ? atRiskAffiliates.join(', ') : 'None'}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-orange-700">Newly Profitable</p>
-              <p className="text-3xl font-bold text-orange-800">{newlyProfitable.length}</p>
-              <p className="text-xs text-orange-700 mt-1">
-                {newlyProfitable.length > 0 ? newlyProfitable.join(', ') : 'None'}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-green-700">Profitable (2+)</p>
-              <p className="text-3xl font-bold text-green-900">{profitableAffiliates.length}</p>
-              <p className="text-xs text-green-700 mt-1">
-                Total profitable affiliates
-              </p>
-            </div>
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Affiliate Management</h1>
+        <p className="text-gray-500">Monitor and manage your affiliate referral network</p>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
+          <div className="text-sm text-gray-600">Total Affiliates</div>
+          <div className="text-3xl font-bold mt-2">{affiliates.length}</div>
+        </div>
+        <div className="bg-green-50 p-6 rounded-lg border border-green-200">
+          <div className="text-sm text-green-800">Profitable Affiliates (2+ refs)</div>
+          <div className="text-3xl font-bold text-green-600 mt-2">{profitableAffiliates.length}</div>
+        </div>
+        <div className="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
+          <div className="text-sm text-yellow-800">At Risk (1 ref)</div>
+          <div className="text-3xl font-bold text-yellow-600 mt-2">{riskAffiliates.length}</div>
+        </div>
+      </div>
+
+      {/* Top Affiliates */}
+      {topAffiliates.length > 0 && (
+        <div className="bg-white rounded-lg border border-gray-200">
+          <div className="p-6 border-b border-gray-200">
+            <h2 className="text-xl font-bold">Top Affiliates</h2>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Main Referrals Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>All Affiliate Referrals</CardTitle>
-          <CardDescription>Track all referrals across all affiliates</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="mb-4">
-            <Select value={filterAffiliate} onValueChange={setFilterAffiliate}>
-              <SelectTrigger className="w-64">
-                <SelectValue placeholder="Filter by affiliate" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Affiliates</SelectItem>
-                {affiliates.map(affiliate => (
-                  <SelectItem key={affiliate} value={affiliate}>
-                    {affiliate} ({referrals.filter(r => r.affiliateUsername === affiliate).length})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="divide-y divide-gray-200">
+            {topAffiliates.map((affiliate) => (
+              <div key={affiliate.username} className="p-6 flex items-center justify-between hover:bg-gray-50">
+                <div>
+                  <div className="font-medium">{affiliate.username}</div>
+                  <div className="text-sm text-gray-500">
+                    {affiliate.lastReferralAt
+                      ? `Last referral: ${formatDistanceToNow(affiliate.lastReferralAt, { addSuffix: true })}`
+                      : 'No referrals yet'}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className={`text-2xl font-bold ${(affiliate.referralCount || 0) >= 2 ? 'text-green-600' : 'text-yellow-600'}`}>
+                    {affiliate.referralCount || 0}
+                  </div>
+                  <div className="text-xs text-gray-500">referrals</div>
+                  {(affiliate.referralCount || 0) >= 2 && (
+                    <div className="text-xs text-green-600 font-medium mt-1">✓ Profitable</div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
+        </div>
+      )}
 
-          {isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-6 h-6 animate-spin" />
-            </div>
-          ) : filteredReferrals.length === 0 ? (
-            <p className="text-center text-gray-500 py-8">No referrals found</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2 px-2">Affiliate</th>
-                    <th className="text-left py-2 px-2">New User</th>
-                    <th className="text-left py-2 px-2">Email</th>
-                    <th className="text-left py-2 px-2">Count</th>
-                    <th className="text-left py-2 px-2">Joined</th>
-                    <th className="text-left py-2 px-2">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredReferrals.map((referral) => {
-                    const affiliateCount = referrals.filter(r => r.affiliateUsername === referral.affiliateUsername).length;
-                    const isAtRisk = affiliateCount === 1;
-                    const isProfitable = affiliateCount >= 2;
-
-                    return (
-                      <tr
-                        key={referral.id}
-                        className={`border-b ${isAtRisk ? 'bg-red-50' : isProfitable ? 'bg-green-50' : 'hover:bg-gray-50'}`}
-                      >
-                        <td className="py-3 px-2 font-medium">{referral.affiliateUsername}</td>
-                        <td className="py-3 px-2">{referral.newUserUsername}</td>
-                        <td className="py-3 px-2">{referral.newUserEmail}</td>
-                        <td className="py-3 px-2">{affiliateCount}</td>
-                        <td className="py-3 px-2">
-                          {new Date(referral.createdAt).toLocaleDateString()}
-                        </td>
-                        <td className="py-3 px-2">
-                          <span className={`text-xs font-semibold ${
-                            isAtRisk ? 'text-red-700 bg-red-100' :
-                            isProfitable ? 'text-green-700 bg-green-100' :
-                            'text-gray-700 bg-gray-100'
-                          } px-2 py-1 rounded`}>
-                            {isAtRisk ? '⚠️ At Risk' : isProfitable ? '✅ Profitable' : '⏳ Pending'}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Stats by Affiliate */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Affiliate Summary</CardTitle>
-          <CardDescription>Performance metrics per affiliate</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-6 h-6 animate-spin" />
-            </div>
-          ) : affiliates.length === 0 ? (
-            <p className="text-center text-gray-500 py-8">No affiliates yet</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2 px-2">Affiliate</th>
-                    <th className="text-center py-2 px-2">Referrals</th>
-                    <th className="text-center py-2 px-2">Commission</th>
-                    <th className="text-left py-2 px-2">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {affiliates.map(affiliate => {
-                    const count = referrals.filter(r => r.affiliateUsername === affiliate).length;
-                    const commission = count >= 10 ? '75%' : count >= 2 ? '70%' : 'N/A';
-                    const status = count >= 2 ? '✅ Profitable' : count === 1 ? '⚠️ At Risk' : '⏳ No Referrals';
-
-                    return (
-                      <tr key={affiliate} className="border-b hover:bg-gray-50">
-                        <td className="py-3 px-2 font-medium">{affiliate}</td>
-                        <td className="py-3 px-2 text-center font-bold">{count}</td>
-                        <td className="py-3 px-2 text-center">{commission}</td>
-                        <td className="py-3 px-2">{status}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* All Affiliates Table */}
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-xl font-bold">All Affiliates</h2>
+        </div>
+        {affiliates.length > 0 ? (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-200 bg-gray-50">
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Username</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Referrals</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Last Referral</th>
+              </tr>
+            </thead>
+            <tbody>
+              {affiliates.map((affiliate) => (
+                <tr key={affiliate.username} className="border-b border-gray-200 hover:bg-gray-50">
+                  <td className="px-6 py-4">
+                    <div className="font-medium">{affiliate.username}</div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-lg font-bold">{affiliate.referralCount || 0}</div>
+                  </td>
+                  <td className="px-6 py-4">
+                    {(affiliate.referralCount || 0) >= 2 ? (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        ✓ Profitable
+                      </span>
+                    ) : (affiliate.referralCount || 0) === 1 ? (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        ⚠️ At Risk
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                        Pending
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {affiliate.lastReferralAt
+                      ? formatDistanceToNow(affiliate.lastReferralAt, { addSuffix: true })
+                      : 'Never'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="p-6 text-center text-gray-500">No affiliates yet</div>
+        )}
+      </div>
     </div>
   );
 }

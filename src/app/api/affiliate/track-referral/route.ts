@@ -1,139 +1,102 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { initializeFirebase } from '@/lib/firebase-admin';
+import { db } from '@/lib/firebase-admin';
+import { sendEmail } from '@/lib/brevo';
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const { affiliateUsername, newUserUsername, newUserEmail } = await req.json();
+    const { affiliateUsername, newUserEmail, newUserUsername } = await req.json();
 
-    if (!affiliateUsername || !newUserUsername || !newUserEmail) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
+    if (!affiliateUsername || !newUserEmail || !newUserUsername) {
+      return Response.json(
+        { error: 'Missing required fields: affiliateUsername, newUserEmail, newUserUsername' },
         { status: 400 }
       );
     }
 
-    // Initialize Firebase
-    const { db } = initializeFirebase();
-
-    // Log referral to Firestore under affiliate's referrals
-    const referralRef = db.collection('affiliates').doc(affiliateUsername).collection('referrals').doc();
-    await referralRef.set({
-      newUserUsername,
-      newUserEmail,
-      createdAt: new Date(),
-      status: 'active',
-    });
-
-    // Get the affiliate's total referral count
+    // Get or create affiliate document
     const affiliateRef = db.collection('affiliates').doc(affiliateUsername);
-    const referralsSnapshot = await db
-      .collection('affiliates')
-      .doc(affiliateUsername)
-      .collection('referrals')
-      .get();
+    const affiliateDoc = await affiliateRef.get();
 
-    const referralCount = referralsSnapshot.size;
+    let affiliateData: any = {
+      username: affiliateUsername,
+      referralCount: 1,
+      lastReferralAt: new Date(),
+    };
 
-    // Update affiliate document with count
-    await affiliateRef.set(
-      {
-        username: affiliateUsername,
-        referralCount,
-        lastReferralDate: new Date(),
-      },
-      { merge: true }
-    );
-
-    // Log to global admin collection for admin dashboard
-    const adminReferralRef = db.collection('admin-referrals').doc();
-    await adminReferralRef.set({
-      affiliateUsername,
-      newUserUsername,
-      newUserEmail,
-      createdAt: new Date(),
-      referralCountForAffiliate: referralCount,
-    });
-
-    // If count = 2, send email alerts to both affiliate and admin
-    if (referralCount === 2) {
-      // Get affiliate's email from affiliates collection
-      const affiliateDocSnapshot = await affiliateRef.get();
-      const affiliateEmail = affiliateDocSnapshot.data()?.email;
-
-      if (affiliateEmail) {
-        // Send email to affiliate
-        await fetch('https://api.brevo.com/v3/smtp/email', {
-          method: 'POST',
-          headers: {
-            'api-key': process.env.BREVO_API_KEY || '',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            to: [{ email: affiliateEmail, name: affiliateUsername }],
-            from: {
-              email: process.env.BREVO_SENDER_EMAIL || 'admin@rizzosai.com',
-              name: 'RizzoSAI',
-            },
-            subject: '🎉 Congratulations! You reached 2 referrals - You\'re now profitable!',
-            htmlContent: `
-              <h2>Congratulations, ${affiliateUsername}!</h2>
-              <p>You've successfully referred <strong>2 users</strong> to RizzoSAI. You're now in profit mode! 💰</p>
-              <p><strong>Your Commission Rate:</strong> 70% per sale (or 75% at 10+ referrals)</p>
-              <p><strong>Referral Details:</strong></p>
-              <ul>
-                <li>New User: ${newUserUsername}</li>
-                <li>Email: ${newUserEmail}</li>
-              </ul>
-              <p>Keep sharing your affiliate link to earn more! Every referral counts towards your commissions.</p>
-              <p><a href="https://rizzosai.com/dashboard/referrals">View Your Referrals</a></p>
-            `,
-          }),
-        });
-      }
-
-      // Send email to admin
-      await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: {
-          'api-key': process.env.BREVO_API_KEY || '',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          to: [{ email: process.env.BREVO_SENDER_EMAIL || 'admin@rizzosai.com' }],
-          from: {
-            email: process.env.BREVO_SENDER_EMAIL || 'admin@rizzosai.com',
-            name: 'RizzoSAI System',
-          },
-          subject: `⚠️ Affiliate Alert: ${affiliateUsername} reached 2 referrals - Now Profitable`,
-          htmlContent: `
-            <h2>Affiliate Profitability Alert</h2>
-            <p><strong>Affiliate:</strong> ${affiliateUsername}</p>
-            <p><strong>Referral Count:</strong> 2</p>
-            <p><strong>Status:</strong> Now in profit mode - chargeback risk reduced ✅</p>
-            <p><strong>Latest Referral:</strong></p>
-            <ul>
-              <li>Username: ${newUserUsername}</li>
-              <li>Email: ${newUserEmail}</li>
-              <li>Time: ${new Date().toLocaleString()}</li>
-            </ul>
-            <p><a href="https://rizzosai.com/dashboard/admin/referrals">View All Referrals</a></p>
-          `,
-        }),
-      });
+    if (affiliateDoc.exists) {
+      const current = affiliateDoc.data() || {};
+      affiliateData = {
+        ...current,
+        referralCount: (current.referralCount || 0) + 1,
+        lastReferralAt: new Date(),
+      };
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        referralCount,
-        message: referralCount === 2 ? 'Referral logged and alerts sent!' : 'Referral logged successfully',
-      },
-      { status: 200 }
-    );
+    // Add referral to subcollection
+    const referralRef = affiliateRef.collection('referrals').doc();
+    await referralRef.set({
+      email: newUserEmail,
+      username: newUserUsername,
+      createdAt: new Date(),
+    });
+
+    // Update affiliate count
+    await affiliateRef.set(affiliateData, { merge: true });
+
+    // If they just hit 2 referrals, send email alerts
+    if (affiliateData.referralCount === 2) {
+      // Get affiliate email from users collection
+      const userRef = db.collection('users').doc(affiliateUsername);
+      const userDoc = await userRef.get();
+      const affiliateEmail = userDoc.data()?.email;
+
+      const adminEmail = 'admin@rizzosai.com';
+      const affiliateName = affiliateUsername;
+
+      // Email to affiliate
+      if (affiliateEmail) {
+        await sendEmail(
+          affiliateEmail,
+          affiliateName,
+          '🎉 Great News! You\'ve Hit 2 Referrals - Now in Profit Mode!',
+          `
+          <h2>Congratulations ${affiliateName}!</h2>
+          <p>You've successfully referred 2 users to RizzoSAI! 🚀</p>
+          <p>This is huge because <strong>you're now in profit mode</strong>. Your account is proven and you'll receive:</p>
+          <ul>
+            <li><strong>70% commission</strong> on your referrals (currently)</li>
+            <li><strong>Daily automated payouts</strong> to PayPal</li>
+            <li>Access to premium <strong>75% commission tier</strong> once you hit 10 referrals</li>
+          </ul>
+          <p>Check your dashboard to see your referral stats and earnings.</p>
+          <p>Keep it up! 💪</p>
+          `
+        );
+      }
+
+      // Email to admin
+      await sendEmail(
+        adminEmail,
+        'Admin',
+        `⚠️ Affiliate Alert: ${affiliateName} Just Hit 2 Referrals`,
+        `
+        <h2>Affiliate Milestone Reached</h2>
+        <p><strong>${affiliateName}</strong> (${affiliateEmail || 'unknown'}) has successfully referred 2 users.</p>
+        <p>They're now in <strong>profit mode</strong> — chargeback risk is low. This affiliate is verified.</p>
+        <p>Most recent referral: ${newUserEmail} (${newUserUsername})</p>
+        `
+      );
+    }
+
+    return Response.json({
+      success: true,
+      message: `Referral tracked for ${affiliateUsername}`,
+      referralCount: affiliateData.referralCount,
+      milestone: affiliateData.referralCount === 2 ? 'Email alerts sent!' : null,
+    });
   } catch (error) {
-    console.error('Error tracking referral:', error);
-    return NextResponse.json(
-      { error: 'Failed to track referral' },
+    console.error('Referral tracking error:', error);
+    return Response.json(
+      { error: 'Failed to track referral', details: String(error) },
       { status: 500 }
     );
   }
